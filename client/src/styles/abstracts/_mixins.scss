@@ -1,0 +1,77 @@
+// background all
+@mixin background($filter, $url, $backConfig) {
+	background: $filter, $url $backConfig;
+}
+
+// boxes - size/alignment
+@mixin box-size($width: false, $height: false, $max-width: false, $min-width: false, $max-height: false, $min-height: false) {
+  @if($width) {
+    width: $width;
+  }
+
+  @if($height) {
+    height: $height;
+  }
+
+  @if($max-width) {
+    max-width: $max-width;
+  }
+
+  @if($min-width) {
+    min-width: $min-width;
+  }
+
+  @if($max-height) {
+    max-height: $max-height;
+  }
+
+  @if($min-height) {
+    min-height: $min-height;
+  }
+}
+
+@mixin alignment($display: false, $align: false, $justify: false, $justifyGrid: false, $direction: false, $textAlign: false) {
+  @if $display {
+    display: $display;
+  }
+
+  @if $align {
+    align-items: $align;
+  }
+
+  @if $justify {
+    justify-content: $justify;
+  }
+
+  @if $justifyGrid {
+    justify-items: $justifyGrid;
+  }
+
+  @if $direction {
+    flex-direction: $direction;
+  }
+
+  @if $textAlign {
+    text-align: $textAlign;
+  }
+}
+
+// fonts
+@mixin fonts ($size: false, $color: false, $weight: false, $style: false) {
+  @if $size {
+    font-size: $size;
+  }
+
+  @if $color {
+    color: $color;
+  }
+
+  @if $weight {
+    font-weight: $weight;
+  }
+
+  @if $style {
+    font-style: $style;
+  }
+}
+

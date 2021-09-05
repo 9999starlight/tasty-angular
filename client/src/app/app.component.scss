@@ -1,0 +1,18 @@
+@import '../styles/styles.scss';
+
+
+:host {
+	display: grid;
+	grid-template-rows: 50px 1fr;
+	grid-template-areas:
+	"header"
+	"content";
+	min-height: 100vh;
+	width: 100%;
+}
+
+.content-wrapper {
+	grid-area: "content";
+}
+
+

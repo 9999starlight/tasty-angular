@@ -1,0 +1,194 @@
+/* IMPORTS */
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat&display=swap");
+@import "./abstracts/variables", "./abstracts/mixins", "./abstracts/functions",
+  "./base/reset", "./base/typography", "./base/utilities", "./base/keyframes",
+  "./components/buttons";
+
+// checkboxes (home page form, create/edit recipe form)
+.checkBoxes {
+  @include alignment($justify: space-around);
+  @include box-size($width: 260px);
+  margin: 0.5rem 0;
+
+  label {
+    position: relative;
+    padding-left: 2rem;
+    cursor: pointer;
+
+    input {
+      position: absolute;
+      visibility: hidden;
+      cursor: pointer;
+    }
+
+    span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 1.6rem;
+      width: 1.6rem;
+      background-color: lighten($graphite, 40%);
+      border-radius: 5px;
+
+      &:after {
+        content: " \2714";
+        position: absolute;
+        visibility: hidden;
+        color: white;
+        font-size: 1.2rem;
+        left: 0.4rem;
+      }
+    }
+
+    input:checked ~ span:after {
+      visibility: visible;
+    }
+
+    input:checked ~ span {
+      background-color: rgba(74, 143, 74, 0.979);
+    }
+  }
+}
+
+// upload button
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  box-shadow: $shadowSmall;
+  padding: 0.4rem;
+  width: 110px;
+  background-color: $light;
+  @include fonts($color: darken($golden, 20%), $size: 0.8rem);
+  border: 1px solid darken($golden, 20%);
+
+  text-align: center;
+  cursor: pointer;
+  transition: 350ms ease-in-out;
+
+  input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+}
+
+.cancelBtn {
+  padding: 0.4rem;
+  width: 110px;
+  background-color: lighten($graphite, 30%);
+  @include fonts($color: $light, $size: 0.8rem);
+  box-shadow: $shadowSmall;
+}
+
+// info for upload field
+small {
+  margin-top: 0.5rem;
+  @include fonts($color: $graphite, $size: 0.7rem);
+
+  &.selected {
+    text-align: center;
+    color: mediumblue;
+  }
+}
+
+.upload {
+  @include alignment($justify: space-evenly, $align: center);
+  @include box-size($width: 100%, $height: 110px);
+
+  .buttons {
+    @include alignment(
+      $direction: column,
+      $justify: space-evenly,
+      $align: center
+    );
+    @include box-size($height: 100%);
+  }
+
+  figure {
+    @include alignment($direction: column, $justify: center);
+    @include box-size($width: 100px, $height: 80px);
+
+    img {
+      box-shadow: $shadowSmall;
+    }
+
+    figcaption {
+      @include fonts($size: 0.8rem);
+      padding: 0.2rem 0;
+    }
+  }
+}
+
+// modal box & overlay
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  @include box-size($width: 100%, $height: 100%);
+  background-color: rgba(15, 15, 15, 0.832);
+  z-index: 8;
+}
+
+.modalWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  @include box-size($width: 100%, $height: 100%);
+  background-color: rgba(15, 15, 15, 0.832);
+  z-index: 8;
+
+  header {
+    @include box-size($height: 60px);
+    background-color: lighten($graphite, 20%);
+    @include fonts($color: $light);
+    position: relative;
+
+    .del {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 0.2rem 0.6rem;
+      font-size: 1.4rem;
+      color: $light;
+      background-color: transparent;
+    }
+  }
+
+  .editInner {
+    @include box-size($height: calc(100% - 60px));
+    overflow: auto;
+  }
+}
+
+.disableScrolling {
+  overflow: hidden;
+  position: absolute;
+  @include box-size($height: 100vh);
+}
+
+// tooltip visibility
+.tooltip-container {
+  position: relative;
+
+  &:hover .tooltip-box {
+    display: inline-block;
+  }
+}
+
+.error {
+  @include fonts($color: crimson, $size: 0.8rem);
+}
+
+.success {
+  @include fonts($color: green, $size: 0.8rem);
+}
+
+// sorting
+.sortingItem {
+  transition: all 1s;
+}

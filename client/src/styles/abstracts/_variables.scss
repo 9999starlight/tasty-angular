@@ -1,0 +1,27 @@
+// COLORS
+
+$light: #fff;
+$graphite: #333;
+$golden: #a3865b;
+$lightgray: #eee;
+$star-color: rgba(236, 214, 13, 0.973);
+
+// gradients
+$greenGradient: linear-gradient(to top, #097e4b 0%, #189751 100%);
+$orangeGradient: linear-gradient(0deg, #d88b5e 0%, #f5cd6a 100%);
+$blueGradient: linear-gradient(180deg, #387cb4 0%, #21597e 100%);
+$blueGreenGradient:linear-gradient(to right, #34e89e, #0f3443);
+$darkSteel: linear-gradient(0deg, #1f2931, #959490);
+$steel: linear-gradient(to top, #304352, #d7d2cc);
+$blueGray: linear-gradient(to top, #2c3e50, #bdc3c7);
+$zinc: linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996);
+
+// other
+$shadowSmall: 3px 3px 6px rgba(35, 35, 36, 0.47);
+$shadowBox: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+0 6px 20px 0 rgba(0, 0, 0, 0.801);
+$lightFilter: radial-gradient(ellipse at center,
+  rgba(41, 35, 35, 0.349) 0%,
+  rgba(27, 26, 26, 0.425) 100%);
+$backConfig: no-repeat center center/cover;
+

@@ -1,0 +1,35 @@
+@import '../../../styles/abstracts/variables.scss',
+		'../../../styles/abstracts/mixins.scss',
+		'../../../styles/abstracts/functions.scss';
+
+.error-container {
+	margin: 0;
+	height: 100%;
+	@include background(
+	  $lightFilter,
+	  url('../../../assets/images/backgrounds/pots.jpg'),
+	  $backConfig
+	);
+	color: $light;
+	div {
+	  @include alignment($direction: column);
+	}
+	.sad-icon {
+	  @include fonts($size: 3rem, $weight: 800);
+	}
+	h1 {
+	  @include fonts($size: 2rem, $weight: 800);
+	  letter-spacing: 0.5rem;
+	}
+  }
+  @media (min-width: 768px) {
+	.error-container {
+	  .sad-icon {
+		@include fonts($size: 4rem);
+	  }
+	  h1 {
+		@include fonts($size: 4rem);
+		letter-spacing: 1rem;
+	  }
+	}
+  }

@@ -1,0 +1,23 @@
+// padding & margin classes
+$sizes: 1,
+2,
+3,
+4;
+
+@each $size in $sizes {
+  .pd#{$size} {
+    padding: #{$size}rem;
+  }
+
+  .mg#{$size} {
+    margin: #{$size}rem;
+  }
+
+  .mgb#{$size} {
+    margin-bottom: #{$size}rem;
+  }
+
+  .mgt#{$size} {
+    margin-top: #{$size}rem;
+  }
+}

@@ -1,0 +1,46 @@
+:root {
+    font-size: 15px;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    list-style-type: none;
+    border: none;
+    transition: all 0.1s ease;
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  
+  button[disabled],
+  input[disabled] {
+    cursor: not-allowed;
+  }
+  
+  button:focus,
+  input:focus,
+  textarea:focus,
+  input:checked~span:focus,
+  .selectBox:focus {
+    outline: 1px dotted lighten($golden, 10%);
+  }
+  
+  a,
+  button,
+  input[type="file"],
+  input[type="button"],
+  .link {
+    cursor: pointer;
+  }
+  
+  a {
+    text-decoration: none;
+    outline: none;
+  }

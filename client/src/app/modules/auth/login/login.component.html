@@ -1,0 +1,105 @@
+<div class="form-wrapper container">
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="flex pd1" enctype="multipart/form-data" >
+    <div class="form-header flex mgb1">
+      <h1 class="mgb1">Login</h1>
+      <p>
+        Dont'have an account?&nbsp;
+        <!-- <span class="signup-link">Sign Up</span> -->
+        <!--<a href="auth/signup" class="signup-link">Sign Up</a>-->
+        <a
+          routerLink="../signup"
+          >Sign Up</a>
+      </p>
+    </div>
+    <div class="form-group flex flexCenter mgb1">
+      <div class="label-wrapper">
+          <fa-icon
+          [icon]="['fas', 'user']"
+          class="user-icons"
+          ></fa-icon>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder=""
+          [(ngModel)]="username"
+          required
+          pattern="[a-zA-Z0-9_-]{8,15}"
+          #usernameControl="ngModel"
+        />
+        <label for="username">Username</label>
+        <span class="tooltip-container"
+          >
+          <fa-icon
+          [icon]="['fas', 'info-circle']"
+          class="user-icons infoIcon"
+        ></fa-icon>
+        <app-tooltip tooltipText="Enter 4-30 characters, allowed: A-Z a-z 0-9 _ - . @"></app-tooltip>
+          </span>
+      </div>
+      <ng-container *ngIf="usernameControl.invalid && usernameControl.touched">
+        <p class="error input-error" *ngIf="usernameControl.errors?.required">Username is required</p>
+        <p class="error input-error" *ngIf="usernameControl.errors?.pattern">
+        Please enter valid username, check
+        <span class="tooltip-container"
+          ><fa-icon
+          [icon]="['fas', 'info-circle']"
+          class="infoIcon"
+        ></fa-icon></span>
+        for details
+        </p>
+      </ng-container>
+    </div>
+    <div class="form-group flex flexCenter mgb1">
+      <div class="label-wrapper">
+        <fa-icon
+          [icon]="['fas', 'lock']"
+          class="user-icons infoIcon"
+        ></fa-icon>
+        <input
+          [(ngModel)]="password"
+          type="password"
+          id="password"
+          required
+          placeholder=""
+          name="password"
+          pattern="[^\s\n]{6,}"
+          #passwordControl="ngModel"
+        />
+        <label for="password">Password</label>
+        <span class="tooltip-container"
+          >
+          <fa-icon
+          [icon]="['fas', 'info-circle']"
+          class="infoIcon"
+        ></fa-icon>
+        <app-tooltip tooltipText="Minimum 6 characters required"></app-tooltip>
+          </span>
+      </div>
+      <ng-container *ngIf="passwordControl.invalid && passwordControl.touched">
+        <p class="error input-error">
+          Please enter minimum 6 characters
+        </p>
+      </ng-container>
+    </div>
+    
+    <div
+      [ngClass]="errorMessage ? 'message-wrapper flex flex-center message-background' : 'message-wrapper center'"
+    >
+      <ng-container *ngIf="errorMessage">
+        <app-info-message [message]="errorMessage" (clear)="onClear('')"></app-info-message>
+      </ng-container>
+      
+    </div>
+    <ng-container *ngIf="isLoading">
+      <app-loader [bigLoader]="false"></app-loader>
+    </ng-container>
+    <button
+      type="submit"
+      class="btn-action login-btn"
+      [disabled]="loginForm.invalid"
+    >
+      Login
+    </button>
+  </form>
+</div>

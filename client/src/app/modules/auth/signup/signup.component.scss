@@ -1,0 +1,202 @@
+@import "../../../../styles/abstracts/variables.scss",
+  "../../../../styles/abstracts/mixins.scss",
+  "../../../../styles/abstracts/functions.scss";
+
+.form-wrapper {
+    margin: 0;
+    padding: 0;
+    @include background(
+      $lightFilter,
+      url('../../../../assets/images/backgrounds/wood-back.jpg'),
+      $backConfig
+    );
+    background-attachment: fixed;
+    height: 100%;
+  }
+  form {
+    flex: 1;
+    @include alignment(
+      $direction: column,
+      $justify: space-evenly,
+      $align: center
+    );
+    @include box-size($height: 100%, $width: 100%);
+    box-shadow: $shadowBox;
+    background-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.459),
+      0 5px 10px -3px rgba(0, 0, 0, 0.322);
+    p,
+    h1,
+    input {
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
+        0px -1px 0px rgba(0, 0, 0, 0.7);
+    }
+    .form-header {
+      @include alignment($direction: column, $align: center);
+      h1 {
+        font-family: 'Lobster', cursive;
+        color: lighten($graphite, 10%);
+      }
+      p {
+        color: $graphite;
+      }
+      .signup-link {
+        @include fonts($color: rgb(14, 92, 122), $weight: 700);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+    // floating labels & input style
+    .form-group {
+      @include alignment($textAlign: left, $direction: column);
+      .label-wrapper {
+        position: relative;
+        input {
+          @include box-size($width: 220px);
+          padding: 0.3rem;
+          background-color: transparent;
+          border-bottom: 1px solid darken($color: $graphite, $amount: 10%);
+          @include fonts($size: 0.9rem, $color: lighten($graphite, 5%));
+          &:valid,
+          &:focus {
+            border-bottom-color: $light;
+            outline: none;
+          }
+        }
+        label {
+          position: absolute;
+          @include fonts(
+            $size: 0.9rem,
+            $color: darken($graphite, 5%),
+            $weight: 100
+          );
+          letter-spacing: 0.5px;
+          top: -25px;
+          left: 25px;
+          pointer-events: none;
+          transform: translateY(30px);
+          transition: all 0.3s ease-in-out;
+          text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
+            -1px 0px 0px rgba(0, 0, 0, 0.7);
+        }
+        /* input:valid + label,
+        input:focus + label */ 
+        input:not(:placeholder-shown) + label {
+          @include fonts($size: 0.7rem, $color: lighten($graphite, 10%));
+          transform: translateY(0);
+        }
+        .user-icons {
+          @include fonts($size: 1.1rem, $color: lighten($graphite, 10%));
+          margin-right: 10px;
+        }
+        .tooltip-container .infoIcon {
+          @include fonts($color: #0e5c7ad6, $weight: 700, $size: 1.2rem);
+        }
+      }
+      .input-error {
+        padding: 0.5rem;
+        @include fonts($size: 0.8rem, $weight: 600, $color: #bc2c49);
+        width: 260px;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.103);
+        & .infoIcon {
+          @include fonts($color: rgb(59, 95, 107), $weight: 700, $size: 0.9rem);
+        }
+      }
+      .tooltip-box {
+        transform: translateX(-100%);
+        bottom: 120%;
+        text-align: center;
+        font-size: 0.8rem;
+        padding: 0.5rem;
+        background-color: #ffffffcf;
+        color: black;
+        &::after {
+          border-top-color: transparent;
+        }
+      }
+    }
+    // additional style for upload section
+    .upload-section {
+      @include alignment($direction: column);
+      @include box-size($width: 280px);
+      background-color: rgba(255, 255, 255, 0.3);
+      padding: 0.5rem;
+      h4 {
+        color: lighten($graphite, 13%);
+      }
+      .upload {
+        @include box-size($height: auto);
+      }
+      .small {
+        text-align: center;
+      }
+      .upload-btn-wrapper {
+        text-shadow: none;
+      }
+    }
+    .message-wrapper {
+      @include box-size($height: 40px);
+      padding: 0.5rem;
+    }
+    .message-background {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    .btn-action {
+      @include fonts($size: 1.2rem);
+      height: 2.5rem;
+    }
+    .login-btn {
+      background: $blueGradient;
+    }
+    .sign-up-btn {
+      background-image: $greenGradient;
+    }
+  }
+  @media (min-width: 576px) {
+    .form-wrapper {
+      @include alignment($justify: center, $align: center);
+      form {
+        @include box-size($width: 450px, $max-height: 600px);
+        border-radius: 6px;
+        .btn-action {
+          width: 325px;
+        }
+      }
+      .form-group {
+        .label-wrapper {
+          input {
+            @include box-size($width: 300px);
+            @include fonts($size: 1.1rem);
+          }
+          label {
+            font-size: 1rem;
+          }
+          input:valid + label,
+          input:focus + label {
+            font-size: 0.9rem;
+          }
+        }
+        .input-error {
+          width: 325px;
+        }
+      }
+      .upload-section {
+        @include box-size($width: 350px);
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    form {
+      .form-header {
+        .signup-link:hover {
+          filter: brightness(60%);
+        }
+      }
+    }
+  }
+  @media (orientation: landscape) {
+    form {
+      min-height: 600px;
+    }
+  }

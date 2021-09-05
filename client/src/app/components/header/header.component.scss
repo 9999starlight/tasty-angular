@@ -1,0 +1,299 @@
+//@import '../../../styles/styles.scss';
+@import "../../../styles/abstracts/variables.scss",
+  "../../../styles/abstracts/mixins.scss",
+  "../../../styles/abstracts/functions.scss";
+
+header {
+  @include alignment($direction: column);
+  position: sticky;
+  @include box-size($width: 100%, $height: 100%);
+  top: 0;
+  background-color: $light;
+  z-index: 7;
+  box-shadow: $shadowSmall;
+  grid-area: "header";
+}
+
+.active-link {
+  background-color: rgba(250, 128, 114, 0.123);
+}
+
+//.open,
+.dropdown-overlay {
+  @include box-size($width: 100%, $min-height: 100vh);
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 2;
+  background-color: transparent;
+}
+
+.mobile-overlay {
+  background: rgba(15, 15, 15, 0.9);
+}
+
+.header-search {
+  position: absolute;
+  right: 90px;
+  bottom: 20%;
+  font-size: 1.7rem;
+  background-color: transparent;
+  color: darken($lightgray, 20%);
+  display: inline-block;
+  outline: none;
+}
+
+.logo-wrapper {
+  width: 3rem;
+  height: 3rem;
+  margin-right: 0.5rem;
+}
+
+.menu-wrapper {
+  @include alignment($justify: space-between, $align: center);
+  z-index: 3;
+  height: 100%;
+}
+
+.menu-wrapper a {
+  @include fonts($size: 2rem, $color: lighten($graphite, 10%));
+  font-family: "Lobster", cursive;
+  letter-spacing: 1.5px;
+  padding-left: 0.8rem;
+}
+
+.menu {
+  flex-direction: column;
+  cursor: pointer;
+  padding: 0 0.8rem;
+
+  .line {
+    width: 40px;
+    height: 4px;
+    background-color: black;
+    margin-top: 10px;
+    transition: 0.5s;
+
+    &:first-of-type {
+      margin-top: 5px;
+    }
+
+    &.transformMenu {
+      background-color: $light;
+    }
+
+    &.transformMenu:first-of-type {
+      transform: rotate(45deg) translate(10px, 10px);
+    }
+
+    &.transformMenu:nth-of-type(2) {
+      transform: rotate(-45deg);
+    }
+
+    &.transformMenu:nth-of-type(3) {
+      opacity: 0;
+    }
+  }
+}
+
+nav {
+  z-index: 3;
+  position: relative;
+
+  ul {
+    @include alignment($direction: column, $align: center);
+    position: absolute;
+    @include fonts($size: 1.3rem);
+  }
+
+  li {
+    border-bottom: 1px solid #fff;
+    @include box-size($width: 100%);
+
+    /*&.active {
+		background-color: rgba(250, 128, 114, 0.123);
+	  }*/
+
+    a,
+    button {
+      padding: 0.8rem;
+      color: $light;
+      @include box-size($width: 100%);
+      @include alignment($textAlign: left);
+    }
+
+    a {
+      @include alignment($display: flex, $align: center);
+    }
+
+    .user-icon {
+      margin-right: 0.3rem;
+      color: whitesmoke;
+    }
+
+    button {
+      border: none;
+      background: transparent;
+      @include fonts($size: inherit);
+    }
+  }
+
+  .links {
+    @include box-size($width: 100%);
+  }
+
+  // dropdown
+  .userpanel-menu {
+    color: $light;
+    position: relative;
+    cursor: pointer;
+    span {
+      padding: 0.8rem;
+      justify-content: flex-start;
+
+      img {
+        display: inline-block;
+        @include box-size($width: 20px, $height: 20px);
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .arrow-down {
+        margin-left: 0.5rem;
+        @include fonts($size: 0.8rem, $color: gray);
+
+        &.rotate {
+          transform: rotate(180deg);
+          transition: 0.5s;
+        }
+      }
+    }
+  }
+  .userDropdown {
+    position: relative;
+    transition: all 0.2s ease;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    li {
+      z-index: 5;
+      padding: 0;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  header {
+    //height: 50px;
+    @include alignment($direction: row, $justify: space-between);
+  }
+
+  .menu-wrapper {
+    flex-grow: 2;
+
+    figure:hover {
+      color: $golden;
+    }
+  }
+
+  .header-search {
+    position: static;
+    margin-right: 1rem;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: 0.5s ease-in-out;
+    }
+  }
+
+  nav {
+    @include box-size($height: 50px);
+    @include alignment($justify: flex-end);
+
+    ul {
+      @include alignment($direction: row, $justify: flex-end);
+      position: relative;
+      @include fonts($size: 1rem);
+
+      li {
+        border: none;
+        padding: 0 0.5rem;
+        @include box-size($width: initial, $height: 100%);
+        display: flex;
+
+        .user-icon {
+          color: lighten($graphite, 20%);
+        }
+
+        .active-link {
+          background-color: $light;
+          //border-bottom: 2px solid $golden;
+          color: $golden;
+          //font-weight: 600;
+          text-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.3),
+            0 -1px 0 rgba(0, 0, 0, 0.7);
+        }
+
+        .active-link fa-icon {
+          color: $golden;
+        }
+
+        &:hover a,
+        &:hover span,
+        &:hover button,
+        &:hover .user-icon,
+        &:hover .arrow-down {
+          color: $golden;
+        }
+
+        a,
+        button {
+          color: lighten($graphite, 5%);
+          margin: 0;
+        }
+
+        button:hover {
+          filter: brightness(100%);
+        }
+      }
+    }
+
+    .userpanel-menu {
+      color: $graphite;
+      display: flex;
+
+      .userDropdown {
+        position: absolute;
+        box-shadow: $shadowSmall;
+        top: 50px;
+        left: 0;
+        min-width: 170px;
+        li a {
+          background-color: $light;
+          color: darken($golden, 10%);
+          border-bottom: 1px solid lightgray;
+        }
+
+        li a svg {
+          color: darken($golden, 10%);
+        }
+
+        li:hover a {
+          background-color: lighten($golden, 10%);
+          color: $light;
+        }
+
+        li:hover a svg {
+          color: $light;
+        }
+      }
+    }
+  }
+}
+/*  .active {
+	background-color: transparent;
+  }*/
+
+/*  .active {
+	border-bottom: 2px solid $golden;
+  }*/
