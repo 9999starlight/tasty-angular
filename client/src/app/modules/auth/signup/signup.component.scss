@@ -57,6 +57,7 @@
           background-color: transparent;
           border-bottom: 1px solid darken($color: $graphite, $amount: 10%);
           @include fonts($size: 0.9rem, $color: lighten($graphite, 5%));
+          margin-left: 0.5rem;
           &:valid,
           &:focus {
             border-bottom-color: $light;
@@ -87,7 +88,7 @@
         }
         .user-icons {
           @include fonts($size: 1.1rem, $color: lighten($graphite, 10%));
-          margin-right: 10px;
+          //margin-right: 10px;
         }
         .tooltip-container .infoIcon {
           @include fonts($color: #0e5c7ad6, $weight: 700, $size: 1.2rem);
