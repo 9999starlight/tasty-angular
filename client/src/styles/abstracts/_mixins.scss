@@ -30,7 +30,7 @@
   }
 }
 
-@mixin alignment($display: false, $align: false, $justify: false, $justifyGrid: false, $direction: false, $textAlign: false) {
+@mixin alignment($display: false, $align: false, $justify: false, $justify-grid: false, $direction: false, $textAlign: false) {
   @if $display {
     display: $display;
   }
@@ -43,8 +43,8 @@
     justify-content: $justify;
   }
 
-  @if $justifyGrid {
-    justify-items: $justifyGrid;
+  @if $justify-grid {
+    justify-items: $justify-grid;
   }
 
   @if $direction {

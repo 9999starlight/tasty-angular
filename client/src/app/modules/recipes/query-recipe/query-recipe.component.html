@@ -1,0 +1,61 @@
+<!-- <router-link
+    :to="{ name: 'SingleResult', params: { id: recipe._id } }"
+    tag="div"
+    class="recipeLink block grid"
+  > -->
+<!-- <p>recipe comp {{recipe.mealName}}</p> -->
+<div class="recipe-link grid">
+  <figure>
+    <ng-container *ngIf="!singleResult.image">
+      <img
+        src="../../../../assets/images/default_recipe.jpg"
+        [alt]="singleResult.mealName"
+        class="img-fit"
+        loading="lazy"
+      />
+    </ng-container>
+    <ng-container *ngIf="singleResult.image">
+      <img
+        [src]="singleResult.image"
+        [alt]="singleResult.mealName"
+        class="img-fit"
+        loading="lazy"
+      />
+    </ng-container>
+    <figcaption>{{ singleResult.mealName }}</figcaption>
+  </figure>
+  <p class="rating">
+    <!-- <fa-icon [icon]="['fas', 'fa-star']" class="star-icon"></fa-icon> -->&nbsp;{{
+      singleResult.rating
+    }}
+    /
+    {{
+      singleResult.rates.length
+        ? singleResult.rates.length + " votes"
+        : "not rated"
+    }}
+  </p>
+  <div class="author flex flex-center">
+    <ng-container *ngIf="singleResult.author.image">
+      <img
+        [src]="singleResult.author.image"
+        [alt]="singleResult.author.username"
+        class="block"
+        loading="lazy"
+      />
+    </ng-container>
+    <ng-container *ngIf="!singleResult.author.image">
+      <img
+        src="../../../../assets/images/default_user.png"
+        alt="singleResult.author.username"
+        class="block"
+        loading="lazy"
+      />
+    </ng-container>
+    <span>{{ singleResult.author.username }}</span>
+  </div>
+  <p class="intro light-italic pd1">
+    {{ singleResult.intro }}
+  </p>
+</div>
+<!--   </router-link> -->

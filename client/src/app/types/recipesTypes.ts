@@ -1,9 +1,12 @@
-/*export default interface RecipesResponse {
-	response: Recipe[];
+import { RecipeResponse } from './RecipeResponse';
+export interface RecipesResponse {
+	response: {
+	recipes: RecipeResponse;
 	count: number;
+	}
 }
 
-export default interface Recipe {
+/*export default interface Recipe {
 	_id: string;
 	mealName: string;
 	intro: string;

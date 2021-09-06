@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeComponent } from './recipe/recipe.component';
+import { QueryRecipeComponent } from './query-recipe/query-recipe.component';
 
 
 
 @NgModule({
   declarations: [
-    RecipeComponent
+    RecipeComponent,
+    QueryRecipeComponent
   ],
   imports: [
     CommonModule

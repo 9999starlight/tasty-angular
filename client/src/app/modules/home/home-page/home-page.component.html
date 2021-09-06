@@ -1,1 +1,14 @@
-<p>home-page works!</p>
+<div class="container render-results">
+  <div class="results-wrapper flex flex-center">
+    <h1 class="pd1">Recipes</h1>
+    <!-- <h4>Recipes found: {{ this.results.length }}</h4> -->
+    <div class="inner flex flex-center">
+      <div class="successful flex">
+          <app-query-recipe *ngFor="let recipe of recipes"
+            [singleResult]="recipe"
+            
+          ></app-query-recipe>
+      </div>
+    </div>
+  </div>
+</div>
