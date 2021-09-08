@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../recipes/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
-//import { QueryRecipeComponent } from '../../recipes/query-recipe/query-recipe.component';
+import { HashScrollService } from 'src/app/shared/sharedServices/hash-scroll.service'; 
+import { faChevronCircleUp, faStar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home-page',
@@ -10,33 +11,46 @@ import { RecipeResponse } from 'src/app/types/RecipeResponse';
 })
 export class HomePageComponent implements OnInit {
   recipes: RecipeResponse[] = [];
-  count: number = 0;
   displayedRecipes: number = 6;
-
-  constructor(private recipesService: RecipesService) { 
-
-  }
+  highestRatedRecipes: RecipeResponse[] = [];
+  latestRecipes: RecipeResponse[] = [];
+  recommendedRecipes: RecipeResponse[] = [];
+  
+  // icons
+  faChevronCircleUp = faChevronCircleUp;
+  faStar = faStar;
+  constructor(private recipesService: RecipesService, public hashScrollService: HashScrollService) { }
 
   ngOnInit(){
     this.recipesService.getRecipes()
       .subscribe(res => {
         this.recipes = JSON.parse(JSON.stringify(res))
         console.log(this.recipes);
-        //this.latestRecipes()
-        //this.recipes.forEach(rec => console.log(rec))
+        this.highestRatedRecipes = this.getHighestRatedRecipes();
+        this.latestRecipes = this.getLatestRecipes();
+        this.recommendedRecipes = this.getRecomendedRecipes();
+        /* console.log(this.highestRatedRecipes)
+        console.log(this.latestRecipes)
+        console.log(this.recommendedRecipes) */
       });
-
-      //this.latestRecipes();
-      
   }
 
-  /* latestRecipes() {
-    //return this.recipesService.getLatestRecipes().subscribe(res => console.log(res))
-    const sorted = this.recipes.sort((a: any, b: any) => a.mealName - b.mealName)
-    console.log(sorted)
-    return sorted;
-  } */
+  getLatestRecipes() {
+    return [...this.recipes].sort((a: any, b: any) => <any>new Date(b.createdAt) - <any>new Date(a.createdAt));
+  }
 
+  getHighestRatedRecipes() {
+    return [...this.recipes].sort((a:any, b:any) => b.rating - a.rating);
+  }
 
+  getRecomendedRecipes() {
+    return [...this.recipes].sort(() => Math.random() - 0.5).slice(0, 6)
+  }
 
+  loadMore() {
+    if(this.displayedRecipes > this.recipes.length) {
+      return
+    }
+    this.displayedRecipes *= 2;
+  }
 }

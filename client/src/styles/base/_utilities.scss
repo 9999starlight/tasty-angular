@@ -137,11 +137,11 @@
     filter: brightness(90%);
   }
 
-  .hovEffect {
-    transition: 300ms ease-in-out;
+  .hover-effect {
+    transition: 150ms ease-in-out;
   }
 
-  .hovEffect:hover {
+  .hover-effect:hover {
     color: $light;
     box-shadow: inset 0 0 0 2rem $golden;
   }

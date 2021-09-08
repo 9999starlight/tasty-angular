@@ -1,7 +1,7 @@
 @import "../../../../styles/abstracts/variables.scss",
   "../../../../styles/abstracts/mixins.scss",
   "../../../../styles/abstracts/functions.scss";
-.results-wrapper,
+/* .results-wrapper,
 .inner {
   @include box-size($width: 100%);
   @include alignment($direction: column);
@@ -22,5 +22,58 @@
 @media (min-width: 1200px) {
   .results-wrapper {
     @include box-size($width: 1100px);
+  }
+} */
+
+.home-results-container {
+  @include box-size($width: 100%);
+  @include alignment($direction: column);
+  background-color: $light;
+  padding: 1rem 0;
+  .inner-wrapper {
+    @include box-size($width: 100%);
+    flex-wrap: wrap;
+  }
+  h1 {
+    padding: 1rem 2rem 2rem;
+    color: darken($golden, 15%);
+  }
+
+  .load-more-btn {
+    background-color: transparent;
+    padding: 0.8rem 1.6rem;
+    @include fonts($size: 1.1rem, $color: $golden, $weight: 700);
+    border: 1px solid darken($golden, 5%);
+    margin-top: 1rem;
+    transition: 150ms ease-in-out;
+    border-radius: 6px;
+  }
+
+  img {
+    height: 45px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .home-results-container {
+    padding: 1rem;
+    background-image: $zinc;
+    box-shadow: $shadowBox;
+  }
+}
+
+@media (min-width: 992px) {
+  .home-results-container {
+    img {
+      height: 55px;
+      margin: auto;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-results-container {
+    width: 1100px;
   }
 }

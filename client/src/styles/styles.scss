@@ -4,6 +4,21 @@
   "./base/reset", "./base/typography", "./base/utilities", "./base/keyframes",
   "./components/buttons";
 
+
+  .star-icon {
+    @include fonts($color: $star-color, $size: 0.9rem);
+  }
+  
+  .star-entity {
+    @include fonts($color: $star-color, $size: 1.5rem);
+    margin-left: 0.3rem;
+  }
+  
+  .hash-link {
+    @include fonts($color: rgb(49, 117, 108), $size: 1.1rem);
+    margin: 2rem 0;
+  }
+
 // checkboxes (home page form, create/edit recipe form)
 .checkBoxes {
   @include alignment($justify: space-around);

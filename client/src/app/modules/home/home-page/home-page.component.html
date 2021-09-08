@@ -1,14 +1,40 @@
-<div class="container render-results">
-  <div class="results-wrapper flex flex-center">
-    <h1 class="pd1">Recipes</h1>
-    <!-- <h4>Recipes found: {{ this.results.length }}</h4> -->
-    <div class="inner flex flex-center">
-      <div class="successful flex">
-          <app-query-recipe *ngFor="let recipe of recipes"
-            [singleResult]="recipe"
-            
-          ></app-query-recipe>
-      </div>
+<div class="container" id="homeContainer">
+  <!-- Place for Slider -->
+  <!-- Place for tags -->
+
+  <!-- Latest recipes -->
+  <div class="home-results-container flex flex-center mgt2" *ngIf="latestRecipes.length">
+    <img
+      src="../../assets/images/small_pngs/recipe-book.png"
+      class="block"
+      alt="recipe-book"
+      loading="lazy"
+    />
+    <h1 class="slim">Latest Recipes</h1>
+    <div class="inner-wrapper flex flex-center">
+      <app-query-recipe
+        *ngFor="let latestRecipe of latestRecipes | slice:0:displayedRecipes"
+        [singleResult]="latestRecipe"
+      ></app-query-recipe>
+    </div>
+    <button (click)="loadMore()" class="load-more-btn">Load more</button>
+  </div>
+
+  <!-- Recommended Recipes -->
+  <div class="home-results-container flex flex-center mgt2" *ngIf="recommendedRecipes.length">
+    <img
+      src="../../assets/images/small_pngs/chubby-pot.png"
+      class="block"
+      alt="pot-flowers"
+      loading="lazy"
+    />
+    <h1 class="slim">What to cook today?</h1>
+    <div class="inner-wrapper flex flex-center">
+      <app-query-recipe
+        *ngFor="let recommendedRecipe of recommendedRecipes"
+        [singleResult]="recommendedRecipe"
+      ></app-query-recipe>
     </div>
   </div>
+  <button (click)="hashScrollService.onBackToTop('homeContainer')" class="block hash-link" *ngIf="recipes.length"><fa-icon [icon]="['fas', 'chevron-circle-up']"></fa-icon>To top</button>
 </div>

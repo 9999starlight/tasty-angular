@@ -22,12 +22,12 @@
         loading="lazy"
       />
     </ng-container>
-    <figcaption>{{ singleResult.mealName }}</figcaption>
+    <figcaption>{{ singleResult.mealName | sentenceCase }}</figcaption>
   </figure>
-  <p class="rating">
-    <!-- <fa-icon [icon]="['fas', 'fa-star']" class="star-icon"></fa-icon> -->&nbsp;{{
-      singleResult.rating
-    }}
+  <p class="rating flex flex-center">
+    <!-- <fa-icon [icon]="['fas' 'fa-star']" class="star-icon"></fa-icon>-->
+    <span class="star-entity">&#9733;</span>
+    &nbsp;{{ singleResult.rating }}
     /
     {{
       singleResult.rates.length

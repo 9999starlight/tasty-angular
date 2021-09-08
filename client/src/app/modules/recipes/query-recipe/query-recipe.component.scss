@@ -47,6 +47,10 @@
     grid-area: intro;
     @include fonts($size: 0.9rem);
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 }
 @media (min-width: 350px) {

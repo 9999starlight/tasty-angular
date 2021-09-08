@@ -39,7 +39,7 @@ const routes: Routes = [
 // preload modules for fast availability of lazy loading modules
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, anchorScrolling: 'enabled' }),
   ],
   exports: [RouterModule],
 })
