@@ -1,9 +1,14 @@
 <div class="container" id="homeContainer">
-  <!-- Place for Slider -->
+  <ng-container *ngIf="highestRatedRecipes.length">
+    <app-slider [highestRatedRecipes]="highestRatedRecipes"></app-slider>
+  </ng-container>
   <!-- Place for tags -->
 
   <!-- Latest recipes -->
-  <div class="home-results-container flex flex-center mgt2" *ngIf="latestRecipes.length">
+  <div
+    class="home-results-container flex flex-center mgt2"
+    *ngIf="latestRecipes.length"
+  >
     <img
       src="../../assets/images/small_pngs/recipe-book.png"
       class="block"
@@ -13,7 +18,7 @@
     <h1 class="slim">Latest Recipes</h1>
     <div class="inner-wrapper flex flex-center">
       <app-query-recipe
-        *ngFor="let latestRecipe of latestRecipes | slice:0:displayedRecipes"
+        *ngFor="let latestRecipe of latestRecipes | slice: 0:displayedRecipes"
         [singleResult]="latestRecipe"
       ></app-query-recipe>
     </div>
@@ -21,7 +26,10 @@
   </div>
 
   <!-- Recommended Recipes -->
-  <div class="home-results-container flex flex-center mgt2" *ngIf="recommendedRecipes.length">
+  <div
+    class="home-results-container flex flex-center mgt2"
+    *ngIf="recommendedRecipes.length"
+  >
     <img
       src="../../assets/images/small_pngs/chubby-pot.png"
       class="block"
@@ -36,5 +44,11 @@
       ></app-query-recipe>
     </div>
   </div>
-  <button (click)="hashScrollService.onBackToTop('homeContainer')" class="block hash-link" *ngIf="recipes.length"><fa-icon [icon]="['fas', 'chevron-circle-up']"></fa-icon>To top</button>
+  <button
+    (click)="hashScrollService.onBackToTop('homeContainer')"
+    class="block hash-link"
+    *ngIf="recipes.length"
+  >
+    <fa-icon [icon]="['fas', 'chevron-circle-up']"></fa-icon>To top
+  </button>
 </div>

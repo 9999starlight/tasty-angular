@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../recipes/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { HashScrollService } from 'src/app/shared/sharedServices/hash-scroll.service'; 
-import { faChevronCircleUp, faStar } from '@fortawesome/free-solid-svg-icons';
-
+//import { faChevronCircleUp, faStar } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -17,8 +16,8 @@ export class HomePageComponent implements OnInit {
   recommendedRecipes: RecipeResponse[] = [];
   
   // icons
-  faChevronCircleUp = faChevronCircleUp;
-  faStar = faStar;
+  /* faChevronCircleUp = faChevronCircleUp;
+  faStar = faStar; */
   constructor(private recipesService: RecipesService, public hashScrollService: HashScrollService) { }
 
   ngOnInit(){
@@ -29,10 +28,12 @@ export class HomePageComponent implements OnInit {
         this.highestRatedRecipes = this.getHighestRatedRecipes();
         this.latestRecipes = this.getLatestRecipes();
         this.recommendedRecipes = this.getRecomendedRecipes();
-        /* console.log(this.highestRatedRecipes)
+        /*console.log(this.highestRatedRecipes)
         console.log(this.latestRecipes)
         console.log(this.recommendedRecipes) */
       });
+
+    
   }
 
   getLatestRecipes() {
@@ -40,7 +41,7 @@ export class HomePageComponent implements OnInit {
   }
 
   getHighestRatedRecipes() {
-    return [...this.recipes].sort((a:any, b:any) => b.rating - a.rating);
+    return [...this.recipes].sort((a:any, b:any) => b.rating - a.rating).slice(0, 5);
   }
 
   getRecomendedRecipes() {
@@ -53,4 +54,6 @@ export class HomePageComponent implements OnInit {
     }
     this.displayedRecipes *= 2;
   }
+
+
 }

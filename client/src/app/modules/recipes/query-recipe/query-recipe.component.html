@@ -3,8 +3,8 @@
     tag="div"
     class="recipeLink block grid"
   > -->
-<!-- <p>recipe comp {{recipe.mealName}}</p> -->
-<div class="recipe-link grid">
+<a [routerLink]="['/recipe', singleResult._id]" class="recipe-link grid">
+<!-- <div class="recipe-link grid"> -->
   <figure>
     <ng-container *ngIf="!singleResult.image">
       <img
@@ -25,7 +25,6 @@
     <figcaption>{{ singleResult.mealName | sentenceCase }}</figcaption>
   </figure>
   <p class="rating flex flex-center">
-    <!-- <fa-icon [icon]="['fas' 'fa-star']" class="star-icon"></fa-icon>-->
     <span class="star-entity">&#9733;</span>
     &nbsp;{{ singleResult.rating }}
     /
@@ -57,5 +56,5 @@
   <p class="intro light-italic pd1">
     {{ singleResult.intro }}
   </p>
-</div>
-<!--   </router-link> -->
+<!-- </div> -->
+</a>

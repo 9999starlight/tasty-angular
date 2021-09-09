@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { recipesUrl } from 'src/app/apiData';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { RecipesResponse } from 'src/app/types/recipesTypes';
-import { RecipeResponse } from 'src/app/types/RecipeResponse';
+import { SingleRecipe } from 'src/app/types/SingleRecipe';
 
 
 @Injectable({
@@ -18,11 +18,7 @@ export class RecipesService {
     )
   }
 
-  getLatestRecipes() {
-    return this.http.get<RecipesResponse>(recipesUrl, {
-      params: { sort: '-createdAt' }
-    }).pipe(
-      map(val => val.response.recipes)
-    )
+  getSingleRecipe(id:string) {
+    return this.http.get<SingleRecipe>(`${recipesUrl}/${id}`)
   }
 }

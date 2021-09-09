@@ -1,0 +1,285 @@
+@import "../../../../styles/abstracts/variables.scss",
+  "../../../../styles/abstracts/mixins.scss",
+  "../../../../styles/abstracts/functions.scss";
+
+.singleResultWrapper {
+    @include alignment($display: flex, $justify: center, $align: center);
+    flex-direction: column;
+    @include box-size($width: 100%);
+    background-color: $light;
+    section,
+    figure,
+    h1 {
+      @include box-size($width: 100%);
+    }
+    section {
+      border-bottom: 1px inset lightgray;
+      @include alignment($direction: column, $align: flex-start);
+      padding-bottom: 0.8rem;
+      font-size: 0.9rem;
+    }
+    img {
+      object-fit: cover;
+    }
+    h1 {
+      @include fonts($color: darken($golden, 5%), $weight: 800);
+      text-shadow: 0px 3px 3px rgba(255, 255, 255, 0.5);
+      margin: 2rem auto;
+    }
+    h3 {
+      color: darken($golden, 5%);
+    }
+    .favorites {
+      @include alignment($align: center);
+      flex-wrap: wrap;
+      .addToFavorites,
+      .changableSave {
+        @include box-size($width: 140px, $height: 40px);
+      }
+      .addToFavorites {
+        @include fonts($color: $light, $size: 0.9rem);
+        @include alignment($display: inline-block);
+        background-color: #f1b3b3;
+        background-image: linear-gradient(
+          89.5deg,
+          rgba(246, 114, 128, 0.9) 0.2%,
+          rgba(248, 177, 149, 0.9) 90.6%
+        );
+        background-size: 600% 600%;
+       // animation: movingBackground 10s ease infinite;
+        margin-bottom: 1rem;
+        text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.82),
+          0px -1px 0px rgba(151, 146, 146, 0.67);
+        border-radius: 6px;
+        span {
+          margin-left: 0.3rem;
+        }
+      }
+      // save recipe style
+      .changableSave {
+        &.heart {
+          position: relative;
+          @include box-size($width: 100px, $height: 40px);
+        }
+        &.heart:before,
+        &.heart:after {
+          position: absolute;
+          content: '';
+          left: 20px;
+          top: 0;
+          @include box-size($width: 20px, $height: 35px);
+          background: #ec476b;
+          border-radius: 50px 50px 0 0;
+          transform: rotate(-45deg);
+          transform-origin: 0 100%;
+        }
+        &.heart:after {
+          left: 0;
+          transform: rotate(45deg);
+          transform-origin: 100% 100%;
+        }
+        span {
+          position: absolute;
+          text-align: left;
+          @include fonts($size: 0.9rem, $color: lighten($graphite, 20%));
+        }
+      }
+      // end save
+      .userRating {
+        @include box-size($height: 40px);
+        @include fonts($size: 0.9rem, $color: lighten($graphite, 20%));
+        span,
+        .starIcon {
+          margin-left: 0.3rem;
+        }
+        span {
+          @include fonts($color: lighten($graphite, 15%));
+          text-shadow: #706f6f 1px 1px 0;
+        }
+      }
+      .messageWrapper {
+        @include box-size($width: 100%, $height: 40px);
+      }
+    }
+    .basicInfo {
+      @include alignment($direction: row);
+      @include fonts($color: $graphite);
+      padding: 0.8rem;
+      .info {
+        margin-right: 1rem;
+      }
+      .mealIcons {
+        color: gray;
+        margin-right: 0.2rem;
+      }
+    }
+    figure {
+      @include box-size($height: 270px);
+      box-shadow: $shadowSmall;
+      img {
+        @include box-size($width: 100%, $height: 100%);
+      }
+    }
+    .underImage {
+      @include box-size($width: 100%);
+      .userInfoRating {
+        @include box-size($width: 100%);
+        @include alignment($justify: space-between, $align: center);
+        .userInfo {
+          display: block;
+          background-color: transparent;
+          color: #a3865b;
+        }
+        .authorImage {
+          @include box-size($width: 40px, $height: 40px);
+          border-radius: 50%;
+          margin-right: 0.5rem;
+        }
+      }
+      .recipeDate {
+        @include fonts($size: 0.8rem, $color: gray);
+      }
+      .intro {
+        color: rgb(75, 72, 72);
+        text-align: left;
+      }
+      .intro {
+        margin-top: 0.7rem;
+      }
+    }
+    .additionalInfo {
+      @include fonts($size: 0.9rem);
+      .additionalIcons {
+        margin-left: 0.5rem;
+        &.check {
+          color: rgba(0, 128, 0, 0.733);
+        }
+        &.times {
+          color: rgba(255, 0, 0, 0.699);
+        }
+      }
+    }
+    .ingredients {
+      h3 {
+        $color: darken($golden, 5%);
+      }
+      ul {
+        @include alignment($direction: column, $align: flex-start);
+        li {
+          @include fonts($color: rgb(75, 72, 72));
+          text-align: left;
+          &::before {
+            content: '\2726';
+            margin-right: 0.5rem;
+            //color: rgb(219, 86, 108);
+            color: $golden;
+          }
+        }
+      }
+    }
+    .directions {
+      ol {
+        @include alignment(
+          $direction: column,
+          $align: flex-start,
+          $textAlign: left
+        );
+        li {
+          @include fonts($color: rgb(75, 72, 72));
+          line-height: 1.5;
+          &::before {
+            content: attr(data-number) '.';
+            @include fonts($color: rgb(218, 113, 130), $weight: 800, $size: 2rem);
+            margin-right: 0.5rem;
+            line-height: 1.1;
+          }
+        }
+      }
+    }
+    .comments {
+      border-bottom: none;
+    }
+  }
+  @media (min-width: 576px) {
+    .singleResultWrapper {
+      @include box-size($width: 550px);
+      figure {
+        @include box-size($width: 500px);
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    .singleResultWrapper {
+      .favorites {
+        @include alignment($direction: row, $justify: space-evenly);
+        .addToFavorites {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  @media (min-width: 992px) {
+    .singleResultContainer {
+      background-image: $zinc;
+    }
+    .singleResultWrapper {
+      @include box-size($width: 900px, $max-width: initial);
+      @include alignment($display: grid);
+      padding: 1rem;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr;
+      grid-template-rows: repeat(7, auto);
+      grid-template-areas: 'title title title title title' 'favorites favorites favorites favorites favorites' 'basicInfo basicInfo basicInfo basicInfo basicInfo' 'photo photo photo photo additionalInfo' 'underImage underImage underImage underImage underImage' 'ingredients ingredients directions directions directions' 'comments comments comments comments comments';
+      section {
+        font-size: 1rem;
+      }
+      h1 {
+        grid-area: title;
+      }
+      .favorites {
+        grid-area: favorites;
+      }
+      .basicInfo {
+        grid-area: basicInfo;
+      }
+      figure {
+        grid-area: photo;
+        @include box-size($height: 400px, $width: 600px);
+      }
+      .underImage {
+        grid-area: underImage;
+        .userInfoRating {
+          @include box-size($width: 65%);
+        }
+      }
+      .additionalInfo {
+        grid-area: additionalInfo;
+        border: none;
+        align-self: start;
+        font-size: 1.1rem;
+      }
+      .ingredients,
+      .directions {
+        border: none;
+        height: 100%;
+        margin-bottom: 0;
+      }
+      .ingredients {
+        grid-area: ingredients;
+        padding: 0.8rem 0.8rem 0.8rem 0;
+      }
+      .directions {
+        grid-area: directions;
+        padding: 0.8rem 0 0.8rem 1.4rem;
+        ol li {
+          p {
+            line-height: 1.8;
+          }
+        }
+      }
+      .comments {
+        grid-area: comments;
+        border-top: 1px solid lightgray;
+        padding-top: 2rem;
+      }
+    }
+  }
