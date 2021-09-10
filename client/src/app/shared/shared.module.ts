@@ -6,6 +6,8 @@ import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 import { InfoMessageComponent } from './components/info-message/info-message.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from '../modules/auth/auth-interceptor';
 @NgModule({
   declarations: [
     SentenceCasePipe,
@@ -22,9 +24,13 @@ import { LoaderComponent } from './components/loader/loader.component';
     SentenceCasePipe,
     InfoMessageComponent,
     TooltipComponent,
-    LoaderComponent
+    LoaderComponent,
+    HttpClientModule
     /* FontAwesomeModule,
     FaIconLibrary */
-  ]
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
 })
 export class SharedModule {}

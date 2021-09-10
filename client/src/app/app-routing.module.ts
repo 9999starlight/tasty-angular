@@ -25,18 +25,20 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
   },
 
+
+  {
+    path: 'recipe/:id',
+    //component: RecipeComponent
+    loadChildren: () =>
+    import('./modules/recipe-details/recipe-details.module').then((m) => m.RecipeDetailsModule)
+  },
+
   {
     path: '',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
 
-  {
-    path: 'recipe/:id',
-    component: RecipeComponent
-    //loadChildren: () =>
-    //import('./modules/recipe-details/recipe-details.module').then((m) => m.RecipeDetailsModule)
-  },
 
   {
     path: '**',

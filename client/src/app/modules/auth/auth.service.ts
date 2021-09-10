@@ -10,6 +10,7 @@ import {
 } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CurrentUser } from 'src/app/types/userTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +18,11 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   isLogged$ = new BehaviorSubject<any>(null);
   //token$ = new BehaviorSubject('');
-  currentUser$ = new BehaviorSubject<any>(null);
+  currentUser$ = new BehaviorSubject<CurrentUser | null>(null);
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('token');
-    const decodedToken = !token ? null : jwt_decode(token);
+    const decodedToken: CurrentUser | null = !token ? null : jwt_decode(token);
     this.isLogged$.next(!!token);
     this.currentUser$.next(decodedToken);
   }
@@ -53,7 +54,7 @@ export class AuthService {
   authHelper(authToken: string) {
     localStorage.setItem('token', authToken);
     this.isLogged$.next(true);
-    const decodedToken = jwt_decode(authToken);
+    const decodedToken: CurrentUser | null = jwt_decode(authToken);
     this.currentUser$.next(decodedToken);
     //console.log('log from login service: ', jwt_decode(authToken))
   }
