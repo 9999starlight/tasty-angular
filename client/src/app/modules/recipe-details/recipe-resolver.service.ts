@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
-import { RecipesService } from '../recipes/recipes.service';
+import { RecipesService } from '../shared/sharedServices/recipes.service';
 
 
 @Injectable({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipesService } from '../../recipes/recipes.service';
+import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
@@ -8,13 +8,13 @@ import { CurrentUser } from 'src/app/types/userTypes';
 import { AuthService } from '../../auth/auth.service';
 
 interface Rate {
-	ratedBy: string;
-	rate: number;
+  ratedBy: string;
+  rate: number;
 }
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.scss']
+  styleUrls: ['./recipe.component.scss'],
 })
 export class RecipeComponent implements OnInit {
   recipe: any;
@@ -25,9 +25,13 @@ export class RecipeComponent implements OnInit {
 
   ratedByUser: Rate[] | [] = [];
 
-  disableRecipeSaving: boolean = true
+  disableRecipeSaving: boolean = true;
 
-  constructor(private route: ActivatedRoute, private recipesService: RecipesService, private authService: AuthService) {
+  constructor(
+    private route: ActivatedRoute,
+    private recipesService: RecipesService,
+    private authService: AuthService
+  ) {
     // resolver
     this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;
@@ -35,20 +39,18 @@ export class RecipeComponent implements OnInit {
 
     this.isLogged$ = this.authService.isLogged$.getValue();
     this.currentUser$ = this.authService.currentUser$;
-   }
+  }
 
   ngOnInit(): void {
     //console.log('route: ', this.route)
-    console.log('user in recipe: ', this.currentUser$.value, this.isLogged$)
-    console.log(this.recipe)
+    console.log('user in recipe: ', this.currentUser$.value, this.isLogged$);
+    console.log(this.recipe);
     //console.log(this.checkRatedBy())
     //this.userRate()
     //console.log('ratedBy: ', this.checkRatedBy())
-    this.checkRatedBy()
-    console.log(this.userRate())
+    this.checkRatedBy();
+    console.log(this.userRate());
   }
-
-
 
   /* disableRecipeSaving() {
     if (!this.isLogged$) {
@@ -65,10 +67,15 @@ export class RecipeComponent implements OnInit {
   } */
   checkRatedBy() {
     if (this.isLogged$) {
-      console.log('user id chackratedby: ', this.currentUser$.value?.userId, this.recipe.rates )
-        this.ratedByUser = this.recipe.rates.filter(
-          (rate: any) => rate.ratedBy == this.currentUser$.value?.userId)
-          
+      console.log(
+        'user id chackratedby: ',
+        this.currentUser$.value?.userId,
+        this.recipe.rates
+      );
+      this.ratedByUser = this.recipe.rates.filter(
+        (rate: any) => rate.ratedBy == this.currentUser$.value?.userId
+      );
+
       /* return this.recipe.rates.filter(
         (rate: any) => rate.ratedBy === this.currentUser$.value?.userId
       ) */
@@ -78,28 +85,27 @@ export class RecipeComponent implements OnInit {
   }
   disableRating() {
     if (!this.isLogged$) {
-      return true
+      return true;
     }
     if (
       this.isLogged$ &&
       (this.recipe.author._id === this.currentUser$.value?.userId ||
         this.ratedByUser.length)
     ) {
-      return false
+      return false;
     } else {
-      return true
+      return true;
     }
   }
   userRate() {
     if (
       this.isLogged$ &&
-      this.recipe.author.userId !== this.currentUser$.value?.userId && this.ratedByUser.length
+      this.recipe.author.userId !== this.currentUser$.value?.userId &&
+      this.ratedByUser.length
     ) {
-      return this.ratedByUser[0].rate
+      return this.ratedByUser[0].rate;
     } else {
-      return null
+      return null;
     }
   }
-
-
 }

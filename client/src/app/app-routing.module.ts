@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AuthGuard } from './modules/auth/auth.guard';
-import { RecipeComponent } from './modules/recipe-details/recipe/recipe.component';
 
 const routes: Routes = [
   {

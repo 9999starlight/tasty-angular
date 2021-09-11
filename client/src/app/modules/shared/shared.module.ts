@@ -6,17 +6,21 @@ import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 import { InfoMessageComponent } from './components/info-message/info-message.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { QueryRecipeComponent } from './components/query-recipe/query-recipe.component';
+import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../modules/auth/auth-interceptor';
+import { AuthInterceptor } from '../auth/auth-interceptor';
 @NgModule({
   declarations: [
     SentenceCasePipe,
     InfoMessageComponent,
     TooltipComponent,
-    LoaderComponent
+    LoaderComponent,
+    QueryRecipeComponent
   ],
   imports: [
     CommonModule,
+    RouterModule
     /* FontAwesomeModule,
     FaIconLibrary */
   ],
@@ -25,6 +29,7 @@ import { AuthInterceptor } from '../modules/auth/auth-interceptor';
     InfoMessageComponent,
     TooltipComponent,
     LoaderComponent,
+    QueryRecipeComponent,
     HttpClientModule
     /* FontAwesomeModule,
     FaIconLibrary */

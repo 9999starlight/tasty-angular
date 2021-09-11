@@ -11,6 +11,7 @@ export interface RecipeResponse {
 	createdAt: string;
 	dishType: string;
 	glutenFree: boolean;
+	rating: number;
 	rates: {
         ratedBy: string;
         rate: number;

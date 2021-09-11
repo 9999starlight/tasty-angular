@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RecipeResponse } from '../../../types/RecipeResponse'
+import { RecipeResponse } from '../../../../types/RecipeResponse'
 import { faStar} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -8,11 +8,8 @@ import { faStar} from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./query-recipe.component.scss']
 })
 export class QueryRecipeComponent implements OnInit {
-  @Input() singleResult: any;
+  @Input() singleResult!: RecipeResponse;
   constructor() { }
   fasStar = faStar;
-  ngOnInit(): void {
-    //console.log(this.singleResult)
-  }
-
+  ngOnInit(): void {}
 }

@@ -36,7 +36,7 @@
         <app-tooltip tooltipText="Level of difficulty"></app-tooltip>
       </span>
       <span class="info tooltip-container">
-        <fa-icon [icon]="['fas', 'weight']" class="meal-icons"></fa-icon>
+        <fa-icon [icon]="['fas', 'users']" class="meal-icons"></fa-icon>
         {{ recipe.persons }}
         <app-tooltip tooltipText="Number of persons"></app-tooltip>
       </span>
@@ -82,8 +82,8 @@
           </p>
           <app-tooltip tooltipText="See user s recipes"></app-tooltip>
         </button>
-        <p class="rating">
-          <fa-icon [icon]="['fas', 'star']" class="meal-icons"></fa-icon>
+        <p class="rating light-italic">
+          <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon>
           &nbsp;&nbsp;{{ recipe.rating }} /
           <span class="light-italic"
             >{{
