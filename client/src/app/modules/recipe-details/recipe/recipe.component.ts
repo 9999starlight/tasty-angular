@@ -5,12 +5,9 @@ import { switchMap } from 'rxjs/operators';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { BehaviorSubject } from 'rxjs';
 import { CurrentUser } from 'src/app/types/userTypes';
+import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
 
-interface Rate {
-  ratedBy: string;
-  rate: number;
-}
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
@@ -18,14 +15,15 @@ interface Rate {
 })
 export class RecipeComponent implements OnInit {
   recipe: any;
-  //disableRecipeSaving: boolean = true;
+  ratedByUser: Rate[] | [] = [];
+  isSavingEnabled: boolean = false;
+  isRatingEnabled: boolean = true;
+
   // user state
   isLogged$: BehaviorSubject<boolean | null>;
   currentUser$: BehaviorSubject<CurrentUser | null>;
 
-  ratedByUser: Rate[] | [] = [];
-
-  disableRecipeSaving: boolean = true;
+  //disableRecipeSaving: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,55 +47,58 @@ export class RecipeComponent implements OnInit {
     //this.userRate()
     //console.log('ratedBy: ', this.checkRatedBy())
     this.checkRatedBy();
-    console.log(this.userRate());
+    this.enableSaving();
+    this.enableRating();
+    console.log(this.ratedByUser);
   }
 
-  /* disableRecipeSaving() {
+  enableSaving() {
     if (!this.isLogged$) {
-      return true
+      this.isSavingEnabled = true;
     }
-    const checkUserFavorites = this.currentUser$.value?.favorites.filter(
-      (fav: string) => fav === this.recipe._id
-    )
-    if (checkUserFavorites.length) {
-      return false
+    const checkUserFavorites: string[] | [] | undefined =
+      this.currentUser$.value?.favorites.filter(
+        (fav: string) => fav === this.recipe._id
+      );
+    //console.log(checkUserFavorites);
+    if (checkUserFavorites !== undefined && checkUserFavorites.length) {
+      this.isSavingEnabled = false;
     } else {
-      return true
+      this.isSavingEnabled = true;
     }
-  } */
+  }
+
   checkRatedBy() {
     if (this.isLogged$) {
-      console.log(
+      /*console.log(
         'user id chackratedby: ',
         this.currentUser$.value?.userId,
         this.recipe.rates
-      );
+      );*/
       this.ratedByUser = this.recipe.rates.filter(
         (rate: any) => rate.ratedBy == this.currentUser$.value?.userId
       );
-
-      /* return this.recipe.rates.filter(
-        (rate: any) => rate.ratedBy === this.currentUser$.value?.userId
-      ) */
     } else {
       this.ratedByUser = [];
     }
   }
-  disableRating() {
+
+  enableRating() {
     if (!this.isLogged$) {
-      return true;
+      this.isRatingEnabled = true;
     }
     if (
       this.isLogged$ &&
       (this.recipe.author._id === this.currentUser$.value?.userId ||
         this.ratedByUser.length)
     ) {
-      return false;
+      this.isRatingEnabled = false;
     } else {
-      return true;
+      this.isRatingEnabled = true;
     }
   }
-  userRate() {
+
+  userRate(): number | null {
     if (
       this.isLogged$ &&
       this.recipe.author.userId !== this.currentUser$.value?.userId &&

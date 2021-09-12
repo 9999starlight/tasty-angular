@@ -1,0 +1,138 @@
+@import "./../../../../styles/abstracts/variables";
+@import "./../../../../styles/abstracts/mixins";
+@import "./../../../../styles/abstracts/functions";
+
+.rating-container {
+  margin-top: 1rem;
+}
+.rating-wrapper {
+  position: relative;
+  z-index: 4;
+  width: 140px;
+  transition: 0.5s ease-in-out;
+  &.open-rating-width {
+    width: 270px;
+  }
+  .add-rate,
+  .star-rating-dropdown {
+    @include box-size($width: 100%);
+  }
+  .add-rate {
+    @include box-size($height: 40px);
+    @include fonts($color: $light);
+    background-color: #485563;
+    background-image: linear-gradient(
+      220.3deg,
+      rgb(72, 85, 99) 8.8%,
+      rgb(127, 146, 166) 95.1%
+    );
+    border-bottom: 1px solid lighten($graphite, 50%);
+    border-radius: 6px;
+    cursor: pointer;
+    &.open-border-radius {
+      border-radius: 6px 6px 0 0;
+    }
+    p {
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.95),
+        0px -1px 0px rgba(55, 53, 53, 0.67);
+      span {
+        margin: 0 0 0.2rem 0.3rem;
+      }
+    }
+  }
+  .star-rating-dropdown {
+    @include alignment($justify: space-between);
+    position: absolute;
+    top: 40px;
+    @include box-size($height: 40px);
+    background-color: #485563;
+    background-image: linear-gradient(
+      220.3deg,
+      rgb(72, 85, 99) 8.8%,
+      rgb(127, 146, 166) 95.1%
+    );
+    border-radius: 0 0 6px 6px;
+    .stars {
+      @include alignment($justify: space-evenly);
+      @include box-size($width: 83%);
+    }
+    // star checkboxes
+    label,
+    input,
+    span {
+      display: inline-block;
+    }
+    label {
+      position: relative;
+      @include box-size($width: 1.4rem, $height: 1.5rem);
+      color: lightgray;
+      input,
+      span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        outline: none;
+      }
+      input {
+        visibility: hidden;
+      }
+      span {
+        @include box-size($width: 20px, $height: 20px);
+        // stars empty and filled with shiny shadow effect
+        &:after {
+          content: " \2606";
+          position: absolute;
+          animation: 1s pulse ease;
+          transition: all 0.4s ease-out;
+        }
+        &:hover:after {
+          color: lighten($graphite, 80%);
+          text-shadow: 0 0 15px lighten($graphite, 90%);
+        }
+        // adding class for coloring previous stars mouseover
+        &.coloring:after {
+          content: " \2605";
+          color: yellow;
+        }
+      }
+      input:checked ~ span:after {
+        content: " \2605";
+        color: yellow;
+      }
+    }
+    .rateCounterWrapper {
+      @include fonts($color: white, $size: 0.8rem);
+      @include box-size($width: 15%, $height: 100%);
+      background-color: #485563;
+      border-radius: 0 0 6px 0;
+    }
+  }
+}
+@media (min-width: 576px) {
+  .rating-wrapper {
+    &.open-rating-width {
+      width: 350px;
+    }
+    .star-rating-dropdown {
+      label {
+        font-size: 1.6rem;
+        line-height: 0.8;
+        margin-right: 0.3rem;
+      }
+      .rate-counter {
+        @include fonts($size: 1rem);
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .rating-container {
+    margin-top: 0;
+  }
+  .rating-wrapper {
+    .add-rate:hover {
+      filter: brightness(90%);
+    }
+  }
+}

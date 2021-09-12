@@ -7,7 +7,7 @@
       <div class="message-wrapper center">
         <!-- Place for Info message component -->
       </div>
-      <button class="add-favorites">
+      <button class="add-favorites" *ngIf="isSavingEnabled">
         Add to favorites &nbsp;
         <span>
           <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>
@@ -16,15 +16,16 @@
 
       <div
         [ngClass]="
-          disableRecipeSaving ? 'changable-save' : 'changable-save heart'
+        isSavingEnabled ? 'changable-save' : 'changable-save heart'
         "
       >
-        <!-- <span *ngIf="!disableRecipeSaving">Recipe saved</span> -->
+         <span *ngIf="!isSavingEnabled">Recipe saved</span> 
       </div>
 
       <!-- Place foir Rating component -->
+      <app-rating></app-rating>
 
-      <p class="user-rating flex flex-center">
+      <p class="user-rating flex flex-center" *ngIf="userRate()">
         Your rate:<span>{{ userRate() }}</span>
         <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon>
       </p>

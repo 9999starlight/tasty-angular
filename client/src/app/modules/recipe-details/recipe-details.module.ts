@@ -5,11 +5,13 @@ import { RecipeDetailsRoutingModule } from './recipe-details-routing.module';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faPlus, faStar, faWeight, faClock, faCheck, faTimes, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { RatingComponent } from './rating/rating.component';
 
 
 @NgModule({
   declarations: [
-    RecipeComponent
+    RecipeComponent,
+    RatingComponent
   ],
   imports: [
     CommonModule,
