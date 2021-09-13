@@ -1,48 +1,41 @@
-	<div class="rating-container">
-	  <div *ngIf="ratingDropdown" class="overlay" (click)="toggleRating()"></div>
-	  <div
-		[ngClass]="
-		  ratingDropdown ? 'rating-wrapper open-rating-width' : 'rating-wrapper'
-		"
-	  >
-		<div
-		  (click)="toggleRating()"
-		  [ngClass]="
-			ratingDropdown
-			  ? 'add-rate flex flex-center open-border-radius'
-			  : 'add-rate flex flex-center'
-		  "
-		>
-		  <p class="flex flex-center">
-			Rate recipe &nbsp;<span class="star-entity">&#x2605;</span>
-		  </p>
-		</div>
-		<div
-		  *ngIf="ratingDropdown"
-		  class="star-rating-dropdown flex flex-center"
-		>
-		  <div ref="stars" class="stars flex">
-			<label  *ngFor="let num of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [for]="'star' + num">
-			  <input
-				type="radio"
-				name="star"
-				[id]="'star' + num"
-				[value]="num"
-				ngModel="rateValue"
-			  />
-			  <span
-				tabindex="0"
-				[id]="num"
-				class="sp"
-				(mouseover)="fillTheStars"
-				(click)="rateThisRecipe"
-			  ></span>
-			</label>
-		  </div>
-		  <div class="rate-counter-wrapper flex flex-center">
-			<span class="rate-counter">{{ rateValue }}/10</span>
-		  </div>
-		</div>
-	  </div>
-	</div>
-
+<div class="rating-container">
+  <div *ngIf="ratingDropdown" class="overlay" (click)="toggleRating()"></div>
+  <div
+    [ngClass]="
+      ratingDropdown ? 'rating-wrapper open-rating-width' : 'rating-wrapper'
+    "
+  >
+    <div
+      (click)="toggleRating()"
+      [ngClass]="
+        ratingDropdown
+          ? 'add-rate flex flex-center open-border-radius'
+          : 'add-rate flex flex-center'
+      "
+    >
+      <p class="flex flex-center">
+        Rate recipe &nbsp;<span class="star-entity">&#x2605;</span>
+      </p>
+    </div>
+    <div *ngIf="ratingDropdown" class="star-rating-dropdown flex flex-center">
+      <div ref="stars" class="stars flex">
+        <label
+          *ngFor="let num of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+          [for]="'star' + num"
+        >
+          <input type="radio" name="star" [id]="'star' + num" [value]="num" />
+          <span
+            tabindex="0"
+            [id]="num"
+            class="sp"
+            (mouseover)="fillTheStars($event)"
+            (click)="rateThisRecipe($event)"
+          ></span>
+        </label>
+      </div>
+      <div class="rate-counter-wrapper flex flex-center">
+        <span class="rate-counter">{{ rateValue }}/10</span>
+      </div>
+    </div>
+  </div>
+</div>

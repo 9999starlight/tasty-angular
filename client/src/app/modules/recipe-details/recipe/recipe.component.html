@@ -23,7 +23,7 @@
       </div>
 
       <!-- Place foir Rating component -->
-      <app-rating></app-rating>
+      <app-rating [recipeId]="recipe.id"></app-rating>
 
       <p class="user-rating flex flex-center" *ngIf="userRate()">
         Your rate:<span>{{ userRate() }}</span>
