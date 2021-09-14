@@ -1,0 +1,21 @@
+@import "../../../styles/abstracts/variables.scss",
+  "../../../styles/abstracts/mixins.scss",
+  "../../../styles/abstracts/functions.scss";
+
+.back-to-top {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  width: 55px;
+  height: 55px;
+  z-index: 6;
+  color: $light;
+  background-color: $golden;
+  border-radius: 50%;
+  font-size: 2rem;
+  transition: opacity 500ms;
+}
+
+.invisible {
+  opacity: 0;
+}

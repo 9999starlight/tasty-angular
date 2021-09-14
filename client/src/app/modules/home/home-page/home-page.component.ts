@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
-import { HashScrollService } from 'src/app/modules/shared/sharedServices/hash-scroll.service';
-//import { faChevronCircleUp, faStar } from '@fortawesome/free-solid-svg-icons';
+import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -14,26 +13,34 @@ export class HomePageComponent implements OnInit {
   highestRatedRecipes: RecipeResponse[] = [];
   latestRecipes: RecipeResponse[] = [];
   recommendedRecipes: RecipeResponse[] = [];
+  errorMessage = '';
+  isLoading = true;
 
-  // icons
-  /* faChevronCircleUp = faChevronCircleUp;
-  faStar = faStar; */
   constructor(
-    private recipesService: RecipesService,
-    public hashScrollService: HashScrollService
-  ) {}
+    private recipesService: RecipesService) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.recipesService.getRecipes().subscribe((res) => {
-      this.recipes = JSON.parse(JSON.stringify(res));
-      console.log(this.recipes);
-      this.highestRatedRecipes = this.getHighestRatedRecipes();
-      this.latestRecipes = this.getLatestRecipes();
-      this.recommendedRecipes = this.getRecomendedRecipes();
-      /*console.log(this.highestRatedRecipes)
-        console.log(this.latestRecipes)
-        console.log(this.recommendedRecipes) */
+      if(res) {
+        this.isLoading = false;
+        this.recipes = JSON.parse(JSON.stringify(res));
+        console.log(this.recipes);
+        this.highestRatedRecipes = this.getHighestRatedRecipes();
+        this.latestRecipes = this.getLatestRecipes();
+        this.recommendedRecipes = this.getRecomendedRecipes(); 
+      }
+      
+    }, error => {
+      this.isLoading = false;
+      this.errorMessage = `Error on page: ${error.statusText}`;
+      console.log('subscribe error home: ', error.statusText);
     });
+    
+  }
+
+  onClear(msg: string) {
+    this.errorMessage = msg;
   }
 
   getLatestRecipes() {

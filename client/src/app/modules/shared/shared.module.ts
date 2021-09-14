@@ -10,13 +10,15 @@ import { QueryRecipeComponent } from './components/query-recipe/query-recipe.com
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../auth/auth-interceptor';
+import { PageErrorComponent } from './components/page-error/page-error.component';
 @NgModule({
   declarations: [
     SentenceCasePipe,
     InfoMessageComponent,
     TooltipComponent,
     LoaderComponent,
-    QueryRecipeComponent
+    QueryRecipeComponent,
+    PageErrorComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { AuthInterceptor } from '../auth/auth-interceptor';
     TooltipComponent,
     LoaderComponent,
     QueryRecipeComponent,
-    HttpClientModule
+    HttpClientModule,
+    PageErrorComponent
     /* FontAwesomeModule,
     FaIconLibrary */
   ],

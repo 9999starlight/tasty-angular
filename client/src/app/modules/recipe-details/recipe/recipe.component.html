@@ -153,4 +153,7 @@
     <!-- Comments -->
   </div>
   <!-- Loader ? -->
+  <ng-container *ngIf="isLoading">
+    <app-loader [bigLoader]="true"></app-loader>
+  </ng-container>
 </div>

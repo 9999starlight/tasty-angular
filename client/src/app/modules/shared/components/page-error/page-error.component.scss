@@ -1,0 +1,10 @@
+@import "../../../../../styles/abstracts/variables.scss",
+  "../../../../../styles/abstracts/mixins.scss",
+  "../../../../../styles/abstracts/functions.scss";
+
+.page-error {
+  background-color: rgba(14, 13, 13, 0.507);
+  h3 {
+    @include fonts($color: $light, $weight: 700);
+  }
+}

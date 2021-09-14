@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { BehaviorSubject } from 'rxjs';
 import { CurrentUser } from 'src/app/types/userTypes';
 import { Rate } from 'src/app/types/SingleRecipe';
@@ -18,6 +15,7 @@ export class RecipeComponent implements OnInit {
   ratedByUser: Rate[] | [] = [];
   isSavingEnabled: boolean = false;
   isRatingEnabled: boolean = true;
+  isLoading: boolean = false;
 
   // user state
   isLogged$: BehaviorSubject<boolean | null>;
@@ -27,7 +25,6 @@ export class RecipeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipesService: RecipesService,
     private authService: AuthService
   ) {
     // resolver
@@ -40,6 +37,8 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+
     //console.log('route: ', this.route)
     console.log('user in recipe: ', this.currentUser$.value, this.isLogged$);
     console.log(this.recipe);

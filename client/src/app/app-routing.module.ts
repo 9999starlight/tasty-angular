@@ -33,15 +33,19 @@ const routes: Routes = [
   },
 
   {
+    path: 'not-found',
+    component: NotFoundComponent,
+  },
+
+  {
     path: '',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
 
-
   {
     path: '**',
-    component: NotFoundComponent,
+    redirectTo: 'not-found'
   },
 ];
 

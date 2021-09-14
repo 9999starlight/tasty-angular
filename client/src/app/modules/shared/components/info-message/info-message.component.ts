@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./info-message.component.scss']
 })
 export class InfoMessageComponent implements OnInit {
-  @Input() messageStatus: string = '';
+  @Input() messageStatus: boolean = false;
   @Input() message: string = '';
   @Output() clear = new EventEmitter();
   timeSet = 0;
