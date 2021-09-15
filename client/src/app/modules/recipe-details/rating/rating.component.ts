@@ -13,14 +13,14 @@ export class RatingComponent implements OnInit {
   isLogged$: BehaviorSubject<boolean | null>;
   // props & Output
   @Input() recipeId: string = '';
-  @Output() updateMsgStatus = new EventEmitter();
-  @Output() updateMsg = new EventEmitter();
-  @Output() updateRating = new EventEmitter();
+  @Output() updateMsgStatus = new EventEmitter<boolean>();
+  @Output() updateMsg = new EventEmitter<string>();
+  @Output() updateRating = new EventEmitter<number>();
   ratingDropdown: boolean = false;
   rateValue: number = 1;
 
   constructor(private el: ElementRef, private authService: AuthService, private recipesService: RecipesService) {
-    this.isLogged$ = this.authService.isLogged$.getValue();
+    this.isLogged$ = this.authService.isLogged$;
    }
 
   ngOnInit(): void {
@@ -56,7 +56,9 @@ export class RatingComponent implements OnInit {
   rateThisRecipe(value: any) {
     this.rateValue = Number(value.target.id)
     console.log(this.rateValue)
-    if(!this.isLogged$) {
+    
+    if(!this.isLogged$.getValue()) {
+      console.log('logged: ', this.isLogged$.getValue())
       this.updateMsgStatus.emit(false);
       this.updateMsg.emit('Login to rate this recipe');
       this.ratingDropdown = false;
@@ -66,12 +68,12 @@ export class RatingComponent implements OnInit {
     this.ratingDropdown = false;
     // update recipe rating
     // call service to patch recipe
-    this.recipesService.updateRating(this.recipeId, this.rateValue).subscribe((res) => {
+    /* this.recipesService.updateRating(this.recipeId, this.rateValue).subscribe((res) => {
       if(res) {
         this.rateValue = 1;
         this.updateRating.emit();
       }
-    })
+    }) */
     /* if(res) {
       this.rateValue = 1;
       this.updateRating.emit(null);

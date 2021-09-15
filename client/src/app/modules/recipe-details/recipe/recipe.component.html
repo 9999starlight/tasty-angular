@@ -6,6 +6,13 @@
     <section class="favorites flex">
       <div class="message-wrapper center">
         <!-- Place for Info message component -->
+        <ng-container *ngIf="infoMessage">
+          <app-info-message
+            [message]="infoMessage"
+            [messageStatus]="msgStatus"
+            (clear)="onClear('')"
+          ></app-info-message>
+        </ng-container>
       </div>
       <button class="add-favorites" *ngIf="isSavingEnabled">
         Add to favorites &nbsp;
@@ -15,15 +22,18 @@
       </button>
 
       <div
-        [ngClass]="
-        isSavingEnabled ? 'changable-save' : 'changable-save heart'
-        "
+        [ngClass]="isSavingEnabled ? 'changable-save' : 'changable-save heart'"
       >
-         <span *ngIf="!isSavingEnabled">Recipe saved</span> 
+        <span *ngIf="!isSavingEnabled">Recipe saved</span>
       </div>
 
       <!-- Place foir Rating component -->
-      <app-rating [recipeId]="recipe.id"></app-rating>
+      <app-rating
+        [recipeId]="recipe.id"
+        (updateMsgStatus)="updateMsgStatusHandler($event)"
+        (updateMsg)="updateMsgHandler($event)"
+        
+      ></app-rating>
 
       <p class="user-rating flex flex-center" *ngIf="userRate()">
         Your rate:<span>{{ userRate() }}</span>

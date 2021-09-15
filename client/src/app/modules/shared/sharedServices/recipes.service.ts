@@ -5,19 +5,23 @@ import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { RecipesResponse } from 'src/app/types/recipesTypes';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipesService {
-
+  recipesList$ = new BehaviorSubject<any>(null);
   constructor(private http: HttpClient) { }
 
   // GET requests
 
   getRecipes(options?: {}) {
     return this.http.get<RecipesResponse>(recipesUrl, options).pipe(
-      map(val => val.response.recipes),
+      map(val => {
+        //this.recipesList$.next(val.response.recipes);
+        return val.response.recipes;
+      }),
       catchError((err) => {
         console.log(err)
         return throwError(err);

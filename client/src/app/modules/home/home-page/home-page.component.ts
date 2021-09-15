@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
-import { BehaviorSubject } from 'rxjs';
+//import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -20,7 +20,7 @@ export class HomePageComponent implements OnInit {
     private recipesService: RecipesService) {}
 
   ngOnInit() {
-    this.isLoading = true;
+    //this.isLoading = true;
     this.recipesService.getRecipes().subscribe((res) => {
       if(res) {
         this.isLoading = false;
@@ -33,10 +33,11 @@ export class HomePageComponent implements OnInit {
       
     }, error => {
       this.isLoading = false;
-      this.errorMessage = `Error on page: ${error.statusText}`;
-      console.log('subscribe error home: ', error.statusText);
+      this.errorMessage = `Error: ${error.statusText}`;
+      console.log(error.statusText);
     });
     
+    // this.recipesService.recipesList$.subscribe(value => console.log('recipes state: ', value))
   }
 
   onClear(msg: string) {

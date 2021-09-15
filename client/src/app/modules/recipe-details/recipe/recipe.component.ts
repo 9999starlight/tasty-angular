@@ -13,9 +13,11 @@ import { AuthService } from '../../auth/auth.service';
 export class RecipeComponent implements OnInit {
   recipe: any;
   ratedByUser: Rate[] | [] = [];
-  isSavingEnabled: boolean = false;
-  isRatingEnabled: boolean = true;
-  isLoading: boolean = false;
+  isSavingEnabled = false;
+  isRatingEnabled = true;
+  isLoading = false;
+  infoMessage = '';
+  msgStatus = false;
 
   // user state
   isLogged$: BehaviorSubject<boolean | null>;
@@ -37,8 +39,6 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-
     //console.log('route: ', this.route)
     console.log('user in recipe: ', this.currentUser$.value, this.isLogged$);
     console.log(this.recipe);
@@ -108,4 +108,24 @@ export class RecipeComponent implements OnInit {
       return null;
     }
   }
+
+  onClear(msg: string) {
+    this.infoMessage = msg;
+  }
+
+  updateMsgHandler(msg: string) {
+    console.log(msg)
+    this.infoMessage = msg;
+  }
+
+  updateMsgStatusHandler(status: boolean) {
+    this.msgStatus = status;
+  }
+
+  /* updateProfile(newRecipe) {
+    (this.route.data as BehaviorSubject<any>).next({recipe: newRecipe});
+  } */
 }
+/* this.route.data.subscribe(({ recipe }) => {
+      this.recipe = recipe;
+    }); */
