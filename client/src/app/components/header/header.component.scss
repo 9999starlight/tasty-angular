@@ -270,7 +270,7 @@ nav {
         li a {
           background-color: $light;
           color: darken($golden, 10%);
-          border-bottom: 1px solid lightgray;
+          border-bottom: 1px solid $lightgray;
         }
 
         li a svg {

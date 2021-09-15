@@ -1,0 +1,33 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+.single-comment-wrapper {
+  @include alignment($direction: column);
+  @include box-size($width: 280px);
+  border: 2px solid $lightgray;
+  padding: 0.8rem;
+  .comment-author {
+    align-self: flex-start;
+    img {
+      @include box-size($width: 30px, $height: 30px);
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    span {
+      margin-left: 0.5rem;
+    }
+  }
+  .comment-body {
+    text-align: left;
+  }
+  .date {
+    align-self: flex-end;
+    @include fonts($size: 0.8rem);
+  }
+}
+@media (min-width: 576px) {
+  .single-comment-wrapper {
+    @include box-size($width: 400px);
+  }
+}

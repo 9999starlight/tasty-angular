@@ -58,4 +58,13 @@ export class AuthService {
     this.currentUser$.next(decodedToken);
     //console.log('log from login service: ', jwt_decode(authToken))
   }
+
+  updateFavorites(userId: string, recipeId: string) {
+    console.log('from service update favorites: ', userId, recipeId)
+    const updatedFavorites = this.http.patch<any>(`${usersUrl}/favorites/${userId}`, { favoriteId: recipeId })
+   // this.currentUser$.next(updatedFavorites);
+   // return this.currentUser$.value; 
+   console.log(updatedFavorites)
+   return updatedFavorites;
+  }
 }

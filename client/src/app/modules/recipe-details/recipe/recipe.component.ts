@@ -4,7 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { CurrentUser } from 'src/app/types/userTypes';
 import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
-
+import { RecipesService } from '../../shared/sharedServices/recipes.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
@@ -27,24 +28,23 @@ export class RecipeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private recipesService: RecipesService,
+    private router: Router
   ) {
+
     // resolver
     this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;
     });
-
     this.isLogged$ = this.authService.isLogged$.getValue();
     this.currentUser$ = this.authService.currentUser$;
   }
 
   ngOnInit(): void {
-    //console.log('route: ', this.route)
+    //this.recipesService.singleRecipe$.subscribe(val => console.log('recipe state: ', val))
     console.log('user in recipe: ', this.currentUser$.value, this.isLogged$);
     console.log(this.recipe);
-    //console.log(this.checkRatedBy())
-    //this.userRate()
-    //console.log('ratedBy: ', this.checkRatedBy())
     this.checkRatedBy();
     this.enableSaving();
     this.enableRating();
@@ -114,7 +114,6 @@ export class RecipeComponent implements OnInit {
   }
 
   updateMsgHandler(msg: string) {
-    console.log(msg)
     this.infoMessage = msg;
   }
 
@@ -122,10 +121,33 @@ export class RecipeComponent implements OnInit {
     this.msgStatus = status;
   }
 
-  /* updateProfile(newRecipe) {
-    (this.route.data as BehaviorSubject<any>).next({recipe: newRecipe});
+  updateRecipeHandler(rateVal: number) {
+    this.recipesService.updateRating(this.recipe._id, rateVal).subscribe((res: any) => {
+      if (res) {
+        this.updateMsgStatusHandler(true);
+        this.updateMsgHandler('Recipe has been rated');
+        this.getNewData(this.recipe._id);
+      }
+    })
+  }
+
+  getNewData(id: string) {
+    this.recipesService.getSingleRecipe(id).subscribe((res: any) => {
+      if (res) {
+        this.recipe = res;
+        this.checkRatedBy();
+        this.enableRating();
+        console.log(this.recipe)
+      }
+
+    }, (error: any) => {
+      this.isLoading = false;
+      this.infoMessage = `Error: ${error.statusText}`;
+      console.log(error.statusText);
+    });
+  }
+
+  /* updateFavorites(this.currentUser$.value?.userId, this.recipeId: string) {
+    
   } */
 }
-/* this.route.data.subscribe(({ recipe }) => {
-      this.recipe = recipe;
-    }); */

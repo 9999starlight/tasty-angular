@@ -6,12 +6,18 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faPlus, faStar, faWeight, faClock, faCheck, faTimes, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { RatingComponent } from './rating/rating.component';
+import { CommentsComponent } from '../comments/comments/comments.component';
+import { CommentComponent } from '../comments/comment/comment.component';
+import { PostCommentComponent } from '../comments/post-comment/post-comment.component';
 
 
 @NgModule({
   declarations: [
     RecipeComponent,
-    RatingComponent
+    RatingComponent,
+    CommentsComponent,
+    CommentComponent,
+    PostCommentComponent
   ],
   imports: [
     CommonModule,

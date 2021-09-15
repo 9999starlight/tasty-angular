@@ -28,13 +28,14 @@
       </div>
 
       <!-- Place foir Rating component -->
-      <app-rating
-        [recipeId]="recipe.id"
-        (updateMsgStatus)="updateMsgStatusHandler($event)"
-        (updateMsg)="updateMsgHandler($event)"
-        
-      ></app-rating>
-
+      <ng-container *ngIf="isRatingEnabled">
+        <app-rating
+          [recipeId]="recipe.id"
+          (updateMsgStatus)="updateMsgStatusHandler($event)"
+          (updateMsg)="updateMsgHandler($event)"
+          (updateRecipe)="updateRecipeHandler($event)"
+        ></app-rating>
+      </ng-container>
       <p class="user-rating flex flex-center" *ngIf="userRate()">
         Your rate:<span>{{ userRate() }}</span>
         <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon>
@@ -159,8 +160,9 @@
         </li>
       </ol>
     </section>
-
-    <!-- Comments -->
+    <section class="comments">
+    <app-comments [comments]="recipe.comments" [recipeId]="recipe._id"></app-comments>
+  </section>
   </div>
   <!-- Loader ? -->
   <ng-container *ngIf="isLoading">

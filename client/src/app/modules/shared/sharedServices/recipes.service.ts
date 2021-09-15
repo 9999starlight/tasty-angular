@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RecipesService {
   recipesList$ = new BehaviorSubject<any>(null);
+  singleRecipe$ = new BehaviorSubject<any>(null);
   constructor(private http: HttpClient) { }
 
   // GET requests
@@ -31,34 +32,27 @@ export class RecipesService {
 
   // error handled with redirect in resolver
   getSingleRecipe(id: string) {
-    return this.http.get<SingleRecipe>(`${recipesUrl}/${id}`)
+    const recipe = this.http.get<SingleRecipe>(`${recipesUrl}/${id}`);
+    this.singleRecipe$.next(recipe);
+    console.log('recipe from service: ', this.singleRecipe$.value)
+    return this.singleRecipe$.value;
   }
 
   // PATCH requests
   updateRecipe(id: string, par: {}) {
-    return this.http.patch<SingleRecipe>(`${recipesUrl}/${id}`, {
-      params: {
-        par
-      }
-    }).pipe(
-      catchError(err => {
-        console.log(err);
-        return throwError(err);
-      })
-    );
+    return this.http.patch<SingleRecipe>(`${recipesUrl}/${id}`,{ par }).pipe(
+        catchError(err => {
+          console.log(err);
+          return throwError(err);
+        })
+      );
   }
 
   updateRating(id: string, userRate: number) {
-    return this.http.patch<SingleRecipe>(`${recipesUrl}/rate/${id}`, {
-      params: {
-        rate: userRate
-      }
-    }).pipe(
-      catchError(err => {
-        console.log(err);
-        return throwError(err);
-      })
-    );
+    console.log('from service: ', id, userRate)
+    const updatedRating = this.http.patch<SingleRecipe>(`${recipesUrl}/rate/${id}`, { rate: userRate })
+    this.singleRecipe$.next(updatedRating);
+    return this.singleRecipe$.value; 
   }
 
 }

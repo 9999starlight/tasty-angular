@@ -13,9 +13,9 @@
   background-color: $golden;
   border-radius: 50%;
   font-size: 2rem;
-  transition: opacity 500ms;
+  transition: visibility 500ms;
 }
 
 .invisible {
-  opacity: 0;
+  visibility: hidden;
 }

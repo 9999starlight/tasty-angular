@@ -37,7 +37,8 @@ export class HomePageComponent implements OnInit {
       console.log(error.statusText);
     });
     
-    // this.recipesService.recipesList$.subscribe(value => console.log('recipes state: ', value))
+     //this.recipesService.recipesList$.subscribe(value => console.log('recipes state: ', value))
+    //this.recipesService.singleRecipe$.subscribe(val => console.log('recipe state: ', val.getValue()))
   }
 
   onClear(msg: string) {

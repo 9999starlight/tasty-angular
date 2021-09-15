@@ -1,0 +1,26 @@
+<section class="add-comment flex flex-center">
+  <form class="mgt1">
+    <!-- [ngModel]="commentText" -->
+    <textarea
+      
+      name=""
+      id=""
+      placeholder="Add your comment here..."
+      maxlength="300"
+      required
+      class="block center"
+    ></textarea>
+    <div class="message-wrapper flex flex-center">
+      <ng-container *ngIf="postCommentMessage">
+        <app-info-message
+          [message]="postCommentMessage"
+          [messageStatus]="messageStatus"
+          (clear)="updateMessage('')"
+        ></app-info-message>
+      </ng-container>
+    </div>
+    <button type="submit" class="btn-action block" (click)="postUserComment()">
+      <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>&nbsp;Add Comment
+    </button>
+  </form>
+</section>

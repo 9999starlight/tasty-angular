@@ -15,9 +15,10 @@ export class RatingComponent implements OnInit {
   @Input() recipeId: string = '';
   @Output() updateMsgStatus = new EventEmitter<boolean>();
   @Output() updateMsg = new EventEmitter<string>();
-  @Output() updateRating = new EventEmitter<number>();
+  @Output() updateRecipe = new EventEmitter<number>();
   ratingDropdown: boolean = false;
   rateValue: number = 1;
+  counter: number = 1;
 
   constructor(private el: ElementRef, private authService: AuthService, private recipesService: RecipesService) {
     this.isLogged$ = this.authService.isLogged$;
@@ -40,25 +41,15 @@ export class RatingComponent implements OnInit {
       } else {
         st.classList.remove('coloring')
       }
+      this.counter = Number(value.target.id)
     })
   }
 
-  /* fillTheStars(event) {
-      this.rateValue = Number(event.target.id)
-      const stars = this.$refs.stars.children
-      stars.forEach((child) => {
-        if (Number(child.children[1].id) <= Number(event.target.id)) {
-          child.children[1].classList.add('coloring')
-        } else child.children[1].classList.remove('coloring')
-      })
-    } */
-
   rateThisRecipe(value: any) {
     this.rateValue = Number(value.target.id)
-    console.log(this.rateValue)
-    
+    //console.log(this.rateValue)
     if(!this.isLogged$.getValue()) {
-      console.log('logged: ', this.isLogged$.getValue())
+      //console.log('logged: ', this.isLogged$.getValue())
       this.updateMsgStatus.emit(false);
       this.updateMsg.emit('Login to rate this recipe');
       this.ratingDropdown = false;
@@ -67,16 +58,7 @@ export class RatingComponent implements OnInit {
     }
     this.ratingDropdown = false;
     // update recipe rating
-    // call service to patch recipe
-    /* this.recipesService.updateRating(this.recipeId, this.rateValue).subscribe((res) => {
-      if(res) {
-        this.rateValue = 1;
-        this.updateRating.emit();
-      }
-    }) */
-    /* if(res) {
-      this.rateValue = 1;
-      this.updateRating.emit(null);
-    } */
+    //console.log(this.rateValue)
+    this.updateRecipe.emit(this.rateValue);
   }
 }

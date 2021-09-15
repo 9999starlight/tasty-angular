@@ -21,10 +21,9 @@ export interface CurrentUser {
     isAdmin: boolean;
     isDisabled: boolean;
     createdAt: string;
-    //createdRecipes: Array<Recipe>;,
     createdRecipes: [];
     favorites: string[];
     user_image: string;
-    iat: number;
-    exp: number;
+    iat?: number;
+    exp?: number;
 }
