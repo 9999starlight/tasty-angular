@@ -3,7 +3,7 @@ import { faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { ElementRef } from '@angular/core';
 import { Router, Event, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
-import { CurrentUser } from 'src/app/types/userTypes';
+import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -14,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 export class HeaderComponent implements OnInit {
   // user state
   isLogged$: BehaviorSubject<boolean | null>;
-  currentUser$: BehaviorSubject<CurrentUser | null>;
+  currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
 
   // menu/navigation
   displayMenu = true;

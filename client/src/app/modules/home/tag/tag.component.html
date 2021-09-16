@@ -1,0 +1,9 @@
+<figure class="tag flex flex-center" (click)="fetchTaggedRecipes()">
+    <img
+      [src]="tag.tagSrc"
+      [alt]="tag.tagName"
+      class="block img-fit"
+      loading="lazy"
+    />
+    <figcaption>{{ tag.tagName }}</figcaption>
+  </figure>

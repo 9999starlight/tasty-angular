@@ -5,7 +5,7 @@
     <h1>{{ recipe.mealName | sentenceCase }}</h1>
     <section class="favorites flex">
       <div class="message-wrapper center">
-        <!-- Place for Info message component -->
+        <!-- Info message -->
         <ng-container *ngIf="infoMessage">
           <app-info-message
             [message]="infoMessage"
@@ -14,7 +14,12 @@
           ></app-info-message>
         </ng-container>
       </div>
-      <button class="add-favorites" *ngIf="isSavingEnabled">
+      <!-- Favorites button -->
+      <button
+        class="add-favorites"
+        *ngIf="isSavingEnabled"
+        (click)="saveRecipe()"
+      >
         Add to favorites &nbsp;
         <span>
           <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>
@@ -26,14 +31,13 @@
       >
         <span *ngIf="!isSavingEnabled">Recipe saved</span>
       </div>
-
-      <!-- Place foir Rating component -->
+      <!-- Rating -->
       <ng-container *ngIf="isRatingEnabled">
         <app-rating
           [recipeId]="recipe.id"
           (updateMsgStatus)="updateMsgStatusHandler($event)"
           (updateMsg)="updateMsgHandler($event)"
-          (updateRecipe)="updateRecipeHandler($event)"
+          (updateRecipe)="updateRatingHandler($event)"
         ></app-rating>
       </ng-container>
       <p class="user-rating flex flex-center" *ngIf="userRate()">
@@ -70,6 +74,7 @@
         <img [src]="recipe.image.url" [alt]="recipe.mealName" loading="lazy" />
       </ng-container>
     </figure>
+    <!-- Under image - author info & recipe rating/created -->
     <section class="under-image flex mgb1">
       <div class="user-info-rating flex mgb1">
         <button class="user-info tooltip-container">
@@ -107,6 +112,7 @@
       <span class="recipe-date">Created at: {{ recipe.createdAt | date }}</span>
       <p class="intro light-italic">{{ recipe.intro }}</p>
     </section>
+    <!-- Recipe additional info -->
     <section class="additional-info flex mgb1">
       <p class="mgb1">
         <span class="slim">Vegetarian: </span>
@@ -138,6 +144,7 @@
         >{{ recipe.dishType | sentenceCase }}
       </p>
     </section>
+    <!-- Ingredients -->
     <section class="ingredients flex mgb1">
       <h3 class="mgb1">Ingredients:</h3>
       <ul class="flex">
@@ -148,6 +155,7 @@
         </li>
       </ul>
     </section>
+    <!-- Directions -->
     <section class="directions flex mgb1">
       <h3 class="mgb1">Directions:</h3>
       <ol class="flex">
@@ -160,11 +168,16 @@
         </li>
       </ol>
     </section>
+    <!-- Comments -->
     <section class="comments">
-    <app-comments [comments]="recipe.comments" [recipeId]="recipe._id"></app-comments>
-  </section>
+      <app-comments
+        [comments]="recipe.comments"
+        [recipeId]="recipe._id"
+        (updateRec)="getNewData($event)"
+      ></app-comments>
+    </section>
   </div>
-  <!-- Loader ? -->
+  <!-- Loader -->
   <ng-container *ngIf="isLoading">
     <app-loader [bigLoader]="true"></app-loader>
   </ng-container>

@@ -1,0 +1,30 @@
+@import "../../../../styles/abstracts/variables.scss",
+  "../../../../styles/abstracts/mixins.scss",
+  "../../../../styles/abstracts/functions.scss";
+
+figure {
+  @include alignment($direction: column);
+  @include box-size($width: 100%, $height: 100%);
+  overflow: hidden;
+  position: relative;
+  box-shadow: $shadowSmall;
+  cursor: pointer;
+  &:hover {
+    filter: sepia(70%);
+  }
+  figcaption {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(29, 28, 28, 0.774);
+    @include fonts($color: #f1f1f1, $size: 0.8rem);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 0.2rem;
+  }
+}
+@media (min-width: 992px) {
+  figure {
+    @include box-size($width: 100px, $height: 100px);
+    border-radius: 10px 0 10px 0;
+  }
+}

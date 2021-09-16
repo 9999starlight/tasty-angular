@@ -9,7 +9,7 @@ export interface RegisterCredentials {
     user_image?: File;
 }
 
-export interface userResponse {
+export interface UserResponse {
     message: string;
     token: string;
 }
@@ -24,6 +24,17 @@ export interface CurrentUser {
     createdRecipes: [];
     favorites: string[];
     user_image: string;
-    iat?: number;
-    exp?: number;
+    iat: number;
+    exp: number;
+}
+
+export interface UpdatedUser {
+    username: string;
+    userId: string;
+    isAdmin: boolean;
+    isDisabled: boolean;
+    createdAt: string;
+    createdRecipes: [];
+    favorites: string[];
+    user_image: string;
 }

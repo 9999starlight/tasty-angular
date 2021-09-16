@@ -1,0 +1,43 @@
+<div class="tags-wrapper mg1">
+  <h2>Popular Tags</h2>
+  <button
+    *ngIf="showButtons"
+    class="left-slide"
+    (click)="slideLeft()"
+    aria-label="slide left"
+  >
+    <fa-icon
+      [icon]="['fas', 'angle-double-left']"
+      font-size="15px"
+      class="arrows"
+    ></fa-icon>
+  </button>
+  <button
+    *ngIf="showButtons"
+    class="right-slide"
+    (click)="(slideRight)"
+    aria-label="slide right"
+  >
+    <fa-icon
+      [icon]="['fas', 'angle-double-right']"
+      font-size="15px"
+      class="arrows"
+    ></fa-icon>
+  </button>
+  <div
+    [ngClass]="
+      moveLeft
+        ? 'tags-inner flex moveLeft'
+        : moveRight
+        ? 'tags-inner flex moveRight'
+        : 'tags-inner flex'
+    "
+  >
+    <div
+      class="tags flex flex-center mg1"
+      *ngFor="let tag of tagData; let i = index"
+    >
+      <app-tag [tag]="tag"></app-tag>
+    </div>
+  </div>
+</div>

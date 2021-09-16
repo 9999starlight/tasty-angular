@@ -10,5 +10,15 @@ export interface Comment {
     },
     commentBody: string,
     commentedRecipeId: string,
-    createdAt: string
+    createdAt: string,
+    request?: {
+        type: string,
+        url: string
+      }
+}
+
+export interface CommentPost {
+    commentedRecipeId: string,
+    author: string | undefined,
+    commentBody: string
 }

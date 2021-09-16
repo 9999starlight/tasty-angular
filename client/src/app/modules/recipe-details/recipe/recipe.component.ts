@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { CurrentUser } from 'src/app/types/userTypes';
+//import { BehaviorSubject } from 'rxjs';
+//import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
@@ -19,10 +19,10 @@ export class RecipeComponent implements OnInit {
   isLoading = false;
   infoMessage = '';
   msgStatus = false;
-
+  //user: CurrentUser | UpdatedUser | null = null;
   // user state
-  isLogged$: BehaviorSubject<boolean | null>;
-  currentUser$: BehaviorSubject<CurrentUser | null>;
+  //isLogged$: BehaviorSubject<boolean | null>;
+  //currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
 
   //disableRecipeSaving: boolean = true;
 
@@ -30,33 +30,34 @@ export class RecipeComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private recipesService: RecipesService,
-    private router: Router
+    //private router: Router
   ) {
 
     // resolver
     this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;
     });
-    this.isLogged$ = this.authService.isLogged$.getValue();
-    this.currentUser$ = this.authService.currentUser$;
+    /* this.authService.isLogged = this.authService.isLogged$.getValue();
+    this.currentUser$ = this.authService.currentUser$; */
   }
 
   ngOnInit(): void {
     //this.recipesService.singleRecipe$.subscribe(val => console.log('recipe state: ', val))
-    console.log('user in recipe: ', this.currentUser$.value, this.isLogged$);
+    console.log('user in recipe: ', this.authService.user, this.authService.isLogged);
     console.log(this.recipe);
     this.checkRatedBy();
     this.enableSaving();
     this.enableRating();
-    console.log(this.ratedByUser);
+    //console.log(this.ratedByUser);
+    console.log('user getter in recipe: ', this.authService.user)
   }
 
   enableSaving() {
-    if (!this.isLogged$) {
+    if (!this.authService.isLogged) {
       this.isSavingEnabled = true;
     }
     const checkUserFavorites: string[] | [] | undefined =
-      this.currentUser$.value?.favorites.filter(
+      this.authService.user?.favorites.filter(
         (fav: string) => fav === this.recipe._id
       );
     //console.log(checkUserFavorites);
@@ -68,14 +69,9 @@ export class RecipeComponent implements OnInit {
   }
 
   checkRatedBy() {
-    if (this.isLogged$) {
-      /*console.log(
-        'user id chackratedby: ',
-        this.currentUser$.value?.userId,
-        this.recipe.rates
-      );*/
+    if (this.authService.isLogged) {
       this.ratedByUser = this.recipe.rates.filter(
-        (rate: any) => rate.ratedBy == this.currentUser$.value?.userId
+        (rate: any) => rate.ratedBy == this.authService.user?.userId
       );
     } else {
       this.ratedByUser = [];
@@ -83,12 +79,12 @@ export class RecipeComponent implements OnInit {
   }
 
   enableRating() {
-    if (!this.isLogged$) {
+    if (!this.authService.isLogged) {
       this.isRatingEnabled = true;
     }
     if (
-      this.isLogged$ &&
-      (this.recipe.author._id === this.currentUser$.value?.userId ||
+      this.authService.isLogged &&
+      (this.recipe.author._id === this.authService.user?.userId ||
         this.ratedByUser.length)
     ) {
       this.isRatingEnabled = false;
@@ -99,8 +95,8 @@ export class RecipeComponent implements OnInit {
 
   userRate(): number | null {
     if (
-      this.isLogged$ &&
-      this.recipe.author.userId !== this.currentUser$.value?.userId &&
+      this.authService.isLogged &&
+      this.recipe.author.userId !== this.authService.user?.userId &&
       this.ratedByUser.length
     ) {
       return this.ratedByUser[0].rate;
@@ -121,7 +117,7 @@ export class RecipeComponent implements OnInit {
     this.msgStatus = status;
   }
 
-  updateRecipeHandler(rateVal: number) {
+  updateRatingHandler(rateVal: number) {
     this.recipesService.updateRating(this.recipe._id, rateVal).subscribe((res: any) => {
       if (res) {
         this.updateMsgStatusHandler(true);
@@ -134,20 +130,38 @@ export class RecipeComponent implements OnInit {
   getNewData(id: string) {
     this.recipesService.getSingleRecipe(id).subscribe((res: any) => {
       if (res) {
-        this.recipe = res;
+        this.recipe = Object.assign({}, res);
         this.checkRatedBy();
         this.enableRating();
         console.log(this.recipe)
       }
-
     }, (error: any) => {
-      this.isLoading = false;
+      //this.isLoading = false;
       this.infoMessage = `Error: ${error.statusText}`;
       console.log(error.statusText);
     });
   }
 
-  /* updateFavorites(this.currentUser$.value?.userId, this.recipeId: string) {
-    
-  } */
+  saveRecipe() {
+    if (!this.authService.isLogged) {
+      this.updateMsgStatusHandler(false)
+      this.updateMsgHandler('Login to save this recipe')
+      return
+    }
+    this.authService.updateFavorites({ favoriteId: this.recipe._id }).subscribe((res: any) => {
+      if (res) {
+        //console.log(res)
+        this.updateMsgStatusHandler(true)
+        this.updateMsgHandler(res.message)
+        this.enableSaving();
+        //console.log('after getting recipe saving user getter: ', this.authService.user)
+        //console.log('after recipe saving in component' ,this.currentUser$.value)
+      }
+    }, (error: any) => {
+      console.log(error.statusText);
+      this.updateMsgStatusHandler(false)
+      this.updateMsgHandler(`Error: ${error.statusText}`)
+    });
+
+  }
 }

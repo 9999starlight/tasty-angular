@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { RecipesService } from '../../shared/sharedServices/recipes.service';
-import { BehaviorSubject } from 'rxjs';
+/* import { RecipesService } from '../../shared/sharedServices/recipes.service';
+import { BehaviorSubject } from 'rxjs'; */
 
 @Component({
   selector: 'app-rating',
@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RatingComponent implements OnInit {
   // login status
-  isLogged$: BehaviorSubject<boolean | null>;
+  //isLogged$: BehaviorSubject<boolean | null>;
   // props & Output
   @Input() recipeId: string = '';
   @Output() updateMsgStatus = new EventEmitter<boolean>();
@@ -20,8 +20,8 @@ export class RatingComponent implements OnInit {
   rateValue: number = 1;
   counter: number = 1;
 
-  constructor(private el: ElementRef, private authService: AuthService, private recipesService: RecipesService) {
-    this.isLogged$ = this.authService.isLogged$;
+  constructor(private el: ElementRef, private authService: AuthService) {
+    //this.isLogged$ = this.authService.isLogged$;
    }
 
   ngOnInit(): void {
@@ -48,8 +48,8 @@ export class RatingComponent implements OnInit {
   rateThisRecipe(value: any) {
     this.rateValue = Number(value.target.id)
     //console.log(this.rateValue)
-    if(!this.isLogged$.getValue()) {
-      //console.log('logged: ', this.isLogged$.getValue())
+    if(!this.authService.isLogged) {
+      //console.log('logged: ', this.authService.isLogged)
       this.updateMsgStatus.emit(false);
       this.updateMsg.emit('Login to rate this recipe');
       this.ratingDropdown = false;

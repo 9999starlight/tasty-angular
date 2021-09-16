@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
+import { AuthService } from '../../auth/auth.service';
 //import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-home-page',
@@ -17,10 +18,12 @@ export class HomePageComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private recipesService: RecipesService) {}
+    private recipesService: RecipesService, private authService: AuthService) {
+    }
 
   ngOnInit() {
     //this.isLoading = true;
+    console.log('user getter home page: ', this.authService.user)
     this.recipesService.getRecipes().subscribe((res) => {
       if(res) {
         this.isLoading = false;

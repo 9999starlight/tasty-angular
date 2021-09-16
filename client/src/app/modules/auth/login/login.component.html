@@ -25,7 +25,7 @@
           placeholder=""
           [(ngModel)]="username"
           required
-          pattern="[a-zA-Z0-9_-]{8,15}"
+          pattern="[a-zA-Z0-9_-]{6,15}"
           #usernameControl="ngModel"
         />
         <label for="username">Username</label>
@@ -35,7 +35,7 @@
           [icon]="['fas', 'info-circle']"
           class="user-icons infoIcon"
         ></fa-icon>
-        <app-tooltip tooltipText="Enter 4-30 characters, allowed: A-Z a-z 0-9 _ - . @"></app-tooltip>
+        <app-tooltip tooltipText="Enter 6-15 characters, allowed: A-Z a-z 0-9 _ - . @"></app-tooltip>
           </span>
       </div>
       <ng-container *ngIf="usernameControl.invalid && usernameControl.touched">

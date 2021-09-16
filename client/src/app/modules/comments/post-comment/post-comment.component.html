@@ -1,15 +1,42 @@
 <section class="add-comment flex flex-center">
-  <form class="mgt1">
+  <form
+    class="mgt1"
+    #postCommentForm="ngForm"
+    (ngSubmit)="postUserComment(postCommentForm)"
+  >
     <!-- [ngModel]="commentText" -->
     <textarea
-      
-      name=""
-      id=""
-      placeholder="Add your comment here..."
-      maxlength="300"
+      [(ngModel)]="commentBody"
       required
+      name="commentBody"
+      id="commentBody"
+      placeholder="Add your comment here, 4-300 characters"
+      minlength="4"
+      maxlength="300"
+      #commentBodyControl="ngModel"
       class="block center"
     ></textarea>
+    <input
+      type="hidden"
+      name="author"
+      #authorControl="ngModel"
+      [ngModel]="userId"
+    />
+    <input
+      type="hidden"
+      name="commentedRecipeId"
+      #recipeIdControl="ngModel"
+      [ngModel]="recipeId"
+    />
+    <ng-container
+      *ngIf="
+        commentBodyControl.invalid &&
+        commentBodyControl.touched &&
+        !postCommentForm.submitted
+      "
+    >
+      <p class="error input-error mgt1">Please enter minimum 4 characters</p>
+    </ng-container>
     <div class="message-wrapper flex flex-center">
       <ng-container *ngIf="postCommentMessage">
         <app-info-message
@@ -19,7 +46,8 @@
         ></app-info-message>
       </ng-container>
     </div>
-    <button type="submit" class="btn-action block" (click)="postUserComment()">
+
+    <button type="submit" class="btn-action block">
       <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>&nbsp;Add Comment
     </button>
   </form>

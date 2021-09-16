@@ -6,9 +6,9 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    minlength: 4,
-    maxlength: 30,
-    match: /^[a-z0-9_\-@.]{4,30}$/i
+    minlength: 6,
+    maxlength: 15,
+    match: /^[a-z0-9_\-@.]{6,15}$/i
   },
   password: {
     type: String,

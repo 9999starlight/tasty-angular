@@ -109,7 +109,7 @@ exports.addComment = async (req, res, next) => {
       }
     )
     res.status(201).json({
-      message: 'Comment saved',
+      message: 'Comment has been added',
       createdComment: {
         _id: result._id,
         commentedRecipeId: result.commentedRecipeId,

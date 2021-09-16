@@ -6,19 +6,19 @@ import jwt_decode from 'jwt-decode';
 import {
   LoginCredentials,
   RegisterCredentials,
-  userResponse
+  UserResponse,
+  CurrentUser,
+  UpdatedUser
 } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { CurrentUser } from 'src/app/types/userTypes';
+import { tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  isLogged$ = new BehaviorSubject<any>(null);
-  //token$ = new BehaviorSubject('');
-  currentUser$ = new BehaviorSubject<CurrentUser | null>(null);
+  isLogged$ = new BehaviorSubject<any | null>(null);
+  currentUser$ = new BehaviorSubject<CurrentUser | UpdatedUser | null>(null);
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('token');
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials) {
-    return this.http.post<userResponse>(`${usersUrl}/login`, credentials).pipe(
+    return this.http.post<UserResponse>(`${usersUrl}/login`, credentials).pipe(
       tap(({ token }) => {
         this.authHelper(token);
       })
@@ -37,7 +37,7 @@ export class AuthService {
 
   register(credentials: RegisterCredentials) {
     return this.http
-      .post<userResponse>(`${usersUrl}/register`, credentials)
+      .post<UserResponse>(`${usersUrl}/register`, credentials)
       .pipe(
         tap(({ token }) => {
           this.authHelper(token);
@@ -59,12 +59,22 @@ export class AuthService {
     //console.log('log from login service: ', jwt_decode(authToken))
   }
 
-  updateFavorites(userId: string, recipeId: string) {
-    console.log('from service update favorites: ', userId, recipeId)
-    const updatedFavorites = this.http.patch<any>(`${usersUrl}/favorites/${userId}`, { favoriteId: recipeId })
-   // this.currentUser$.next(updatedFavorites);
-   // return this.currentUser$.value; 
-   console.log(updatedFavorites)
-   return updatedFavorites;
+  updateFavorites(id: {}) {
+    console.log('from service update favorites: ', id)
+    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/favorites/${this.currentUser$.value?.userId}`, id).pipe(
+      map(updated => {
+        this.currentUser$.next(updated.updatedUser);
+        return updated.message
+      })
+    )
   }
+
+  get user(): CurrentUser | UpdatedUser | null {
+    return this.currentUser$.value
+  }
+
+  get isLogged(): any {
+    return this.isLogged$.value
+  }
+
 }

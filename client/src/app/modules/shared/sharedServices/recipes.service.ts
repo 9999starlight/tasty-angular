@@ -17,11 +17,25 @@ export class RecipesService {
 
   // GET requests
 
-  getRecipes(options?: {}) {
-    return this.http.get<RecipesResponse>(recipesUrl, options).pipe(
+  getRecipes() {
+    return this.http.get<RecipesResponse>(recipesUrl).pipe(
       map(val => {
-        //this.recipesList$.next(val.response.recipes);
         return val.response.recipes;
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
+  getRecipesByQuery(options: {}) {
+    return this.http.get<RecipesResponse>(recipesUrl, {
+      params: options
+    }).pipe(
+      map(val => {
+        this.recipesList$.next(val.response.recipes);
+        return this.recipesList;
       }),
       catchError((err) => {
         console.log(err)
@@ -34,19 +48,19 @@ export class RecipesService {
   getSingleRecipe(id: string) {
     const recipe = this.http.get<SingleRecipe>(`${recipesUrl}/${id}`);
     this.singleRecipe$.next(recipe);
-    console.log('recipe from service: ', this.singleRecipe$.value)
+    //console.log('recipe from service: ', this.singleRecipe$.value)
     return this.singleRecipe$.value;
   }
 
   // PATCH requests
-  updateRecipe(id: string, par: {}) {
+  /* updateRecipe(id: string, par: {}) {
     return this.http.patch<SingleRecipe>(`${recipesUrl}/${id}`,{ par }).pipe(
         catchError(err => {
           console.log(err);
           return throwError(err);
         })
       );
-  }
+  } */
 
   updateRating(id: string, userRate: number) {
     console.log('from service: ', id, userRate)
@@ -55,4 +69,7 @@ export class RecipesService {
     return this.singleRecipe$.value; 
   }
 
+  get recipesList(): any {
+    return this.recipesList$.value;
+  }
 }
