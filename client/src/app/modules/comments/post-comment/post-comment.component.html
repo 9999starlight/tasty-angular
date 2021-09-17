@@ -47,7 +47,7 @@
       </ng-container>
     </div>
 
-    <button type="submit" class="btn-action block">
+    <button type="submit" class="btn-action block" [disabled]="userId && commentBodyControl.invalid">
       <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>&nbsp;Add Comment
     </button>
   </form>

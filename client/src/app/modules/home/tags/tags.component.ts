@@ -50,16 +50,8 @@ export class TagsComponent implements OnInit {
       }
     }
   ];
-  moveLeft = false;
-  moveRight = false;
-  showButtons = false;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
-  slideLeft() { }
-
-  slideRight() { }
+  ngOnInit(): void {}
 }

@@ -5,7 +5,8 @@ import { Router, Event, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
-
+import { fromEvent, Observable, Subscription } from "rxjs";
+import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,12 +16,14 @@ export class HeaderComponent implements OnInit {
   // user state
   isLogged$: BehaviorSubject<boolean | null>;
   currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
+  resizeObservable$!: Observable<any>
+  resizeSubscription$: Subscription | undefined
+
 
   // menu/navigation
-  displayMenu = true;
-  mobileMenu = false;
+  displayMenu = false;
+  mobileMenu = true;
   showUserDropdown = false;
-  observer: any;
 
   // icons
   faSignOutAlt = faSignOutAlt;
@@ -44,18 +47,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     // show/hide mobile menu on different screen sizes
-    const observer = new ResizeObserver((entries) => {
-      const width = entries[0].contentRect.width;
-      //console.log(width);
-      if (width < 992) {
-        this.mobileMenu = true;
-        this.displayMenu = false;
-      } else {
-        this.mobileMenu = false;
-        this.displayMenu = true;
-      }
-    });
-    observer.observe(this.host.nativeElement);
+    this.menuDisplay(window.innerWidth)
+    this.resizeObservable$ = fromEvent(window, 'resize')
+    this.resizeSubscription$ = this.resizeObservable$.pipe(debounceTime(1)).subscribe(evt => { this.menuDisplay(evt.target.innerWidth) })
+  }
+
+  menuDisplay(width: number) {
+    if (width < 992) {
+      this.mobileMenu = true;
+      this.displayMenu = false;
+    } else {
+      this.mobileMenu = false;
+      this.displayMenu = true;
+    }
   }
 
   getUserData() {
@@ -70,12 +74,14 @@ export class HeaderComponent implements OnInit {
     this.displayMenu = !this.displayMenu;
   }
 
-  ngOnDestroy() {
-    this.observer.unobserve(this.host.nativeElement);
-  }
-
   logout() {
     this.authService.signout();
     this.router.navigateByUrl('');
+  }
+
+  ngOnDestroy() {
+    if (this.resizeSubscription$) {
+      this.resizeSubscription$.unsubscribe();
+    }
   }
 }

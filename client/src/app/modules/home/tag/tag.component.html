@@ -1,4 +1,5 @@
-<figure class="tag flex flex-center" (click)="fetchTaggedRecipes()">
+<a [routerLink]="['/results']" [queryParams]="tag.tagParams" class="block">
+  <figure class="tag flex flex-center">
     <img
       [src]="tag.tagSrc"
       [alt]="tag.tagName"
@@ -7,3 +8,4 @@
     />
     <figcaption>{{ tag.tagName }}</figcaption>
   </figure>
+</a>

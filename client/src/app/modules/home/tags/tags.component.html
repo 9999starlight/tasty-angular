@@ -1,7 +1,6 @@
-<div class="tags-wrapper mg1">
+<div class="tags-wrapper">
   <h2>Popular Tags</h2>
-  <button
-    *ngIf="showButtons"
+  <!-- <button
     class="left-slide"
     (click)="slideLeft()"
     aria-label="slide left"
@@ -13,7 +12,6 @@
     ></fa-icon>
   </button>
   <button
-    *ngIf="showButtons"
     class="right-slide"
     (click)="(slideRight)"
     aria-label="slide right"
@@ -23,16 +21,8 @@
       font-size="15px"
       class="arrows"
     ></fa-icon>
-  </button>
-  <div
-    [ngClass]="
-      moveLeft
-        ? 'tags-inner flex moveLeft'
-        : moveRight
-        ? 'tags-inner flex moveRight'
-        : 'tags-inner flex'
-    "
-  >
+  </button> -->
+  <div class="tags-inner flex">
     <div
       class="tags flex flex-center mg1"
       *ngFor="let tag of tagData; let i = index"

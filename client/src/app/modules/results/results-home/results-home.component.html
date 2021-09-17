@@ -1,0 +1,34 @@
+<div class="container render-results">
+  <!-- <Forms v-show="getOpenSearch" :renderPage="false" /> -->
+
+  <div class="results-wrapper flex flex-center">
+    <h1 class="pd1">Search Results</h1>
+    <h4>Recipes found: {{ queryResults.length }}</h4>
+    <div class="inner flex flex-center">
+      <!-- <SortingButtons
+            @sortTitleAsc="sortTitleAscending(results)"
+            @sortTitleDesc="sortTitleDescending(results)"
+            @sortRatingAsc="sortRatingAscending(results)"
+            @sortRatingDesc="sortRatingDescending(results)"
+            @sortDateAsc="sortDateAscending(results)"
+            @sortDateDesc="sortDateDescending(results)"
+          /> -->
+      <div class="successful flex">
+        <app-query-recipe
+          *ngFor="let result of queryResults"
+          [singleResult]="result"
+        ></app-query-recipe>
+        <!-- <Pagination
+            :resultsPerPage="resultsPerPage"
+            :totalResults="results.length"
+            :currentPage="currentPage"
+            @paginate="changePage"
+            @prev="prevPage"
+            @next="nextPage"
+            @first="firstPage"
+            @last="lastPage"
+          /> -->
+      </div>
+    </div>
+  </div>
+</div>

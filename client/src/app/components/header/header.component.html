@@ -35,147 +35,141 @@
     </ng-container>
   </div>
   <!--<ng-container *ngIf="displayMenu">-->
-    <nav class="flex"  *ngIf="displayMenu">
-      <ul class="links flex">
-        <li>
-          <a
-            routerLink=""
-            routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Home</a
-          >
-        </li>
-        <!-- dropdown user menu if logged in-->
-        <ng-container *ngIf="isLogged$ | async">
-          <li class="userpanel-menu" (click)="toggleUserDropdown()">
-            <span class="flex flex-center">
-              <!-- <fa-icon
+  <nav class="flex" *ngIf="displayMenu">
+    <ul class="links flex">
+      <li>
+        <a
+          routerLink=""
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Home</a
+        >
+      </li>
+      <!-- dropdown user menu if logged in-->
+      <ng-container *ngIf="isLogged$ | async">
+        <li class="userpanel-menu" (click)="toggleUserDropdown()">
+          <span class="flex flex-center">
+            <!-- <fa-icon
                         [icon]="['fas', 'user']"
                         class="user-icon"
                     ></fa-icon> -->
-              <ng-container
-                *ngIf="currentUser$.value && currentUser$.value.user_image"
-              >
-                <img
-                  [src]="currentUser$.value.user_image"
-                  [alt]="currentUser$.value.username"
-                  loading="lazy"
-                />
-              </ng-container>
-              <ng-container
-                *ngIf="currentUser$.value && !currentUser$.value.user_image"
-              >
-                <img
-                  src="../../../assets/images/default_user.png"
-                  [alt]="currentUser$.value.username"
-                  loading="lazy"
-                />
-              </ng-container>
-              <ng-container *ngIf="currentUser$.value">
-                {{ currentUser$.value.username }}
-              </ng-container>
-              <fa-icon
-                [icon]="['fas', 'chevron-down']"
-                [ngClass]="
-                  !showUserDropdown ? 'arrow-down' : 'arrow-down rotate'
-                "
-              ></fa-icon>
-            </span>
-            <ul class="userDropdown" *ngIf="showUserDropdown">
-              <li>
-                <a
-                  routerLink="user"
-                  routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <fa-icon [icon]="['fas', 'user']" class="user-icon"></fa-icon>
-                  &nbsp;Profile
-                </a>
-              </li>
-              <li>
-                <a
-                  routerLink="user/user-recipes"
-                  routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <fa-icon [icon]="['fas', 'book']" class="user-icon"></fa-icon>
-                  &nbsp;My recipes
-                </a>
-              </li>
-              <li>
-                <a
-                  routerLink="user/create-recipe"
-                  routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <fa-icon [icon]="['fas', 'edit']" class="user-icon"></fa-icon>
-                  &nbsp;Create recipe
-                </a>
-              </li>
-              <li>
-                <a
-                  routerLink="user/saved-recipes"
-                  routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <fa-icon
-                    [icon]="['fas', 'heart']"
-                    class="user-icon"
-                  ></fa-icon>
-                  &nbsp;Saved recipes
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!-- admin -->
-          <ng-container
-            *ngIf="currentUser$.value && currentUser$.value.isAdmin"
-          >
+            <ng-container
+              *ngIf="currentUser$.value && currentUser$.value.user_image"
+            >
+              <img
+                [src]="currentUser$.value.user_image"
+                [alt]="currentUser$.value.username"
+                loading="lazy"
+              />
+            </ng-container>
+            <ng-container
+              *ngIf="currentUser$.value && !currentUser$.value.user_image"
+            >
+              <img
+                src="../../../assets/images/default_user.png"
+                [alt]="currentUser$.value.username"
+                loading="lazy"
+              />
+            </ng-container>
+            <ng-container *ngIf="currentUser$.value">
+              {{ currentUser$.value.username }}
+            </ng-container>
+            <fa-icon
+              [icon]="['fas', 'chevron-down']"
+              [ngClass]="!showUserDropdown ? 'arrow-down' : 'arrow-down rotate'"
+            ></fa-icon>
+          </span>
+          <ul class="userDropdown" *ngIf="showUserDropdown">
             <li>
               <a
-                routerLink="admin"
+                routerLink="user"
                 routerLinkActive="active-link"
                 [routerLinkActiveOptions]="{ exact: true }"
               >
-                &nbsp;
-                <fa-icon [icon]="['fas', 'user-shield']" class="user-icon">
-                </fa-icon
-                >Admin Panel
+                <fa-icon [icon]="['fas', 'user']" class="user-icon"></fa-icon>
+                &nbsp;Profile
               </a>
             </li>
-          </ng-container>
-          <li class="flex">
-            <button (click)="logout()">
-              <fa-icon [icon]="faSignOutAlt" class="user-icon"> </fa-icon>
-              Logout
-            </button>
-          </li>
-        </ng-container>
-        <!-- end logged in -->
-        <!-- if !loggedIn -->
-        <ng-container *ngIf="!(isLogged$ | async)">
+            <li>
+              <a
+                routerLink="user/user-recipes"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <fa-icon [icon]="['fas', 'book']" class="user-icon"></fa-icon>
+                &nbsp;My recipes
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="user/create-recipe"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <fa-icon [icon]="['fas', 'edit']" class="user-icon"></fa-icon>
+                &nbsp;Create recipe
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="user/saved-recipes"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <fa-icon [icon]="['fas', 'heart']" class="user-icon"></fa-icon>
+                &nbsp;Saved recipes
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- admin -->
+        <ng-container *ngIf="currentUser$.value && currentUser$.value.isAdmin">
           <li>
             <a
-              routerLink="auth/login"
+              routerLink="admin"
               routerLinkActive="active-link"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              <fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;
-              Login
-            </a>
-          </li>
-          <li>
-            <a
-              routerLink="auth/signup"
-              routerLinkActive="active-link"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <!--<fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;-->
-              Sign Up
+              &nbsp;
+              <fa-icon [icon]="['fas', 'user-shield']" class="user-icon">
+              </fa-icon
+              >Admin Panel
             </a>
           </li>
         </ng-container>
-      </ul>
-    </nav><!--</ng-container
+        <li class="flex">
+          <button (click)="logout()">
+            <fa-icon [icon]="faSignOutAlt" class="user-icon"> </fa-icon>
+            Logout
+          </button>
+        </li>
+      </ng-container>
+      <!-- end logged in -->
+      <!-- if !loggedIn -->
+      <ng-container *ngIf="!(isLogged$ | async)">
+        <li>
+          <a
+            routerLink="auth/login"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;
+            Login
+          </a>
+        </li>
+        <li>
+          <a
+            routerLink="auth/signup"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <!--<fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;-->
+            Sign Up
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </nav>
+  <!--</ng-container
   >-->
 </header>

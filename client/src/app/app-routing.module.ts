@@ -24,12 +24,16 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
   },
 
-
   {
     path: 'recipe/:id',
-    //component: RecipeComponent
     loadChildren: () =>
     import('./modules/recipe-details/recipe-details.module').then((m) => m.RecipeDetailsModule)
+  },
+
+  {
+    path: 'results',
+    loadChildren: () =>
+    import('./modules/results/results.module').then((m) => m.ResultsModule)
   },
 
   {
