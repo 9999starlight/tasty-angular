@@ -30,7 +30,7 @@
   }
 }
 
-@mixin alignment($display: false, $align: false, $justify: false, $justify-grid: false, $direction: false, $textAlign: false) {
+@mixin alignment($display: false, $align: false, $justify: false, $justify-grid: false, $direction: false, $text-align: false) {
   @if $display {
     display: $display;
   }
@@ -51,8 +51,8 @@
     flex-direction: $direction;
   }
 
-  @if $textAlign {
-    text-align: $textAlign;
+  @if $text-align {
+    text-align: $text-align;
   }
 }
 

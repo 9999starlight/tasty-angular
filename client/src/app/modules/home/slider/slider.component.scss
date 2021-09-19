@@ -1,0 +1,111 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+.slider-wrapper {
+  @include box-size($width: 100%);
+  @include alignment($direction: column, $text-align: center);
+
+  .carousel-container {
+    position: relative;
+    @include box-size($width: 100%);
+
+    h3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(29, 28, 28, 0.664);
+      @include fonts($color: $light, $weight: 100, $size: 1rem);
+      @include box-size($height: 60px);
+      z-index: 1;
+      padding: 0.8rem;
+    }
+
+    .carousel-btn {
+      cursor: pointer;
+      font-size: 30px;
+      position: absolute;
+      top: calc(50% - 60px);
+      transform: translateY(-50%);
+      background-color: transparent;
+      color: rgba(128, 128, 128, 0.712);
+      z-index: 1;
+      user-select: none;
+      -moz-user-select: none;
+      outline: none;
+
+      &.btn-left {
+        left: 10px;
+      }
+
+      &.btn-right {
+        right: 10px;
+      }
+
+      .arrows {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .carousel-nav {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  .carousel-indicator {
+    border: 0;
+    border-radius: 50%;
+    @include box-size($width: 1rem, $height: 1rem);
+    background-color: gray;
+    margin: 0 0.8rem;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .carousel-indicator.current-slide {
+    background: rgb(49, 49, 49);
+  }
+}
+
+.alt-image {
+  @include box-size($height: 250px, $width: 100%);
+}
+
+@media (min-width: 576px) {
+  .alt-image {
+    @include box-size($height: 300px);
+  }
+}
+
+@media (min-width: 768px) {
+  .slider-wrapper {
+    .carousel-container {
+      h3 {
+        @include fonts($size: 1.3rem);
+      }
+    }
+    .carousel-indicator {
+      @include box-size($width: 1.2rem, $height: 1.2rem);
+    }
+  }
+  .alt-image {
+    @include box-size($height: 400px);
+  }
+}
+
+@media (min-width: 992px) {
+  .slider-wrapper {
+    @include box-size($min-width: 900px);
+  }
+  .alt-image {
+    @include box-size($height: 500px);
+  }
+}
+
+@media (min-width: 1200px) {
+  .slider-wrapper {
+    @include box-size($width: 1100px);
+  }
+}

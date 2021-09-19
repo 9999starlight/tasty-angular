@@ -1,0 +1,67 @@
+@import "../../../../../styles/abstracts/variables",
+  "../../../../../styles/abstracts/mixins",
+  "../../../../../styles/abstracts/functions";
+/*:host {
+	animation: fadePartial 1s;
+  }
+*/
+.single-recipe-slide {
+  position: relative;
+  box-shadow: $shadowBox;
+  cursor: pointer;
+
+  figure {
+    @include box-size($height: 250px, $width: 100%);
+    overflow: hidden;
+
+    /*.img {
+		animation: fadePartial 1s;
+	}*/
+
+    figcaption {
+      position: absolute;
+      bottom: 0;
+      background-color: rgba(29, 28, 28, 0.774);
+      @include fonts($color: $light, $size: 0.8rem);
+      @include box-size($width: 100%, $height: 60px);
+      span:nth-of-type(2) {
+        display: inline-block;
+        margin: 0 0.7rem;
+        @include fonts($color: rgb(197, 195, 195));
+        svg {
+          @include fonts($size: inherit);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .single-recipe-slide {
+    figure {
+      @include box-size($height: 300px);
+      figcaption {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .single-recipe-slide {
+    figure {
+      @include box-size($height: 400px);
+      figcaption {
+        @include fonts($size: 1.2rem);
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .single-recipe-slide {
+    figure {
+      @include box-size($height: 500px);
+    }
+  }
+}

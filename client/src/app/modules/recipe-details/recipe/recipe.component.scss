@@ -179,7 +179,7 @@
       @include alignment(
         $direction: column,
         $align: flex-start,
-        $textAlign: left
+        $text-align: left
       );
       li {
         @include fonts($color: rgb(75, 72, 72));

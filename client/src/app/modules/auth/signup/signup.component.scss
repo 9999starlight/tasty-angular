@@ -48,7 +48,7 @@
     }
     // floating labels & input style
     .form-group {
-      @include alignment($textAlign: left, $direction: column);
+      @include alignment($text-align: left, $direction: column);
       .label-wrapper {
         position: relative;
         input {

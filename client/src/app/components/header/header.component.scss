@@ -118,7 +118,7 @@ nav {
       padding: 0.8rem;
       color: $light;
       @include box-size($width: 100%);
-      @include alignment($textAlign: left);
+      @include alignment($text-align: left);
     }
 
     a {

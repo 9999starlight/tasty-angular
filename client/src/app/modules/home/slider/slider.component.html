@@ -1,1 +1,52 @@
-<p>slider works!</p>
+<div class="slider-wrapper flex mgt2">
+  <div *ngIf="numberOfRecipes.length" class="carousel-container center">
+    <h3 class="flex flex-center">Highest rated recipes</h3>
+    <button
+      class="carousel-btn btn-left"
+      (click)="previousRecipe()"
+      aria-label="previous recipe"
+    >
+      &nbsp;<fa-icon
+        [icon]="['fas', 'chevron-circle-left']"
+        class="arrows"
+      ></fa-icon>
+    </button>
+    <button
+      class="carousel-btn btn-right"
+      (click)="nextRecipe()"
+      aria-label="next recipe"
+    >
+      &nbsp;<fa-icon
+        [icon]="['fas', 'chevron-circle-right']"
+        class="arrows"
+      ></fa-icon>
+    </button>
+    <app-slide
+      [recipe]="sliderRecipes[currentRecipe]"
+      (pauseSlides)="stopSlider()"
+      (resumeSlides)="slideInit()"
+    ></app-slide
+    ><!-- ref="slide" -->
+    <div class="carousel-nav mgt1">
+      <!--  ref="dots" -->
+      <button
+        (click)="moveToSlide(i)"
+        *ngFor="let btn of numberOfRecipes; let i = index"
+        [ngClass]="
+          i === currentRecipe
+            ? 'carousel-indicator current-slide'
+            : 'carousel-indicator'
+        "
+        :aria-label="'move to slide ' + (i + 1)"
+      ></button>
+    </div>
+  </div>
+  <figure *ngIf="!numberOfRecipes.length" class="alt-image">
+    <img
+      src="../../../../assets/images/default_recipe.jpg"
+      alt="our menu"
+      class="img-fit"
+      loading="lazy"
+    />
+  </figure>
+</div>
