@@ -149,23 +149,22 @@
       <ng-container *ngIf="!(isLogged$ | async)">
         <li>
           <a
-            routerLink="auth/login"
+            routerLink="login"
             routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"
           >
             <fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;
-            Login
+            Login | Register
           </a>
         </li>
         <li>
-          <a
+          <!--<a
             routerLink="auth/signup"
             routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <!--<fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;-->
             Sign Up
-          </a>
+          </a>-->
         </li>
       </ng-container>
     </ul>

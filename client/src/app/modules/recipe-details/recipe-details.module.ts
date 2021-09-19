@@ -10,8 +10,6 @@ import { CommentsComponent } from '../comments/comments/comments.component';
 import { CommentComponent } from '../comments/comment/comment.component';
 import { PostCommentComponent } from '../comments/post-comment/post-comment.component';
 import { FormsModule } from '@angular/forms';
-
-
 @NgModule({
   declarations: [
     RecipeComponent,

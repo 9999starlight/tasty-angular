@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   password: string = '';
   errorMessage: string | null = null;
   isLoading: boolean = false;
+  isRegisterState = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -22,13 +23,25 @@ export class LoginComponent implements OnInit {
     this.errorMessage = msg;
   }
 
-  onSubmit(loginForm: NgForm) {
+  toggleRegisterState() {
+    this.isRegisterState = !this.isRegisterState;
+  }
+
+  onSubmit(authForm: NgForm) {
     this.isLoading = true;
-    if (loginForm.invalid) {
+    if (authForm.invalid) {
       return;
     }
 
-    this.authService.login(loginForm.value).subscribe({
+    let authObs;
+
+    if (this.isRegisterState) {
+      authObs = this.authService.register(authForm.value);
+    } else {
+      authObs = this.authService.login(authForm.value);
+    }
+
+    authObs.subscribe({
       next: (res) => {
         this.errorMessage = '';
         this.isLoading = false;

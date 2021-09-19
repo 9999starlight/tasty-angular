@@ -5,7 +5,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'auth',
+    path: 'login',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },

@@ -1,1 +1,75 @@
-<p>user-home works!</p>
+<div class="container profile-container">
+  <div class="profile">
+    <h3 class="italic">Profile</h3>
+    <div class="image-username flex">
+      <ng-container *ngIf="user.user_image">
+        <img [src]="user.user_image" [alt]="user.username" loading="lazy" />
+      </ng-container>
+      <ng-container *ngIf="!user.user_image">
+        <img
+          src="../../../../assets/images/default_user.png"
+          [alt]="user.username"
+          loading="lazy"
+        />
+      </ng-container>
+      <span>{{ user.username }}</span>
+    </div>
+    <div class="additional-info">
+      <p>
+        <span class="italic">Member since:</span>
+        <span>{{ user.createdAt | date }}</span>
+      </p>
+      <p>
+        <span class="italic">Published recipes:</span>
+        <span>{{ user.createdRecipes.length }}</span>
+      </p>
+    </div>
+    <form enctype="multipart/form-data" class="flex flex-center pd1">
+      <h3 class="center">Change profile image</h3>
+      <div class="upload flex">
+        <div class="buttons flex">
+          <label for="userImageUpload" class="upload-btn-wrapper hover-effect">
+            <input
+              type="file"
+              id="userImageUpload"
+              (change)="selectImageFile()"
+            /><!-- ref="userImageUpload" -->
+            Browse image
+          </label>
+          <button
+            (click)="removeSelectedImage()"
+            *ngIf="preview"
+            class="btn-cancel hover-effect"
+          >
+            Cancel image
+          </button>
+        </div>
+        <figure *ngIf="preview" class="flex">
+          <!--<img [src]="preview" alt="preview" class="img-fit" loading="lazy" />-->
+        </figure>
+      </div>
+      <div class="small">
+        <small class="selected block">{{ filename }}</small>
+        <small class="block">File formats accepted: jpg/jpeg/png/gif</small>
+        <small>Maximum upload file size 2Mb</small>
+      </div>
+      <app-loader [bigLoader]="false" *ngIf="isLoading"></app-loader>
+
+      <div class="message-wrapper center">
+        <app-info-message
+          *ngIf="message"
+          [message]="message"
+          [messageStatus]="messageStatus"
+          (clear)="updateMessage('')"
+        ></app-info-message>
+      </div>
+      <button
+        type="submit"
+        class="btn-action mg1 hover-effect"
+        (click)="submitImage()"
+      >
+        Upload image
+      </button>
+    </form>
+  </div>
+</div>
