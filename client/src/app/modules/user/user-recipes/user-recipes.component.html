@@ -1,1 +1,47 @@
-<p>user-recipes works!</p>
+<div class="user-recipes flex">
+  <!-- modal -->
+  <!-- <div class="modalOverlay" v-if="getEditState" @click.self="cancelEdit">
+        <div class="modalWrapper" v-if="getEditState">
+          <header class="flex flexCenter">
+            <h2>Edit Recipe</h2>
+            <button @click="cancelEdit" class="del tooltipContainer">
+              <font-awesome-icon :icon="['fa', 'times']"></font-awesome-icon>
+              <Tooltip :tooltipText="'Cancel and close form'" />
+            </button>
+          </header>
+          <div class="editInner">
+            <CreateEditForm class="editForm" />
+          </div>
+        </div>
+      </div> -->
+  <!-- end modal -->
+
+  <h1 class="mg2">Created Recipes</h1>
+
+  <app-loader [bigLoader]="true" *ngIf="isLoading"></app-loader>
+  <app-page-error
+    *ngIf="!user.createdRecipes.length"
+    message="You have not created any recipes yet"
+  ></app-page-error>
+  <ng-container *ngIf="userRecipes.length">
+    <div class="list-container flex flex-center">
+      <!-- <SortingButtons
+        @sortTitleAsc="sortTitleAscending(fetchedRecipes)"
+        @sortTitleDesc="sortTitleDescending(fetchedRecipes)"
+        @sortRatingAsc="sortRatingAscending(fetchedRecipes)"
+        @sortRatingDesc="sortRatingDescending(fetchedRecipes)"
+        @sortDateAsc="sortDateAscending(fetchedRecipes)"
+        @sortDateDesc="sortDateDescending(fetchedRecipes)"
+      /> -->
+      <app-sorting-buttons></app-sorting-buttons>
+      <app-private-recipe
+        [recipe]="recipe"
+        [isUsersRecipes]="true"
+        *ngFor="let recipe of userRecipes"
+        class="render-recipes sorting-item"
+        (del)="currentUserRecipes()"
+        (editing)="editingStateSettings()"
+      ></app-private-recipe>
+    </div>
+  </ng-container>
+</div>

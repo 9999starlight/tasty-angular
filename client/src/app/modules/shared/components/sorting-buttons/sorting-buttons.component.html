@@ -1,0 +1,26 @@
+<div class="sorting-buttons-wrapper flex flex-center">
+    <div class="button-pair flex flex-center">
+      <button class="sort-btn btn-asc"><!--  @click="$emit('sortTitleAsc')" -->
+        A-Z<fa-icon [icon]="['fas', 'arrow-down']" class="arrow"></fa-icon>
+      </button>
+      <button class="sort-btn btn-desc"><!--  @click="$emit('sortTitleDesc')" -->
+        A-Z<fa-icon [icon]="['fas', 'arrow-up']" class="arrow"></fa-icon>
+      </button>
+    </div>
+    <div class="button-pair flex flex-center">
+      <button class="sort-btn btn-asc"><!--  @click="$emit('sortDateAsc')" -->
+        Date<fa-icon [icon]="['fas', 'arrow-down']" class="arrow"></fa-icon>
+      </button>
+      <button class="sort-btn btn-desc"><!--  @click="$emit('sortDateDesc')" -->
+        Date<fa-icon [icon]="['fas', 'arrow-up']" class="arrow"></fa-icon>
+      </button>
+    </div>
+    <div class="button-pair flex flex-center" v-if="rating">
+      <button class="sort-btn btn-asc"><!--  @click="$emit('sortRatingAsc')" -->
+        Rating<fa-icon [icon]="['fas', 'arrow-down']" class="arrow"></fa-icon>
+      </button>
+      <button class="sort-btn btn-desc"><!--  @click="$emit('sortRatingDesc')" -->
+        Rating<fa-icon [icon]="['fas', 'arrow-up']" class="arrow"></fa-icon>
+      </button>
+    </div>
+  </div>

@@ -1,0 +1,60 @@
+@import "../../../../../styles/abstracts/variables",
+  "../../../../../styles/abstracts/mixins",
+  "../../../../../styles/abstracts/functions";
+
+  :host {
+    width: 100%;
+  }
+
+.sorting-buttons-wrapper {
+  @include box-size($width: 100%);
+  @include alignment($justify: space-evenly);
+  margin: 1rem auto;
+
+  .button-pair {
+    @include box-size($width: 33.3%);
+    @include alignment($direction: column, $justify: space-evenly);
+
+    .sort-btn {
+      @include box-size($width: 90px, $height: 30px);
+      box-shadow: $shadowSmall;
+
+      &.btn-asc {
+        background-color: lighten($graphite, 20%);
+        @include fonts($color: $light);
+        border: 2px inset $light;
+        margin-bottom: 0.1rem;
+      }
+
+      &.btn-desc {
+        background-color: $light;
+        @include fonts($color: lighten($graphite, 20%));
+        border: 2px inset lighten($graphite, 20%);
+      }
+
+      &:focus {
+        outline: 2px solid saturate($golden, 40%);
+        color: saturate($golden, 40%);
+      }
+
+      .arrow {
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}
+@media (min-width: 776px) {
+  .sorting-buttons-wrapper {
+    @include box-size($width: 750px);
+    margin: 2rem auto;
+
+    .button-pair {
+      @include alignment($direction: row, $justify: center);
+        
+      .sort-btn:hover {
+        transform: scale(1.02);
+        transition: 0.5s;
+      }
+    }
+  }
+}

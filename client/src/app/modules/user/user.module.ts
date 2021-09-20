@@ -6,7 +6,6 @@ import { UserRecipesComponent } from './user-recipes/user-recipes.component';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { SavedRecipesComponent } from './saved-recipes/saved-recipes.component';
 import { SharedModule } from '../shared/shared.module';
-
 @NgModule({
   declarations: [
     UserHomeComponent,

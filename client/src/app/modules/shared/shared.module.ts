@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
-/* import { faSearch, faChevronDown, faUser, faBook, faEdit, faHeart, faUserShield, faHeartBroken } from '@fortawesome/free-solid-svg-icons'; */
-//import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faArrowDown, faArrowUp, faEdit, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { InfoMessageComponent } from './components/info-message/info-message.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../auth/auth-interceptor';
 import { PageErrorComponent } from './components/page-error/page-error.component';
+import { PrivateRecipeComponent } from './components/private-recipe/private-recipe.component';
+import { SortingButtonsComponent } from './components/sorting-buttons/sorting-buttons.component';
 @NgModule({
   declarations: [
     SentenceCasePipe,
@@ -18,13 +20,15 @@ import { PageErrorComponent } from './components/page-error/page-error.component
     TooltipComponent,
     LoaderComponent,
     QueryRecipeComponent,
-    PageErrorComponent
+    PageErrorComponent,
+    PrivateRecipeComponent,
+    SortingButtonsComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
-    /* FontAwesomeModule,
-    FaIconLibrary */
+    RouterModule,
+    FontAwesomeModule,
+    //FaIconLibrary
   ],
   exports: [
     SentenceCasePipe,
@@ -32,8 +36,10 @@ import { PageErrorComponent } from './components/page-error/page-error.component
     TooltipComponent,
     LoaderComponent,
     QueryRecipeComponent,
+    PrivateRecipeComponent,
     HttpClientModule,
-    PageErrorComponent
+    PageErrorComponent,
+    SortingButtonsComponent
     /* FontAwesomeModule,
     FaIconLibrary */
   ],
@@ -41,4 +47,8 @@ import { PageErrorComponent } from './components/page-error/page-error.component
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
 })
-export class SharedModule {}
+export class SharedModule {
+  constructor(library: FaIconLibrary){
+    library.addIcons(faEdit, faTrashAlt, faStar, faArrowUp, faArrowDown);
+  }
+}
