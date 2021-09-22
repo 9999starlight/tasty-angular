@@ -7,15 +7,14 @@
     message="You haven't saved any recipes yet"
   ></app-page-error>
   <div class="list-container flex flex-center" *ngIf="savedRecipes.length">
-    <!-- <SortingButtons
-        @sortTitleAsc="sortTitleAscending(savedRecipes)"
-        @sortTitleDesc="sortTitleDescending(savedRecipes)"
-        @sortRatingAsc="sortRatingAscending(savedRecipes)"
-        @sortRatingDesc="sortRatingDescending(savedRecipes)"
-        @sortDateAsc="sortDateAscending(savedRecipes)"
-        @sortDateDesc="sortDateDescending(savedRecipes)"
-      /> -->
-    <app-sorting-buttons></app-sorting-buttons>
+    <app-sorting-buttons
+      (titleAsc)="sortingService.sortTitleAscending(savedRecipes)"
+      (titleDesc)="sortingService.sortTitleDescending(savedRecipes)"
+      (ratingAsc)="sortingService.sortRatingAscending(savedRecipes)"
+      (ratingDesc)="sortingService.sortRatingDescending(savedRecipes)"
+      (dateAsc)="sortingService.sortDateAscending(savedRecipes)"
+      (dateDesc)="sortingService.sortDateDescending(savedRecipes)"
+    ></app-sorting-buttons>
 
     <app-private-recipe
       [recipe]="recipe"

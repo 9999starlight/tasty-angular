@@ -37,4 +37,6 @@ export interface UpdatedUser {
     createdRecipes: [];
     favorites: string[];
     user_image: string;
+    iat?: number;
+    exp?: number;
 }

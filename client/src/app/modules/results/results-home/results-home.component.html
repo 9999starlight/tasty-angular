@@ -1,19 +1,18 @@
 <div class="container render-results">
   <!-- <Forms v-show="getOpenSearch" :renderPage="false" /> -->
-
+  <app-search (changeParams)="getNewResults($event)"></app-search>
   <div class="results-wrapper flex flex-center">
     <h1 class="pd1">Search Results</h1>
     <h4>Recipes found: {{ queryResults.length }}</h4>
     <div class="inner flex flex-center">
-      <!-- <SortingButtons
-            @sortTitleAsc="sortTitleAscending(results)"
-            @sortTitleDesc="sortTitleDescending(results)"
-            @sortRatingAsc="sortRatingAscending(results)"
-            @sortRatingDesc="sortRatingDescending(results)"
-            @sortDateAsc="sortDateAscending(results)"
-            @sortDateDesc="sortDateDescending(results)"
-          /> -->
-      <app-sorting-buttons></app-sorting-buttons>
+      <app-sorting-buttons
+        (titleAsc)="sortingService.sortTitleAscending(queryResults)"
+        (titleDesc)="sortingService.sortTitleDescending(queryResults)"
+        (ratingAsc)="sortingService.sortRatingAscending(queryResults)"
+        (ratingDesc)="sortingService.sortRatingDescending(queryResults)"
+        (dateAsc)="sortingService.sortDateAscending(queryResults)"
+        (dateDesc)="sortingService.sortDateDescending(queryResults)"
+      ></app-sorting-buttons>
       <div class="successful flex">
         <app-query-recipe
           *ngFor="let result of queryResults"

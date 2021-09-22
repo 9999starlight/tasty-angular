@@ -1,0 +1,95 @@
+<div class="search-container flex mgt2">
+  <!-- basic Form -->
+
+  <form
+    #basicSearchForm="ngForm"
+    (ngSubmit)="basicSearch(basicSearchForm)"
+    class="basic-form flex flex-center mg1"
+  >
+    <h3 class="pd1">Search Recipes</h3>
+    <div class="basic-search-box flex mg1">
+      <input
+        type="text"
+        [(ngModel)]="searchValue"
+        name="searchValue"
+        placeholder="Search..."
+      />
+      <button type="submit" class="hover-effect" aria-label="search recipes">
+        <fa-icon [icon]="['fas', 'search']" class="search"></fa-icon>
+      </button>
+    </div>
+    <div class="select-box mgb1">
+      <select name="basicOption" class="basic-select" [(ngModel)]="basicOption">
+        <option value="">Select option</option>
+        <option
+          *ngFor="let option of basicOptions"
+          [value]="option.toLowerCase()"
+        >
+          {{ option }}
+        </option>
+      </select>
+    </div>
+  </form>
+
+  <!-- optional form -->
+  <form
+    class="optional-form mg1"
+    #categoriesForm="ngForm"
+    (ngSubmit)="basicSearch(categoriesForm)"
+  >
+    <h3 class="pd1">Search By Categories</h3>
+    <div class="dish-types">
+      <label for="dishType">Dish type</label>
+      <div class="select-box mgb1">
+        <select name="dishType" class="categories" [(ngModel)]="dishType">
+          <option value="">Any category</option>
+          <option
+            *ngFor="let option of dishTypeOptions"
+            [value]="option.toLowerCase()"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="difficulty">
+      <label for="">Difficulty</label>
+      <div class="select-box mgb1">
+        <select name="difficulty" class="categories" [(ngModel)]="difficulty">
+          <option value="">Any category</option>
+          <option
+            *ngFor="let option of difficultyOptions"
+            [value]="option.toLowerCase()"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="check-boxes flex">
+      <label for="vegetarianCheck" class="block"
+        >Vegetarian
+        <input
+          type="checkbox"
+          id="vegetarianCheck"
+          name="vegetarian"
+          value="vegetarian"
+          [(ngModel)]="vegetarian"
+        />
+        <span tabindex="0"></span>
+      </label>
+      <label for="glutenCheck" class="block"
+        >Gluten Free
+        <input
+          type="checkbox"
+          id="glutenCheck"
+          name="glutenFree"
+          value="glutenFree"
+          [(ngModel)]="glutenFree"
+        />
+        <span tabindex="0"></span>
+      </label>
+    </div>
+    <button type="submit" class="btn-action mg1 hov-effect">Search</button>
+  </form>
+</div>

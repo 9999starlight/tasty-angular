@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
-import { RecipeResponse } from 'src/app/types/RecipeResponse';
+//import { RecipeResponse } from 'src/app/types/RecipeResponse';
+import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class UserRecipesComponent implements OnInit {
   userRecipes = [];
 
 
-  constructor(private authService: AuthService, private recipesService: RecipesService) {
+  constructor(private authService: AuthService, private recipesService: RecipesService, public sortingService: SortingService) {
     this.user = this.authService.user!;
   }
 

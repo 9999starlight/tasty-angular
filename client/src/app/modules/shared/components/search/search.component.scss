@@ -1,0 +1,144 @@
+@import "../../../../../styles/abstracts/variables",
+  "../../../../../styles/abstracts/mixins",
+  "../../../../../styles/abstracts/functions";
+
+:host {
+  width: 100%;
+}
+
+.search-container {
+  @include alignment($direction: column, $justify: center, $align: center);
+  margin: 0 auto;
+}
+.search-container {
+  @include box-size($width: 100%);
+  h3 {
+    color: $golden;
+  }
+  form {
+    @include alignment($direction: column);
+    @include box-size($width: 100%);
+    @include fonts($color: $graphite);
+    border: 2px solid $lightgray;
+    background-image: $zinc;
+  }
+  .select-box {
+    position: relative;
+    @include box-size($min-width: 260px, $max-width: 300px, $height: 2rem);
+    @include alignment($text-align: left);
+    line-height: 2rem;
+    @include fonts($color: $light);
+
+    select {
+      @include box-size($height: 2rem, $width: 100%);
+      background: $darkSteel;
+      border-radius: 6px;
+      padding-left: 0.5rem;
+      cursor: pointer;
+      color: $light;
+    }
+
+    select option {
+      color: $graphite;
+    }
+  }
+
+  .basic-form {
+    .basic-search-box {
+      @include box-size($width: 260px);
+      input {
+        @include box-size($width: 200px, $height: 2rem);
+        padding: 0 0.4rem;
+        border: 1px solid $lightgray;
+        border-radius: 6px 0 0 6px;
+      }
+      button {
+        @include box-size($width: 60px, $height: 2rem);
+        background-color: #fbab7e;
+        background: $orangeGradient;
+        @include fonts($color: $light);
+        border-radius: 0 6px 6px 0;
+      }
+    }
+  }
+  .optional-form {
+    @include alignment(
+      $display: flex,
+      $direction: column,
+      $justify: center,
+      $align: center,
+      $text-align: left
+    );
+    // checkboxes style
+    label {
+      display: inline-block;
+      margin-bottom: 0.3rem;
+    }
+  }
+}
+@media (min-width: 768px) {
+  .search-container {
+    @include box-size($width: 70%);
+  }
+}
+@media (min-width: 992px) {
+  .search-container {
+    @include box-size($width: 900px);
+    @include alignment($align: flex-start);
+    margin: 2rem auto;
+    .basic-form,
+    .optional-form {
+      padding: 1rem;
+      width: 100%;
+      box-shadow: 0 4px 9px 0 rgba(41, 40, 40, 0.08),
+        0 3px 10px 0 rgba(0, 0, 0, 0.41);
+    }
+    .basic-form {
+      @include alignment($direction: row, $justify: space-evenly);
+      margin: 0 0 2rem 0;
+      .basic-search-box {
+        order: 3;
+      }
+      .select-box {
+        order: 2;
+        grid-area: selectBox;
+        margin: 0;
+      }
+    }
+    .optional-form {
+      @include alignment(
+        $display: grid,
+        $justify: unset,
+        $justify-grid: center,
+        $text-align: left
+      );
+      margin: 0;
+      grid-template-columns: repeat(3, auto);
+      grid-template-rows: repeat(3, auto);
+      grid-template-areas: "title title title" "dishTypes difficulty checkBoxes" "btn btn btn";
+      h3 {
+        grid-area: title;
+      }
+      .dish-types {
+        grid-area: dishTypes;
+      }
+      .difficulty {
+        grid-area: difficulty;
+      }
+      .check-boxes {
+        grid-area: checkBoxes;
+        margin: 0.6rem 0 0 0;
+      }
+      button {
+        grid-area: btn;
+        @include fonts($size: 1.1rem, $weight: 700);
+        letter-spacing: 0.2rem;
+      }
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .search-container {
+    @include alignment($justify: space-evenly, $align: flex-start);
+  }
+}

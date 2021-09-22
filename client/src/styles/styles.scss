@@ -20,7 +20,7 @@
   }
 
 // checkboxes (home page form, create/edit recipe form)
-.checkBoxes {
+.check-boxes {
   @include alignment($justify: space-around);
   @include box-size($width: 260px);
   margin: 0.5rem 0;

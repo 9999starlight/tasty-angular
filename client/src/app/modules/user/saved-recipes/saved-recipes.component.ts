@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
+import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 @Component({
   selector: 'app-saved-recipes',
@@ -13,7 +14,7 @@ export class SavedRecipesComponent implements OnInit {
   user!: CurrentUser | UpdatedUser;
   savedRecipes = [];
 
-  constructor(private authService: AuthService, private recipesService: RecipesService) {
+  constructor(private authService: AuthService, private recipesService: RecipesService, public sortingService: SortingService) {
     this.user = this.authService.user!;
   }
 

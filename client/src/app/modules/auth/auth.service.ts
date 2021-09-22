@@ -12,6 +12,7 @@ import {
 } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class AuthService {
   isLogged$ = new BehaviorSubject<any | null>(null);
   currentUser$ = new BehaviorSubject<CurrentUser | UpdatedUser | null>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const token = localStorage.getItem('token');
     const decodedToken: CurrentUser | null = !token ? null : jwt_decode(token);
     this.isLogged$.next(!!token);
@@ -47,8 +48,10 @@ export class AuthService {
 
   signout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('tokenExp');
     this.isLogged$.next(false);
     this.currentUser$.next(null);
+    this.router.navigateByUrl('login');
   }
 
   authHelper(authToken: string) {

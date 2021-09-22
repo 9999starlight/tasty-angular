@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { pipe } from 'rxjs';
 @Injectable()
 
 export class AuthInterceptor implements HttpInterceptor {
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    constructor(private authService: AuthService) { }
+    /* intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const userToken = localStorage.getItem('token');
         if (userToken) {
             const cloned = req.clone({
@@ -17,7 +20,29 @@ export class AuthInterceptor implements HttpInterceptor {
         else {
             return next.handle(req);
         }
+    } */
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const userToken = localStorage.getItem('token');
+        req = req.clone({
+            setHeaders: {
+                Authorization: `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return next.handle(req).pipe(
+            catchError(
+                (err) => {
+                    if (err.status === 401) {
+                        console.log(err.error.message)
+                        this.authService.signout();
+                        return of(err);
+                    }
+                    throw err;
+                }
+            )
+        );
     }
 }
+
 
 

@@ -25,15 +25,14 @@
   ></app-page-error>
   <ng-container *ngIf="userRecipes.length">
     <div class="list-container flex flex-center">
-      <!-- <SortingButtons
-        @sortTitleAsc="sortTitleAscending(fetchedRecipes)"
-        @sortTitleDesc="sortTitleDescending(fetchedRecipes)"
-        @sortRatingAsc="sortRatingAscending(fetchedRecipes)"
-        @sortRatingDesc="sortRatingDescending(fetchedRecipes)"
-        @sortDateAsc="sortDateAscending(fetchedRecipes)"
-        @sortDateDesc="sortDateDescending(fetchedRecipes)"
-      /> -->
-      <app-sorting-buttons></app-sorting-buttons>
+      <app-sorting-buttons
+        (titleAsc)="sortingService.sortTitleAscending(userRecipes)"
+        (titleDesc)="sortingService.sortTitleDescending(userRecipes)"
+        (ratingAsc)="sortingService.sortRatingAscending(userRecipes)"
+        (ratingDesc)="sortingService.sortRatingDescending(userRecipes)"
+        (dateAsc)="sortingService.sortDateAscending(userRecipes)"
+        (dateDesc)="sortingService.sortDateDescending(userRecipes)"
+      ></app-sorting-buttons>
       <app-private-recipe
         [recipe]="recipe"
         [isUsersRecipes]="true"
