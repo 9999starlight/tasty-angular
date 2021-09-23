@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { AuthService } from '../../auth/auth.service';
+import { UIService } from '../../shared/sharedServices/ui.service';
+import { Router } from '@angular/router';
 //import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-home-page',
@@ -18,11 +20,11 @@ export class HomePageComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private recipesService: RecipesService, private authService: AuthService) {
+    private recipesService: RecipesService, private authService: AuthService, public uiService: UIService, private router: Router) {
     }
 
   ngOnInit() {
-    //this.isLoading = true;
+    this.uiService.toggleSearchForm(false);
     console.log('user getter home page: ', this.authService.user)
     this.recipesService.getRecipes().subscribe((res) => {
       if(res) {
@@ -39,9 +41,6 @@ export class HomePageComponent implements OnInit {
       this.errorMessage = `Error: ${error.statusText}`;
       console.log(error.statusText);
     });
-    
-     //this.recipesService.recipesList$.subscribe(value => console.log('recipes state: ', value))
-    //this.recipesService.singleRecipe$.subscribe(val => console.log('recipe state: ', val.getValue()))
   }
 
   onClear(msg: string) {
@@ -70,5 +69,14 @@ export class HomePageComponent implements OnInit {
       return;
     }
     this.displayedRecipes *= 2;
+  }
+
+  getNewResults(params: any){
+    this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
+      console.log(params)
+      this.router.navigate(['results'], { queryParams: params });
+    }, (error: any) => {  
+      console.log(error.statusText);
+    });
   }
 }

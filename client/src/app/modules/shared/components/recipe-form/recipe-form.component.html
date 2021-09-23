@@ -1,0 +1,276 @@
+<form class="flex pd1">
+  <fieldset class="inputs-wrapper mgb1">
+    <legend>Basic Data</legend>
+    <div class="inner center">
+      <!-- mealName -->
+      <label for="mealName"><span class="required">*</span> Meal Name</label>
+      <input
+        type="text"
+        id="mealName"
+        required
+        placeholder="Meal Name, 4-50 characters"
+        minlength="4"
+        maxlength="50"
+      />
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-show="!mealNameWarn">
+            Title: 4-50 characters required!
+          </p> -->
+      </div>
+      <!-- description -->
+      <label for="intro"><span class="required">*</span> Description</label>
+      <textarea
+        id="intro"
+        required
+        placeholder="Description, 4-150 characters"
+        minlength="4"
+        maxlength="150"
+      ></textarea>
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-show="!introWarn">
+            Description: 4-150 characters required!
+          </p> -->
+      </div>
+      <!-- select options -->
+      <label for="dishType"><span class="required">*</span> Dish Type</label>
+        <div class="select-box mgb1">
+          <select name="dishType" class="categories">
+            <option value="">Any category</option>
+            <option
+              *ngFor="let option of dishTypeOptions"
+              [value]="option.toLowerCase()"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-show="!dishTypeWarn">
+            Please select dish type from menu!
+          </p> -->
+      </div>
+      <label for="level">Difficulty</label>
+      <div class="select-box mgb1">
+        <select name="difficulty" class="categories">
+          <option value="">Any category</option>
+          <option
+            *ngFor="let option of difficultyOptions"
+            [value]="option.toLowerCase()"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <!-- timing -->
+      <label for="timing" class="timing-label"
+        ><span class="required">*</span> Preparation Time (in minutes)</label
+      >
+      <div class="number-wrapper flex">
+        <button type="button" class="plus-minus" (click)="decreaseTiming()">
+          <fa-icon [icon]="['fas', 'minus']"></fa-icon>
+        </button>
+        <input type="number" min="1" id="timing" />
+        <button type="button" class="plus-minus" (click)="increaseTiming()">
+          <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+        </button>
+      </div>
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-show="!timingWarn">
+            Minutes (number) is required!
+          </p> -->
+      </div>
+      <!-- persons -->
+      <label for="persons"
+        ><span class="required">*</span> Number of persons</label
+      >
+      <div class="number-wrapper flex">
+        <button class="plus-minus" (click)="decreasePersons()">
+          <fa-icon [icon]="['fas', 'minus']"></fa-icon>
+        </button>
+        <input type="number" min="1" id="persons" required />
+        <button class="plus-minus" (click)="increasePersons()">
+          <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+        </button>
+      </div>
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-show="!personsWarn">
+            Number of persons is required!
+          </p> -->
+      </div>
+      <!-- regional -->
+      <label for="regional">Regional</label>
+      <input type="text" id="regional" placeholder="Enter country or region" />
+      <!-- checkBoxes -->
+      <div class="check-boxes flex">
+        <label for="vegetarian" class="block"
+          >Vegetarian
+          <input
+            type="checkbox"
+            id="vegetarian"
+            name="vegetarian"
+            value="vegetarian"
+          />
+          <span tabindex="0"></span>
+        </label>
+        <label for="gluten" class="block"
+          >Gluten Free
+          <input type="checkbox" id="gluten" name="gluten" value="gluten" />
+          <span tabindex="0"></span>
+        </label>
+      </div>
+    </div>
+  </fieldset>
+  <!-- Upload photo -->
+  <fieldset class="photo-upload mgb1">
+    <legend>Image Upload</legend>
+    <div class="inner center">
+      <!-- <div class="images flex">
+          <figure v-if="preview" class="flex flex-center">
+            <img :src="preview" :alt="filename" loading="lazy" />
+            <figcaption>Image preview: {{ filename }}</figcaption>
+          </figure>
+          <figure
+            
+            class="flex flex-center"
+          >
+            <img
+              :src="getSingleRecipe.image.url"
+              :alt="getSingleRecipe.mealName"
+              loading="lazy"
+            />
+            <figcaption>Current image</figcaption>
+          </figure>
+          <p v-if="getEditState && getSingleRecipe.image === undefined">
+            No current image
+          </p>
+        </div> -->
+      <h4 class="block mgt1">Select recipe image</h4>
+      <label for="recipeImage" class="upload-btn-wrapper hover-effect">
+        <input type="file" id="recipeImage-w" />
+        Browse image
+      </label>
+      <button class="remove hover-effect">
+        <!--           v-if="preview" @click.prevent="removeSelectedImage"-->
+        Cancel
+      </button>
+      <div class="small">
+        <small class="block">File formats accepted: jpg/jpeg/png/gif</small>
+        <small>Maximum upload file size 2Mb</small>
+      </div>
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-if="!valImg">{{ valMessage }}</p> -->
+      </div>
+    </div>
+  </fieldset>
+  <!-- ingredients -->
+  <fieldset class="ingredients mgb1">
+    <legend>Ingredients</legend>
+    <div class="inner center">
+      <!-- <transition-group name="scale-in-tl" tag="ul"> -->
+      <ul>
+        <li
+          class="single-ingredient"
+          *ngFor="let ingred of ingredients; let i = index"
+        >
+          <label [for]="'ingred' + i"
+            ><span class="required">*</span> Ingredient</label
+          >
+          <input
+            type="text"
+            placeholder="Enter ingredient"
+            required
+            [id]="'ingred' + i"
+          />
+          <label [for]="'amount' + i">Amount</label>
+          <input
+            type="text"
+            [id]="'amount' + i"
+            placeholder="Enter amount of this ingredient"
+          />
+          <button
+            class="remove mgt1 tooltip-container"
+            [disabled]="ingredients.length === 1"
+            (click)="removeIngredient(i)"
+          >
+            Remove
+            <fa-icon [icon]="['fas', 'minus']"></fa-icon>
+            <app-tooltip
+              tooltipText="Remove this ingredient"
+              *ngIf="ingredients.length !== 1"
+            ></app-tooltip>
+          </button>
+        </li>
+      </ul>
+      <!-- </transition-group> -->
+      <button class="mgt1 add tooltip-container" (click)="addIngredient()">
+        Add
+        <fa-icon [icon]="['fas', 'plus']" class="icons"></fa-icon>
+        <app-tooltip tooltipText="Add new ingredient"></app-tooltip>
+      </button>
+      <div class="warn-wrapper">
+        <!-- <p class="warn" v-show="!ingredientsWarn">
+            At least one ingredient entry is required!
+          </p> -->
+      </div>
+    </div>
+  </fieldset>
+  <!-- steps -->
+  <fieldset class="steps">
+    <legend>Preparation steps</legend>
+    <div class="inner center">
+      <!-- <transition-group name="scale-in-tl" tag="ul"> -->
+      <ul>
+        <li class="single-step" *ngFor="let st of steps; let i = index">
+          <label [for]="'step' + i"
+            ><span class="required">*</span> Step {{ i + 1 }}</label
+          >
+          <textarea
+            [id]="'step' + i"
+            required
+            placeholder="Enter the step of preparation"
+          ></textarea>
+          <button
+            [disabled]="steps.length === 1"
+            class="remove mgt1 tooltip-container"
+            (click)="removeStep(i)"
+          >
+            Remove
+            <fa-icon [icon]="['fas', 'minus']" class="icons"></fa-icon>
+            <app-tooltip
+              tooltipText="Remove this step"
+              *ngIf="steps.length !== 1"
+            ></app-tooltip>
+          </button>
+        </li>
+      </ul>
+      <!-- </transition-group> -->
+      <button class="mgt1 add tooltip-container" (click)="addStep()">
+        Add
+        <fa-icon [icon]="['fas', 'plus']" class="icons"></fa-icon>
+        <app-tooltip tooltipText="Add preparation step"></app-tooltip>
+      </button>
+      <div class="warn-wrapper">
+        <!-- <p class="warn">
+            At least one preparation step required!
+          </p> -->
+      </div>
+    </div>
+  </fieldset>
+  <!-- message -->
+  <div class="message-wrapper center">
+    <app-info-message
+      *ngIf="message"
+      [message]="message"
+      [messageStatus]="messageStatus"
+      (clear)="onClear('')"
+    ></app-info-message>
+  </div>
+  <app-loader [bigLoader]="false" *ngIf="isLoading"></app-loader>
+  <button class="submit-btn hover-effect" type="submit">
+    <!--  *ngIf="!isEditState"-->
+    Submit Recipe
+  </button>
+  <!-- <button v-else @click.prevent="validation" class="submit-btn hov-effect" type="submit">
+      Submit Changes
+    </button> -->
+</form>

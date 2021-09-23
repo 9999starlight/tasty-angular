@@ -26,12 +26,14 @@ const routes: Routes = [
 
   {
     path: 'recipe/:id',
+    data: { search: true},
     loadChildren: () =>
     import('./modules/recipe-details/recipe-details.module').then((m) => m.RecipeDetailsModule)
   },
 
   {
     path: 'results',
+    data: { search: true},
     loadChildren: () =>
     import('./modules/results/results.module').then((m) => m.ResultsModule)
   },
@@ -43,6 +45,7 @@ const routes: Routes = [
 
   {
     path: '',
+    data: { search: true},
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },

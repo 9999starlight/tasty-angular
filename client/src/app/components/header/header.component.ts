@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { ElementRef } from '@angular/core';
-import { Router, Event, NavigationEnd } from '@angular/router';
+import { Router, Event, NavigationEnd, ActivatedRoute, ActivationStart, ResolveEnd, ActivationEnd } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
+import { UIService } from 'src/app/modules/shared/sharedServices/ui.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
 import { fromEvent, Observable, Subscription } from "rxjs";
@@ -19,11 +20,11 @@ export class HeaderComponent implements OnInit {
   resizeObservable$!: Observable<any>
   resizeSubscription$: Subscription | undefined
 
-
   // menu/navigation
   displayMenu = false;
   mobileMenu = true;
   showUserDropdown = false;
+  showSearchBtn = false;
 
   // icons
   faSignOutAlt = faSignOutAlt;
@@ -32,15 +33,25 @@ export class HeaderComponent implements OnInit {
   constructor(
     private host: ElementRef,
     private router: Router,
-    private authService: AuthService
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private uiService: UIService
   ) {
-    // close mobile menu on route change:
+
     this.router.events.subscribe((event: Event) => {
+      // close mobile menu on route change:
       if ((this.mobileMenu && this.displayMenu) && event instanceof NavigationEnd) {
         this.displayMenu = false;
       }
+      // show/hide search form button
+      if (event instanceof ActivationEnd) {
+        if (event.snapshot.data['search'] === true) {
+          this.showSearchBtn = true;
+        } else {
+          this.showSearchBtn = false;
+        }
+      }
     });
-
     this.isLogged$ = this.authService.isLogged$;
     this.currentUser$ = this.authService.currentUser$;
   }
@@ -62,8 +73,8 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  getUserData() {
-    console.log(this.currentUser$.value);
+  toggleSearch() {
+    this.uiService.toggleSearchForm(!this.uiService.searchForm);
   }
 
   toggleUserDropdown() {

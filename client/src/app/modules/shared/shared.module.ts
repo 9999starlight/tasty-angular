@@ -7,7 +7,7 @@ import { AuthInterceptor } from '../auth/auth-interceptor';
 // pipes
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 // FA
-import { faArrowDown, faArrowUp, faEdit, faSearch, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowUp, faEdit, faMinus, faPlus, faSearch, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 // Components
 import { InfoMessageComponent } from './components/info-message/info-message.component';
@@ -18,6 +18,7 @@ import { PageErrorComponent } from './components/page-error/page-error.component
 import { PrivateRecipeComponent } from './components/private-recipe/private-recipe.component';
 import { SortingButtonsComponent } from './components/sorting-buttons/sorting-buttons.component';
 import { SearchComponent } from './components/search/search.component';
+import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 @NgModule({
   declarations: [
     SentenceCasePipe,
@@ -28,7 +29,8 @@ import { SearchComponent } from './components/search/search.component';
     PageErrorComponent,
     PrivateRecipeComponent,
     SortingButtonsComponent,
-    SearchComponent
+    SearchComponent,
+    RecipeFormComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +49,8 @@ import { SearchComponent } from './components/search/search.component';
     HttpClientModule,
     PageErrorComponent,
     SortingButtonsComponent,
-    SearchComponent
+    SearchComponent,
+    RecipeFormComponent
     /* FontAwesomeModule,
     FaIconLibrary */
   ],
@@ -57,6 +60,6 @@ import { SearchComponent } from './components/search/search.component';
 })
 export class SharedModule {
   constructor(library: FaIconLibrary){
-    library.addIcons(faEdit, faTrashAlt, faStar, faArrowUp, faArrowDown, faSearch);
+    library.addIcons(faEdit, faTrashAlt, faStar, faArrowUp, faArrowDown, faSearch, faMinus, faPlus);
   }
 }

@@ -22,26 +22,6 @@
     border: 2px solid $lightgray;
     background-image: $zinc;
   }
-  .select-box {
-    position: relative;
-    @include box-size($min-width: 260px, $max-width: 300px, $height: 2rem);
-    @include alignment($text-align: left);
-    line-height: 2rem;
-    @include fonts($color: $light);
-
-    select {
-      @include box-size($height: 2rem, $width: 100%);
-      background: $darkSteel;
-      border-radius: 6px;
-      padding-left: 0.5rem;
-      cursor: pointer;
-      color: $light;
-    }
-
-    select option {
-      color: $graphite;
-    }
-  }
 
   .basic-form {
     .basic-search-box {

@@ -1,6 +1,8 @@
 <div class="container render-results">
-  <!-- <Forms v-show="getOpenSearch" :renderPage="false" /> -->
-  <app-search (changeParams)="getNewResults($event)"></app-search>
+  <app-search
+    (changeParams)="getNewResults($event)"
+    *ngIf="uiService.searchForm"
+  ></app-search>
   <div class="results-wrapper flex flex-center">
     <h1 class="pd1">Search Results</h1>
     <h4>Recipes found: {{ queryResults.length }}</h4>

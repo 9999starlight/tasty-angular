@@ -1,4 +1,5 @@
 <div class="container" id="homeContainer">
+  <app-search (changeParams)="getNewResults($event)" *ngIf="uiService.searchForm"></app-search>
   <ng-container *ngIf="highestRatedRecipes.length">
     <app-slider [sliderRecipes]="highestRatedRecipes"></app-slider>
   </ng-container>

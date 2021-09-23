@@ -1,5 +1,5 @@
 <div class="single-result-container container">
-  <!-- place for Search form component -->
+  <app-search (changeParams)="getNewResults($event)" *ngIf="uiService.searchForm"></app-search>
 
   <div class="single-result-wrapper">
     <h1>{{ recipe.mealName | sentenceCase }}</h1>

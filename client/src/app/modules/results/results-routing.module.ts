@@ -6,10 +6,10 @@ import { ResultsResolver } from './results.resolver';
 
 const routes: Routes = [
   {
-      path: '',
-      component: ResultsHomeComponent,
-      resolve: {
-        recipes: ResultsResolver
+    path: '',
+    component: ResultsHomeComponent,
+    resolve: {
+      recipes: ResultsResolver
     }
   }
 ];

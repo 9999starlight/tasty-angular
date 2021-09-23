@@ -18,9 +18,10 @@
       Tasty</a
     >
     <button
+    *ngIf="showSearchBtn"
       class="header-search"
       aria-label="search for recipes"
-      (click)="getUserData()"
+      (click)="toggleSearch()"
     >
       <span class="search">
         <fa-icon [icon]="['fas', 'search']"></fa-icon>

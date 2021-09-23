@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
-//import { Router } from '@angular/router';
+import { UIService } from '../../shared/sharedServices/ui.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
@@ -30,7 +31,8 @@ export class RecipeComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private recipesService: RecipesService,
-    //private router: Router
+    public uiService: UIService,
+    private router: Router
   ) {
 
     // resolver
@@ -42,7 +44,7 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.recipesService.singleRecipe$.subscribe(val => console.log('recipe state: ', val))
+    this.uiService.toggleSearchForm(false);
     console.log('user in recipe: ', this.authService.user, this.authService.isLogged);
     console.log(this.recipe);
     this.checkRatedBy();
@@ -163,5 +165,14 @@ export class RecipeComponent implements OnInit {
       this.updateMsgHandler(`Error: ${error.statusText}`)
     });
 
+  }
+
+  getNewResults(params: any){
+    this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
+      console.log(params)
+      this.router.navigate(['results'], { queryParams: params });
+    }, (error: any) => {  
+      console.log(error.statusText);
+    });
   }
 }
