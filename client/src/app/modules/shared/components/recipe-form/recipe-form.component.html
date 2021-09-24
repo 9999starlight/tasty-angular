@@ -1,10 +1,11 @@
-<form class="flex pd1">
+<form class="flex pd1" [formGroup]="recipeForm" (ngSubmit)="onRecipeSubmit()">
   <fieldset class="inputs-wrapper mgb1">
     <legend>Basic Data</legend>
     <div class="inner center">
       <!-- mealName -->
       <label for="mealName"><span class="required">*</span> Meal Name</label>
       <input
+        formControlName="mealName"
         type="text"
         id="mealName"
         required
@@ -13,13 +14,20 @@
         maxlength="50"
       />
       <div class="warn-wrapper">
-        <!-- <p class="warn" v-show="!mealNameWarn">
-            Title: 4-50 characters required!
-          </p> -->
+        <p
+          class="warn"
+          *ngIf="
+            recipeForm.controls.mealName.touched &&
+            recipeForm.controls.mealName.errors
+          "
+        >
+          Title: 4-50 characters required!
+        </p>
       </div>
       <!-- description -->
       <label for="intro"><span class="required">*</span> Description</label>
       <textarea
+        formControlName="mealName"
         id="intro"
         required
         placeholder="Description, 4-150 characters"
@@ -27,23 +35,29 @@
         maxlength="150"
       ></textarea>
       <div class="warn-wrapper">
-        <!-- <p class="warn" v-show="!introWarn">
-            Description: 4-150 characters required!
-          </p> -->
+        <p
+          class="warn"
+          *ngIf="
+            recipeForm.controls.intro.touched &&
+            recipeForm.controls.intro.errors
+          "
+        >
+          Description: 4-150 characters required!
+        </p>
       </div>
       <!-- select options -->
       <label for="dishType"><span class="required">*</span> Dish Type</label>
-        <div class="select-box mgb1">
-          <select name="dishType" class="categories">
-            <option value="">Any category</option>
-            <option
-              *ngFor="let option of dishTypeOptions"
-              [value]="option.toLowerCase()"
-            >
-              {{ option }}
-            </option>
-          </select>
-        </div>
+      <div class="select-box mgb1">
+        <select name="dishType" class="categories">
+          <option value="">Any category</option>
+          <option
+            *ngFor="let option of dishTypeOptions"
+            [value]="option.toLowerCase()"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
       <div class="warn-wrapper">
         <!-- <p class="warn" v-show="!dishTypeWarn">
             Please select dish type from menu!
@@ -66,11 +80,15 @@
         ><span class="required">*</span> Preparation Time (in minutes)</label
       >
       <div class="number-wrapper flex">
-        <button type="button" class="plus-minus" (click)="decreaseTiming()">
+        <button
+          type="button"
+          class="plus-minus"
+          (click)="timing > 1 ? (timing = timing - 1) : (timing = 1)"
+        >
           <fa-icon [icon]="['fas', 'minus']"></fa-icon>
         </button>
         <input type="number" min="1" id="timing" />
-        <button type="button" class="plus-minus" (click)="increaseTiming()">
+        <button type="button" class="plus-minus" (click)="timing = timing + 1">
           <fa-icon [icon]="['fas', 'plus']"></fa-icon>
         </button>
       </div>
@@ -84,11 +102,14 @@
         ><span class="required">*</span> Number of persons</label
       >
       <div class="number-wrapper flex">
-        <button class="plus-minus" (click)="decreasePersons()">
+        <button
+          class="plus-minus"
+          (click)="persons > 1 ? (persons = persons - 1) : (persons = 1)"
+        >
           <fa-icon [icon]="['fas', 'minus']"></fa-icon>
         </button>
         <input type="number" min="1" id="persons" required />
-        <button class="plus-minus" (click)="increasePersons()">
+        <button class="plus-minus" (click)="persons = persons + 1">
           <fa-icon [icon]="['fas', 'plus']"></fa-icon>
         </button>
       </div>
@@ -124,29 +145,34 @@
   <fieldset class="photo-upload mgb1">
     <legend>Image Upload</legend>
     <div class="inner center">
-      <!-- <div class="images flex">
-          <figure v-if="preview" class="flex flex-center">
-            <img :src="preview" :alt="filename" loading="lazy" />
-            <figcaption>Image preview: {{ filename }}</figcaption>
-          </figure>
-          <figure
+      <div class="images flex">
+        <figure *ngIf="preview" class="flex flex-center">
+          <img
+            [src]="preview"
+            [alt]="filename"
+            loading="lazy"
+            class="img-fit"
+          />
+          <figcaption>Image preview: {{ filename }}</figcaption>
+        </figure>
+        <!-- <figure
             
             class="flex flex-center"
           >
             <img
-              :src="getSingleRecipe.image.url"
+              src="getSingleRecipe.image.url"
               :alt="getSingleRecipe.mealName"
               loading="lazy"
             />
             <figcaption>Current image</figcaption>
-          </figure>
-          <p v-if="getEditState && getSingleRecipe.image === undefined">
+          </figure> -->
+        <!-- <p v-if="getEditState && getSingleRecipe.image === undefined">
             No current image
-          </p>
-        </div> -->
+          </p> -->
+      </div>
       <h4 class="block mgt1">Select recipe image</h4>
       <label for="recipeImage" class="upload-btn-wrapper hover-effect">
-        <input type="file" id="recipeImage-w" />
+        <input type="file" id="recipeImage-w" (change)="uploadFile($event)" />
         Browse image
       </label>
       <button class="remove hover-effect">
@@ -266,9 +292,8 @@
     ></app-info-message>
   </div>
   <app-loader [bigLoader]="false" *ngIf="isLoading"></app-loader>
-  <button class="submit-btn hover-effect" type="submit">
-    <!--  *ngIf="!isEditState"-->
-    Submit Recipe
+  <button class="submit-btn hover-effect" type="submit" *ngIf="!uiService.editState">
+    Submit {{ !uiService.editState ? 'Recipe' : 'Changes' }}
   </button>
   <!-- <button v-else @click.prevent="validation" class="submit-btn hov-effect" type="submit">
       Submit Changes

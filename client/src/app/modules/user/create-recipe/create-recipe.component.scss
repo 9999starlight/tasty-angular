@@ -8,7 +8,7 @@
     position: relative;
     h1 {
       font-family: 'Lobster', cursive;
-      color: lighten($graphite, 20%);
+      color: lighten($graphite, 15%);
       text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
         0px -1px 0px rgba(0, 0, 0, 0.7);
     }
@@ -23,11 +23,13 @@
   }
   @media (min-width: 992px) {
     .create-recipe {
-      background: url('../../assets/backgrounds/rosemary.jpg') $backConfig;
+      //background: url('../../../../assets/images/backgrounds/rosemary.jpg') $backConfig;
+      //background: #eacda3;
+      //background-image: $lightOrange;
       background-attachment: fixed;
       h1 {
         @include fonts($size: 2.2rem);
-        background-color: $light;
+        //background-color: $light;
       }
     }
   }
