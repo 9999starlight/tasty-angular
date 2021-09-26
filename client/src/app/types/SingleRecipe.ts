@@ -22,7 +22,7 @@ export interface SingleRecipe {
     url: string;
   };
   level?: string;
-  vegeterian?: boolean;
+  vegetarian?: boolean;
   timing: number;
   persons: number;
   steps: {
@@ -33,7 +33,10 @@ export interface SingleRecipe {
     amount: number;
   }[];
   regional?: string;
-  image?: string | undefined | null;
+  image?: {
+    id: string;
+    url: string;
+  };
 }
 
 export interface Rate {

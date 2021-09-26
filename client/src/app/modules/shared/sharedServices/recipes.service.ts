@@ -72,4 +72,8 @@ export class RecipesService {
   get recipesList(): any {
     return this.recipesList$.value;
   }
+
+  get singleRecipe(): any {
+    return this.singleRecipe$.value;
+  }
 }

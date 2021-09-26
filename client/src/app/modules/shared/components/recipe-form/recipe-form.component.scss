@@ -155,6 +155,14 @@ form {
     width: 200px;
     box-shadow: $shadowSmall;
   }
+
+  .tooltip-container {
+    align-self: flex-end;
+  }
+
+  .tooltip-container .infoIcon {
+    @include fonts($color: #0e5c7ad6, $weight: 700, $size: 1.2rem);
+  }
 }
 @media (min-width: 576px) {
   form {

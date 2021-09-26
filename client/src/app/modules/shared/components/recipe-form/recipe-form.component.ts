@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UIService } from '../../sharedServices/ui.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { RecipesService } from '../../sharedServices/recipes.service';
@@ -8,17 +8,17 @@ import { SingleRecipe } from 'src/app/types/SingleRecipe';
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
-  styleUrls: ['./recipe-form.component.scss']
+  styleUrls: ['./recipe-form.component.scss'],
 })
 export class RecipeFormComponent implements OnInit {
   isLoading = false;
   message = '';
   messageStatus = false;
-  recipe: SingleRecipe | null = null;
   userId!: string | undefined;
+  recipeForm!: FormGroup;
+  singleRecipe!: SingleRecipe;
 
   dishTypeOptions = [
-    'Select Dish Type',
     'Bread',
     'Pasta',
     'Salad',
@@ -34,106 +34,212 @@ export class RecipeFormComponent implements OnInit {
     'Cookie',
     'Dessert',
     'Drink',
-    'Snack'
+    'Snack',
   ];
   difficultyOptions = ['Easy', 'Medium', 'Hard'];
   filename = '';
   preview: any = '';
 
-  // form
-  /*  mealName = ''; */
-  intro = '';
-  dishType = '';
-  level = '';
-  timing = 1;
-  persons = 1;
-  regional = '';
-  vegetarian = false;
-  glutenFree = false;
-  preloadedDishType = 0;
-  preloadedLevel = 0;
-  recipeImage = '';
-  ingredients: any = [{ ingredient: '', amount: '' }];
-  steps: any = [{ step: '' }];
+  /*ingredients: any = [{ ingredient: '', amount: '' }];
+  steps: any = [{ step: '' }];*/
 
-  //recipeForm!: FormGroup;
-  recipeForm = new FormGroup({
-    mealName: new FormControl('', [Validators.required,
-    Validators.minLength(4),
-    Validators.maxLength(50)]),
-    intro: new FormControl('', [Validators.required, Validators.minLength(4),
-    Validators.maxLength(150)]),
-    /* 
-      level = '';
-      timing = 1;
-      persons = 1;
-      regional = '';
-      vegetarian = false;
-      glutenFree = false;
-      preloadedDishType = 0;
-      preloadedLevel = 0;
-      recipeImage = '';
-      ingredients: any = [{ ingredient: '', amount: '' }];
-      steps: any = [{ step: '' }]; */
-  })
-
-  constructor(private authService: AuthService, public uiService: UIService) {
+  
+  constructor(
+    private authService: AuthService,
+    public uiService: UIService,
+    public recipeService: RecipesService
+  ) {
     this.userId = this.authService.user?.userId;
+    //this.singleRecipe = this.recipeService.singleRecipe
+  }
+  get ingredientsControls() {
+    return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 
-
+  get stepsControl() {
+    return (this.recipeForm.get('steps') as FormArray).controls;
+  }
   ngOnInit(): void {
+    this.formSetup()
+    if (!this.uiService.editState) {
+      this.addIngredient();
+      this.addStep();
+    }
   }
 
-  setForm() {
+  formSetup() {
+    let mealName = '';
+    let intro = '';
+    let dishType = '';
+    let level = '';
+    let timing = 1;
+    let persons = 1;
+    let regional = '';
+    let vegetarian = false;
+    let glutenFree = false;
+    let image = '';
+    let ingredients = new FormArray([], [Validators.required]);
+    let steps = new FormArray([], [Validators.required]);
 
+    if (this.uiService.editState) {
+      console.log(this.singleRecipe)
+      mealName = this.singleRecipe!.mealName;
+      intro = this.singleRecipe!.intro;
+      dishType = this.singleRecipe!.dishType;
+      if(this.singleRecipe!.level) {
+        level = this.singleRecipe!.level;
+      }
+      timing = this.singleRecipe!.timing;
+      persons = this.singleRecipe!.persons;
+      if(this.singleRecipe!.regional) {
+        regional = this.singleRecipe!.regional;
+      }
+      if(this.singleRecipe!.vegetarian) {
+        vegetarian = this.singleRecipe!.vegetarian;
+      }
+      if(this.singleRecipe!.glutenFree){
+        glutenFree = this.singleRecipe!.glutenFree;
+      }
+      if(this.singleRecipe!.image) {
+        image = this.singleRecipe.image.url;
+      }
+
+      // ingredients
+      for (let ingred of this.singleRecipe!.ingredients) {
+        ingredients.push(
+          new FormGroup({
+            ingredient: new FormControl(ingred.ingredient, Validators.required),
+            amount: new FormControl(ingred.amount),
+          })
+        );
+      }
+      // steps
+      for (let st of this.singleRecipe!.steps) {
+        steps.push(
+          new FormGroup({
+            step: new FormControl(st.step, Validators.required),
+          })
+        );
+      }
+    }
+
+    this.recipeForm = new FormGroup({
+      mealName: new FormControl(mealName, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(50),
+      ]),
+      intro: new FormControl(intro, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(150),
+      ]),
+      dishType: new FormControl(dishType, [Validators.required]),
+      level: new FormControl(level),
+      timing: new FormControl(timing, [
+        Validators.required,
+        Validators.pattern(/^[1-9]|([1-9][0-9]+?)$/),
+        Validators.min(1),
+      ]),
+      persons: new FormControl(persons, [
+        Validators.required,
+        Validators.pattern(/^[1-9]|([1-9][0-9]+?)$/),
+        Validators.min(1),
+      ]),
+      regional: new FormControl(regional),
+      vegetarian: new FormControl(vegetarian),
+      glutenFree: new FormControl(glutenFree),
+      image: new FormControl(image),
+      ingredients: ingredients,
+      steps: steps
+    });
   }
 
   onClear(msg: string) {
     this.message = msg;
   }
 
+  increaseTiming() {
+    this.recipeForm.patchValue({
+      timing: this.recipeForm.get('timing')!.value + 1,
+    });
+  }
+
+  decreaseTiming() {
+    let calculateTiming =
+      this.recipeForm.get('timing')!.value > 1
+        ? this.recipeForm.get('timing')!.value - 1
+        : 1;
+    this.recipeForm.patchValue({
+      timing: calculateTiming,
+    });
+  }
+
+  increasePersons() {
+    this.recipeForm.patchValue({
+      persons: this.recipeForm.get('persons')!.value + 1,
+    });
+  }
+
+  decreasePersons() {
+    let calculatePersons =
+      this.recipeForm.get('persons')!.value > 1
+        ? this.recipeForm.get('persons')!.value - 1
+        : 1;
+    this.recipeForm.patchValue({
+      persons: calculatePersons,
+    });
+  }
+
   addIngredient() {
-    /* this.ingredients.push({
-      ingredient: '',
-      amount: ''
-    }) */
+    (<FormArray>this.recipeForm.get('ingredients')).push(
+      new FormGroup({
+        ingredient: new FormControl('', Validators.required),
+        amount: new FormControl(''),
+      })
+    );
   }
 
   removeIngredient(index: number) {
-    /* this.ingredients.splice(index, 1) */
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
 
   addStep() {
-    /* this.steps.push({ step: '' }) */
+    (<FormArray>this.recipeForm.get('steps')).push(
+      new FormGroup({
+        step: new FormControl('', Validators.required),
+      })
+    );
   }
 
   removeStep(index: number) {
-    /* this.steps.splice(index, 1) */
+    (<FormArray>this.recipeForm.get('steps')).removeAt(index);
   }
 
   uploadFile(value: any): void {
     const file = (value.target as HTMLInputElement)?.files?.[0];
     this.filename = file!.name;
-    /* this.form.patchValue({
-      avatar: file
+     this.recipeForm.patchValue({
+      image: file
     });
-    this.form.get('avatar').updateValueAndValidity() */
+    //this.recipeForm.get('image').updateValueAndValidity() 
 
     // File Preview
     const reader = new FileReader();
     reader.onload = () => {
       this.preview = reader.result as string;
-    }
-    reader.readAsDataURL(file!)
+    };
+    reader.readAsDataURL(file!);
 
-    console.log(this.preview)
+    console.log(this.preview);
   }
 
-  /*   configureFormData() {
+  removeSelectedImage() {}
+
+     /*configureFormData() {
       const formData = new FormData()
-      if (this.recipeImage) {
-        formData.append('image', this.recipeImage)
+      if (this.image) {
+        formData.append('image', this.image)
       }
       formData.append('mealName', this.mealName)
       if (!this.uiService.editState) {
@@ -167,6 +273,15 @@ export class RecipeFormComponent implements OnInit {
     } */
 
   onRecipeSubmit() {
+    console.log(this.recipeForm.value);
+    if(this.recipeForm.invalid) {
+      this.messageStatus = false;
+      this.message = 'Please fill all required fields marked with *'
+    }
+    
+    //console.log(this.configureFormData())
+
+
     /* if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {

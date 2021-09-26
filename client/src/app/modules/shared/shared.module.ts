@@ -7,7 +7,7 @@ import { AuthInterceptor } from '../auth/auth-interceptor';
 // pipes
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 // FA
-import { faArrowDown, faArrowUp, faEdit, faMinus, faPlus, faSearch, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowUp, faEdit, faInfoCircle, faMinus, faPlus, faSearch, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 // Components
 import { InfoMessageComponent } from './components/info-message/info-message.component';
@@ -61,6 +61,6 @@ import { RecipeFormComponent } from './components/recipe-form/recipe-form.compon
 })
 export class SharedModule {
   constructor(library: FaIconLibrary){
-    library.addIcons(faEdit, faTrashAlt, faStar, faArrowUp, faArrowDown, faSearch, faMinus, faPlus);
+    library.addIcons(faEdit, faTrashAlt, faStar, faArrowUp, faArrowDown, faSearch, faMinus, faPlus, faInfoCircle);
   }
 }
