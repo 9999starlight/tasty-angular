@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UIService } from '../../sharedServices/ui.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { RecipesService } from '../../sharedServices/recipes.service';
+import { ImageValidatorService } from '../../sharedServices/image-validator.service';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 
 @Component({
@@ -39,19 +40,21 @@ export class RecipeFormComponent implements OnInit {
   difficultyOptions = ['Easy', 'Medium', 'Hard'];
   filename = '';
   preview: any = '';
+  /* dishTypeInvalid = false;
+  ingredientsInvalid = false;
+  stepsInvalid = false; */
 
-  /*ingredients: any = [{ ingredient: '', amount: '' }];
-  steps: any = [{ step: '' }];*/
-
-  
   constructor(
     private authService: AuthService,
     public uiService: UIService,
-    public recipeService: RecipesService
+    public recipeService: RecipesService,
+    private el: ElementRef,
+    public imgValidator: ImageValidatorService
   ) {
     this.userId = this.authService.user?.userId;
-    //this.singleRecipe = this.recipeService.singleRecipe
+    this.singleRecipe = this.recipeService.singleRecipe
   }
+
   get ingredientsControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
@@ -59,6 +62,7 @@ export class RecipeFormComponent implements OnInit {
   get stepsControl() {
     return (this.recipeForm.get('steps') as FormArray).controls;
   }
+
   ngOnInit(): void {
     this.formSetup()
     if (!this.uiService.editState) {
@@ -83,29 +87,29 @@ export class RecipeFormComponent implements OnInit {
 
     if (this.uiService.editState) {
       console.log(this.singleRecipe)
-      mealName = this.singleRecipe!.mealName;
-      intro = this.singleRecipe!.intro;
+      mealName = this.singleRecipe.mealName;
+      intro = this.singleRecipe.intro;
       dishType = this.singleRecipe!.dishType;
-      if(this.singleRecipe!.level) {
-        level = this.singleRecipe!.level;
+      if (this.singleRecipe.level) {
+        level = this.singleRecipe.level;
       }
-      timing = this.singleRecipe!.timing;
-      persons = this.singleRecipe!.persons;
-      if(this.singleRecipe!.regional) {
-        regional = this.singleRecipe!.regional;
+      timing = this.singleRecipe.timing;
+      persons = this.singleRecipe.persons;
+      if (this.singleRecipe.regional) {
+        regional = this.singleRecipe.regional;
       }
-      if(this.singleRecipe!.vegetarian) {
-        vegetarian = this.singleRecipe!.vegetarian;
+      if (this.singleRecipe!.vegetarian) {
+        vegetarian = this.singleRecipe.vegetarian;
       }
-      if(this.singleRecipe!.glutenFree){
-        glutenFree = this.singleRecipe!.glutenFree;
+      if (this.singleRecipe!.glutenFree) {
+        glutenFree = this.singleRecipe.glutenFree;
       }
-      if(this.singleRecipe!.image) {
+      if (this.singleRecipe.image) {
         image = this.singleRecipe.image.url;
       }
 
       // ingredients
-      for (let ingred of this.singleRecipe!.ingredients) {
+      for (let ingred of this.singleRecipe.ingredients) {
         ingredients.push(
           new FormGroup({
             ingredient: new FormControl(ingred.ingredient, Validators.required),
@@ -114,7 +118,7 @@ export class RecipeFormComponent implements OnInit {
         );
       }
       // steps
-      for (let st of this.singleRecipe!.steps) {
+      for (let st of this.singleRecipe.steps) {
         steps.push(
           new FormGroup({
             step: new FormControl(st.step, Validators.required),
@@ -149,7 +153,7 @@ export class RecipeFormComponent implements OnInit {
       regional: new FormControl(regional),
       vegetarian: new FormControl(vegetarian),
       glutenFree: new FormControl(glutenFree),
-      image: new FormControl(image),
+      image: new FormControl(image, [this.imgValidator.imageTypeValidation, this.imgValidator.imageSizeValidation]),
       ingredients: ingredients,
       steps: steps
     });
@@ -219,7 +223,7 @@ export class RecipeFormComponent implements OnInit {
   uploadFile(value: any): void {
     const file = (value.target as HTMLInputElement)?.files?.[0];
     this.filename = file!.name;
-     this.recipeForm.patchValue({
+    this.recipeForm.patchValue({
       image: file
     });
     //this.recipeForm.get('image').updateValueAndValidity() 
@@ -234,52 +238,67 @@ export class RecipeFormComponent implements OnInit {
     console.log(this.preview);
   }
 
-  removeSelectedImage() {}
+  removeSelectedImage() {
+    const fileInput = this.el.nativeElement.querySelector('#recipeImage-w');
+    fileInput.value = '';
+    console.log(fileInput)
+    //this.$refs.recipeImage.value = ''
+    this.filename = ''
+    this.preview = null
+    this.recipeForm.patchValue({
+      image: ''
+    });
+  }
 
-     /*configureFormData() {
-      const formData = new FormData()
-      if (this.image) {
-        formData.append('image', this.image)
-      }
-      formData.append('mealName', this.mealName)
-      if (!this.uiService.editState) {
-        formData.append('author', this.userId as any)
-      }
-      formData.append('intro', this.intro)
-      formData.append('dishType', this.dishType)
-      formData.append('level', this.level)
-      formData.append('timing', this.timing as any)
-      formData.append('persons', this.persons as any)
-      if (this.regional) {
-        formData.append('regional', this.regional)
-      }
-      formData.append('vegetarian', this.vegetarian as any)
-      formData.append('glutenFree', this.glutenFree as any)
-      // form data - append arrays of objects (ingredients and steps)
-      for (let i = 0; i < this.ingredients.length; i++) {
-        for (let prop in this.ingredients[i]) {
-          formData.append(
-            `ingredients[${i}][${prop}]`,
-            this.ingredients[i][prop]
-          )
-        }
-      }
-      for (let i = 0; i < this.steps.length; i++) {
-        for (let prop in this.steps[i]) {
-          formData.append(`steps[${i}][${prop}]`, this.steps[i][prop])
-        }
-      }
-      return formData
-    } */
+  configureFormData() {
+   const formData = new FormData()
+   if (this.recipeForm.value.image) {
+     formData.append('image', this.recipeForm.value.image)
+   }
+   formData.append('mealName', this.recipeForm.value.mealName)
+   if (!this.uiService.editState) {
+     formData.append('author', this.userId as any)
+   }
+   formData.append('intro', this.recipeForm.value.intro)
+   formData.append('dishType', this.recipeForm.value.dishType)
+   formData.append('level', this.recipeForm.value.level)
+   formData.append('timing', this.recipeForm.value.timing as any)
+   formData.append('persons', this.recipeForm.value.persons as any)
+   if (this.recipeForm.value.regional) {
+     formData.append('regional', this.recipeForm.value.regional)
+   }
+   formData.append('vegetarian', this.recipeForm.value.vegetarian as any)
+   formData.append('glutenFree', this.recipeForm.value.glutenFree as any)
+   // form data - append arrays of objects (ingredients and steps)
+   for (let i = 0; i < this.recipeForm.value.ingredients.length; i++) {
+     for (let prop in this.recipeForm.value.ingredients[i]) {
+       formData.append(
+         `ingredients[${i}][${prop}]`,
+         this.recipeForm.value.ingredients[i][prop]
+       )
+     }
+   }
+   for (let i = 0; i < this.recipeForm.value.steps.length; i++) {
+     for (let prop in this.recipeForm.value.steps[i]) {
+       formData.append(`steps[${i}][${prop}]`, this.recipeForm.value.steps[i][prop])
+     }
+   }
+
+   return formData
+ }
 
   onRecipeSubmit() {
+    console.log(this.recipeForm.controls.ingredients)
     console.log(this.recipeForm.value);
-    if(this.recipeForm.invalid) {
+    if (this.recipeForm.invalid) {
+      this.recipeForm.markAllAsTouched();
       this.messageStatus = false;
       this.message = 'Please fill all required fields marked with *'
     }
+
+
+    const fd = this.configureFormData()
     
-    //console.log(this.configureFormData())
 
 
     /* if (this.editMode) {

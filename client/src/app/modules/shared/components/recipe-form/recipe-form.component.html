@@ -47,7 +47,7 @@
       </div>
       <!-- select options -->
       <label for="dishType"><span class="required">*</span> Dish Type</label>
-      <div class="select-box mgb1">
+      <div class="select-box">
         <select formControlName="dishType" class="categories">
           <option value="">Select dish type</option>
           <option
@@ -63,7 +63,7 @@
           class="warn"
           *ngIf="
             recipeForm.controls.dishType.touched &&
-            recipeForm.controls.dishType.errors
+            recipeForm.controls.dishType.invalid
           "
         >
           Please select dish type!
@@ -201,7 +201,18 @@
         <small>Maximum upload file size 2Mb</small>
       </div>
       <div class="warn-wrapper">
-        <!-- <p class="warn" v-if="!valImg">{{ valMessage }}</p> -->
+        <p
+          class="warn"
+          *ngIf="recipeForm.get('image')?.hasError('invalidFileType')"
+        >
+          Unsupported file type!
+        </p>
+        <p
+          class="warn"
+          *ngIf="recipeForm.get('image')?.hasError('invalidFileSize')"
+        >
+          File is larger than 2Mb!
+        </p>
       </div>
     </div>
   </fieldset>
@@ -227,7 +238,13 @@
             formControlName="ingredient"
           />
           <div class="warn-wrapper">
-            <p class="warn" *ngIf="recipeForm.controls.ingredients.invalid">
+            <p
+              class="warn"
+              *ngIf="
+                ingred.get('ingredient')!.touched &&
+                ingred.get('ingredient')!.invalid
+              "
+            >
               Ingredient field is required!
             </p>
           </div>
@@ -276,9 +293,7 @@
           *ngFor="let st of stepsControl; let i = index"
           [formGroupName]="i"
         >
-          <label [for]="'st' + i"
-            ><span class="required">*</span> Step </label
-          >
+          <label [for]="'st' + i"><span class="required">*</span> Step </label>
           <textarea
             [id]="'st' + i"
             required
@@ -286,7 +301,10 @@
             formControlName="step"
           ></textarea>
           <div class="warn-wrapper">
-            <p class="warn" *ngIf="recipeForm.controls.steps.invalid">
+            <p
+              class="warn"
+              *ngIf="st.get('step')!.touched && st.get('step')!.invalid"
+            >
               Preparation step field is required!
             </p>
           </div>
