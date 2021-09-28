@@ -11,26 +11,27 @@ import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 export class SavedRecipesComponent implements OnInit {
   @Output() deletedFromFavorites = new EventEmitter();
   isLoading = true;
-  user!: CurrentUser | UpdatedUser;
   savedRecipes = [];
 
-  constructor(private authService: AuthService, private recipesService: RecipesService, public sortingService: SortingService) {
-    this.user = this.authService.user!;
-  }
+  constructor(public authService: AuthService, private recipesService: RecipesService, public sortingService: SortingService) {}
 
   ngOnInit(): void {
     this.fetchSavedRecipes();
+    console.log(this.authService.user, console.log(this.savedRecipes))
   }
 
   fetchSavedRecipes() {
-    if (!this.user.favorites.length) {
+    if(!this.authService.user?.favorites.length) {
       this.isLoading = false;
-      return;
+      return
     }
+    this.isLoading = true;
     this.recipesService.getRecipesByQuery({
-      _id: this.user.favorites
+      _id: this.authService.user?.favorites
     }).subscribe((res) => {
       if (res) {
+        console.log('res: ', res)
+        //this.savedRecipes = [];
         this.isLoading = false;
         this.savedRecipes = JSON.parse(JSON.stringify(res));
         console.log(this.savedRecipes);
@@ -41,6 +42,19 @@ export class SavedRecipesComponent implements OnInit {
     });
   }
 
-  currentUserFavorites() { }
-
+  removeFromFavorites(id: string) {
+    if (confirm('Remove from your saved recipes?')) {
+      this.authService.deleteFromFavorites(id).subscribe((res: any) => {
+        if (res) {
+          console.log(res);
+          this.authService.updateUser(res.updatedUser);
+          this.savedRecipes = [];
+          this.fetchSavedRecipes()
+          console.log('user:', this.authService.user!)
+        }
+      }, error => {
+        console.log(error.statusText);
+      });
+    }
+  }
 }

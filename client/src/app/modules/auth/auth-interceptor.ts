@@ -25,15 +25,15 @@ export class AuthInterceptor implements HttpInterceptor {
         const userToken = localStorage.getItem('token');
         req = req.clone({
             setHeaders: {
-                Authorization: `Bearer ${userToken}`,
-                'Content-Type': 'application/json'
+                Authorization: `Bearer ${userToken}`
             }
         });
         return next.handle(req).pipe(
             catchError(
                 (err) => {
-                    if (err.status === 401) {
+                    if (err.status === 401 && err.error.message === 'Unauthorized access or invalid token!') {
                         console.log(err.error.message)
+                        //console.log(err)
                         this.authService.signout();
                         return of(err);
                     }

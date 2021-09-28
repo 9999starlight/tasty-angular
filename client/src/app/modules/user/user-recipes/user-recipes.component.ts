@@ -11,29 +11,24 @@ import { RecipesService } from '../../shared/sharedServices/recipes.service';
   styleUrls: ['./user-recipes.component.scss']
 })
 export class UserRecipesComponent implements OnInit {
-  user: CurrentUser | UpdatedUser;
   isLoading = true;
   userRecipes = [];
 
-
-  constructor(private authService: AuthService, private recipesService: RecipesService, public sortingService: SortingService) {
-    this.user = this.authService.user!;
-  }
+  constructor(public authService: AuthService, private recipesService: RecipesService, public sortingService: SortingService) { }
 
   ngOnInit(): void {
     this.fetchUserRecipes();
   }
 
   fetchUserRecipes() {
-    if(!this.user.createdRecipes.length) {
+    /* if(!this.authService.user!.createdRecipes.length) {
       this.isLoading = false;
       return;
-    }
-    this.recipesService.getRecipesByQuery({ author: this.user.userId }).subscribe((res) => {
-      if(res) {
+    } */
+    this.recipesService.getRecipesByQuery({ author: this.authService.user!.userId }).subscribe((res) => {
+      if (res) {
         this.isLoading = false;
         this.userRecipes = JSON.parse(JSON.stringify(res));
-        console.log(this.userRecipes); 
       }
     }, error => {
       this.isLoading = false;
@@ -41,8 +36,40 @@ export class UserRecipesComponent implements OnInit {
     });
   }
 
-  editingStateSettings(){}
-  currentUserRecipes(){}
+  editingStateSettings() {
 
+  }
 
+  /* removeRecipe(value: any) {
+    //console.log(value)
+    if (confirm('Are you sure you want to delete this recipe?')) {
+      this.recipesService.deleteRecipe(value).subscribe((res: any) => {
+        if (res) {
+          console.log(res);
+          this.authService.updateUser(res.userUpdate);
+          this.fetchUserRecipes();
+          console.log('user:', this.authService.user!)
+        }
+      }, error => {
+        console.log(error.statusText);
+      });
+    }
+  } */
+
+  deleteUserRecipe(id: string) {
+    //console.log(value)
+    if (confirm('Are you sure you want to delete this recipe?')) {
+      this.recipesService.deleteRecipe(id).subscribe((res: any) => {
+        if (res) {
+          console.log(res);
+          this.authService.updateUser(res.userUpdate);
+          this.userRecipes = [];
+          this.fetchUserRecipes();
+          // console.log('user:', this.authService.user!)
+        }
+      }, error => {
+        console.log(error.statusText);
+      });
+    }
+  }
 }

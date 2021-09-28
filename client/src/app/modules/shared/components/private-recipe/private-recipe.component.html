@@ -42,10 +42,11 @@
       <app-tooltip tooltipText="Edit recipe"></app-tooltip>
     </button>
     <!-- user info conditonal render -->
-    <p
+    <a
       *ngIf="!isUsersRecipes"
-      class="user-info flex flex-center tooltip-container"
-      (click)="allUserRecipes(recipe.author._id)"
+      [routerLink]="['/results']"
+      [queryParams]="{ author: recipe.author._id }"
+      class="block user-info flex flex-center tooltip-container"
     >
       <ng-container *ngIf="recipe.image">
         <img
@@ -65,11 +66,11 @@
       </ng-container>
       <span class="author-username">{{ recipe.author.username }}</span>
       <app-tooltip tooltipText="See user's recipes"></app-tooltip>
-    </p>
+    </a>
     <!-- end user info -->
     <button
       *ngIf="isUsersRecipes"
-      (click)="deleteUserRecipe()"
+      (click)="delete(recipe._id)"
       class="tooltip-container"
       aria-label="delete recipe"
     >
@@ -79,7 +80,7 @@
     <!-- remove from saved recipes button conditonal render -->
     <button
       *ngIf="!isUsersRecipes"
-      (click)="removeFromFavorites()"
+      (click)="deleteFav(recipe._id)"
       class="tooltip-container"
       aria-label="remove from saved recipes"
     >

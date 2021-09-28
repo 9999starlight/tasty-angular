@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { recipesUrl } from 'src/app/apiData';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { RecipesResponse } from 'src/app/types/recipesTypes';
@@ -29,7 +29,8 @@ export class RecipesService {
     )
   }
 
-  getRecipesByQuery(options: {}) {
+  getRecipesByQuery(options: any) {
+    //console.log('options from service: ',options)
     return this.http.get<RecipesResponse>(recipesUrl, {
       params: options
     }).pipe(
@@ -52,23 +53,57 @@ export class RecipesService {
     return this.singleRecipe$.value;
   }
 
+  // POST
+  createRecipe(recipeData: any) {
+    //console.log('data sent by service', recipeData)
+    return this.http.post<any>(recipesUrl, recipeData).pipe(
+      map(res => {
+        this.singleRecipe$.next(res.createdRecipe);
+        return res
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
   // PATCH requests
-  /* updateRecipe(id: string, par: {}) {
-    return this.http.patch<SingleRecipe>(`${recipesUrl}/${id}`,{ par }).pipe(
-        catchError(err => {
-          console.log(err);
-          return throwError(err);
-        })
-      );
-  } */
+  updateRecipe(id: string, recipeData: any) {
+    return this.http.patch<any>(`${recipesUrl}/${id}`, recipeData).pipe(
+      map(res => {
+        this.singleRecipe$.next(res.updatedRecipe);
+        return res
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
 
   updateRating(id: string, userRate: number) {
     console.log('from service: ', id, userRate)
     const updatedRating = this.http.patch<SingleRecipe>(`${recipesUrl}/rate/${id}`, { rate: userRate })
     this.singleRecipe$.next(updatedRating);
-    return this.singleRecipe$.value; 
+    return this.singleRecipe$.value;
   }
 
+  // DELETE
+  deleteRecipe(id: string) {
+    return this.http.delete<any>(`${recipesUrl}/${id}`).pipe(
+      map(res => {
+        return res //userUpdate
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
+
+  // Getters
   get recipesList(): any {
     return this.recipesList$.value;
   }

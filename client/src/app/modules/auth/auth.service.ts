@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   updateFavorites(id: {}) {
-    console.log('from service update favorites: ', id)
+    // console.log('from service update favorites: ', id)
     return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/favorites/${this.currentUser$.value?.userId}`, id).pipe(
       map(updated => {
         this.currentUser$.next(updated.updatedUser);
@@ -72,7 +72,35 @@ export class AuthService {
     )
   }
 
+  deleteFromFavorites(recipeId: string) {
+    // console.log('from service update favorites: ', id)
+    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/remove_favorite/${this.currentUser$.value?.userId}`, { favoriteId: recipeId }).pipe(
+      map(updated => {
+        this.currentUser$.next(updated.updatedUser);
+        return updated
+      })
+    )
+  }
+
+  /* getUser(id: string) {
+    return this.http.get<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/${this.currentUser$.value?.userId}`, ).pipe(
+      map(updated => {
+        this.currentUser$.next(updated.updatedUser);
+        return updated.message
+      })
+    )
+  } */
+
+  
+
+  updateUser(payload: UpdatedUser) {
+    console.log('payload for update: ' , payload)
+    this.currentUser$.next(payload);
+    console.log('user after update in service: ', this.user)
+  }
+
   get user(): CurrentUser | UpdatedUser | null {
+    //console.log('user from service getter: ', this.currentUser$.value)
     return this.currentUser$.value
   }
 

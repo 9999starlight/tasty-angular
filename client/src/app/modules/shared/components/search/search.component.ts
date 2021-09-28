@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RecipesService } from '../../sharedServices/recipes.service';
+/* import { Router, ActivatedRoute } from '@angular/router';
+import { RecipesService } from '../../sharedServices/recipes.service'; */
 
 @Component({
   selector: 'app-search',
@@ -39,7 +39,7 @@ export class SearchComponent implements OnInit {
   queryParams: { mealName?: string, title?: string, 'ingredients.ingredient'?: string, dishType?: string, level?: string, vegetarian?: boolean, glutenFree?: boolean } = {};
   @Output() changeParams = new EventEmitter();
   @Input() isResultPage = false;
-  constructor(private router: Router, private route: ActivatedRoute, private recipesService: RecipesService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

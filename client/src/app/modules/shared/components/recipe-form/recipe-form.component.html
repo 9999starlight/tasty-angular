@@ -1,4 +1,4 @@
-<form class="flex pd1" [formGroup]="recipeForm" (ngSubmit)="onRecipeSubmit()">
+<form class="flex pd1" [formGroup]="recipeForm" (ngSubmit)="onRecipeSubmit()" enctype="multipart/form-data">
   <fieldset class="inputs-wrapper mgb1">
     <legend>Basic Data</legend>
     <div class="inner center">
@@ -92,7 +92,6 @@
         <input
           type="number"
           id="timing"
-          name="timing"
           formControlName="timing"
           required
         />

@@ -340,6 +340,7 @@ exports.addToFavorites = async (req, res, next) => {
         user_image: returnUserImage(result)
       }
     })
+    //console.log(res.updatedUser)
   } catch (error) {
     console.log(error.message)
     res.status(500).json({
@@ -392,6 +393,7 @@ exports.removeFromFavorites = async (req, res, next) => {
         user_image: returnUserImage(result)
       }
     })
+    //console.log(res.updatedUser)
   } catch (error) {
     console.log(error.message)
     res.status(500).json({

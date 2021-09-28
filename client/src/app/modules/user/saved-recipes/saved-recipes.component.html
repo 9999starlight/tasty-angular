@@ -3,7 +3,7 @@
   <app-loader [bigLoader]="true" *ngIf="isLoading"></app-loader>
 
   <app-page-error
-    *ngIf="!user.favorites.length"
+    *ngIf="!authService.user!.favorites.length"
     message="You haven't saved any recipes yet"
   ></app-page-error>
   <div class="list-container flex flex-center" *ngIf="savedRecipes.length">
@@ -21,7 +21,7 @@
       [isUsersRecipes]="false"
       *ngFor="let recipe of savedRecipes"
       class="render-recipes sorting-item"
-      (deletedFromFavorites)="currentUserFavorites()"
+      (updateFavorites)="removeFromFavorites($event)"
     ></app-private-recipe>
   </div>
 </div>

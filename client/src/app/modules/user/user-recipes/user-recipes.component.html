@@ -20,7 +20,7 @@
 
   <app-loader [bigLoader]="true" *ngIf="isLoading"></app-loader>
   <app-page-error
-    *ngIf="!user.createdRecipes.length"
+    *ngIf="!authService.user!.createdRecipes.length"
     message="You have not created any recipes yet"
   ></app-page-error>
   <ng-container *ngIf="userRecipes.length">
@@ -38,7 +38,7 @@
         [isUsersRecipes]="true"
         *ngFor="let recipe of userRecipes"
         class="render-recipes sorting-item"
-        (del)="currentUserRecipes()"
+        (del)="deleteUserRecipe($event)"
         (editing)="editingStateSettings()"
       ></app-private-recipe>
     </div>

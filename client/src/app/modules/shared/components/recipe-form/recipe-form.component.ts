@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/modules/auth/auth.service';
 import { RecipesService } from '../../sharedServices/recipes.service';
 import { ImageValidatorService } from '../../sharedServices/image-validator.service';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-form',
@@ -49,7 +50,8 @@ export class RecipeFormComponent implements OnInit {
     public uiService: UIService,
     public recipeService: RecipesService,
     private el: ElementRef,
-    public imgValidator: ImageValidatorService
+    public imgValidator: ImageValidatorService,
+    private router: Router
   ) {
     this.userId = this.authService.user?.userId;
     this.singleRecipe = this.recipeService.singleRecipe
@@ -226,7 +228,7 @@ export class RecipeFormComponent implements OnInit {
     this.recipeForm.patchValue({
       image: file
     });
-    //this.recipeForm.get('image').updateValueAndValidity() 
+    this.recipeForm.get('image')!.updateValueAndValidity()
 
     // File Preview
     const reader = new FileReader();
@@ -251,60 +253,89 @@ export class RecipeFormComponent implements OnInit {
   }
 
   configureFormData() {
-   const formData = new FormData()
-   if (this.recipeForm.value.image) {
-     formData.append('image', this.recipeForm.value.image)
-   }
-   formData.append('mealName', this.recipeForm.value.mealName)
-   if (!this.uiService.editState) {
-     formData.append('author', this.userId as any)
-   }
-   formData.append('intro', this.recipeForm.value.intro)
-   formData.append('dishType', this.recipeForm.value.dishType)
-   formData.append('level', this.recipeForm.value.level)
-   formData.append('timing', this.recipeForm.value.timing as any)
-   formData.append('persons', this.recipeForm.value.persons as any)
-   if (this.recipeForm.value.regional) {
-     formData.append('regional', this.recipeForm.value.regional)
-   }
-   formData.append('vegetarian', this.recipeForm.value.vegetarian as any)
-   formData.append('glutenFree', this.recipeForm.value.glutenFree as any)
-   // form data - append arrays of objects (ingredients and steps)
-   for (let i = 0; i < this.recipeForm.value.ingredients.length; i++) {
-     for (let prop in this.recipeForm.value.ingredients[i]) {
-       formData.append(
-         `ingredients[${i}][${prop}]`,
-         this.recipeForm.value.ingredients[i][prop]
-       )
-     }
-   }
-   for (let i = 0; i < this.recipeForm.value.steps.length; i++) {
-     for (let prop in this.recipeForm.value.steps[i]) {
-       formData.append(`steps[${i}][${prop}]`, this.recipeForm.value.steps[i][prop])
-     }
-   }
-
-   return formData
- }
-
-  onRecipeSubmit() {
-    console.log(this.recipeForm.controls.ingredients)
-    console.log(this.recipeForm.value);
-    if (this.recipeForm.invalid) {
-      this.recipeForm.markAllAsTouched();
-      this.messageStatus = false;
-      this.message = 'Please fill all required fields marked with *'
+    const formData = new FormData()
+    if (this.recipeForm.value.image) {
+      formData.append('image', this.recipeForm.value.image)
+    }
+    formData.append('mealName', this.recipeForm.value.mealName)
+    if (!this.uiService.editState) {
+      formData.append('author', this.userId as any)
+    }
+    formData.append('intro', this.recipeForm.value.intro)
+    formData.append('dishType', this.recipeForm.value.dishType)
+    formData.append('level', this.recipeForm.value.level)
+    formData.append('timing', this.recipeForm.value.timing as any)
+    formData.append('persons', this.recipeForm.value.persons as any)
+    if (this.recipeForm.value.regional) {
+      formData.append('regional', this.recipeForm.value.regional)
+    }
+    formData.append('vegetarian', this.recipeForm.value.vegetarian as any)
+    formData.append('glutenFree', this.recipeForm.value.glutenFree as any)
+    // form data - append arrays of objects (ingredients and steps)
+    for (let i = 0; i < this.recipeForm.value.ingredients.length; i++) {
+      for (let prop in this.recipeForm.value.ingredients[i]) {
+        formData.append(
+          `ingredients[${i}][${prop}]`,
+          this.recipeForm.value.ingredients[i][prop]
+        )
+      }
+    }
+    for (let i = 0; i < this.recipeForm.value.steps.length; i++) {
+      for (let prop in this.recipeForm.value.steps[i]) {
+        formData.append(`steps[${i}][${prop}]`, this.recipeForm.value.steps[i][prop])
+      }
     }
 
+    return formData
+  }
 
+  onRecipeSubmit() {
+    this.isLoading = true;
+    if (this.recipeForm.invalid) {
+      this.recipeForm.markAllAsTouched();
+      this.isLoading = false;
+      this.messageStatus = false;
+      this.message = 'Please check and fill in required fields'
+      return
+    }
     const fd = this.configureFormData()
-    
-
-
-    /* if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
-    } else {
-      this.recipeService.addRecipe(this.recipeForm.value);
+    // fd check
+    /* for (const [key, value] of fd.entries()) {
+      console.log(key, value);
     } */
+
+    if (this.uiService.editState) {
+      this.recipeService.updateRecipe(this.recipeService.singleRecipe._id, fd).subscribe((res: any) => {
+        if (res) {
+          // console.log(res);
+          this.isLoading = false;
+          this.messageStatus = true;
+          this.message = res.message;
+          this.uiService.toggleEditState(false);
+          this.router.navigate([`recipe/${res.updatedRecipe._id}`]);
+        }
+      }, error => {
+        this.isLoading = false;
+        this.messageStatus = false;
+        this.message = `Error: ${error.statusText}`;
+        console.log(error.statusText);
+      });
+    } else {
+      this.recipeService.createRecipe(fd).subscribe((res: any) => {
+        if (res) {
+          // console.log(res); 
+          this.authService.updateUser(res.updatedUser);
+          this.isLoading = false;
+          this.messageStatus = true;
+          this.message = res.message;
+          this.router.navigate([`recipe/${res.createdRecipe._id}`]);
+        }
+      }, error => {
+        this.isLoading = false;
+        this.messageStatus = false;
+        this.message = `Error: ${error.statusText}`;
+        console.log(error.statusText);
+      });
+    }
   }
 }
