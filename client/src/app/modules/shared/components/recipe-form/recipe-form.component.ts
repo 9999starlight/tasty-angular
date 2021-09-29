@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UIService } from '../../sharedServices/ui.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
@@ -18,7 +18,7 @@ export class RecipeFormComponent implements OnInit {
   messageStatus = false;
   userId!: string | undefined;
   recipeForm!: FormGroup;
-  singleRecipe!: SingleRecipe;
+  @Input() singleRecipe!: SingleRecipe;
 
   dishTypeOptions = [
     'Bread',
@@ -41,9 +41,6 @@ export class RecipeFormComponent implements OnInit {
   difficultyOptions = ['Easy', 'Medium', 'Hard'];
   filename = '';
   preview: any = '';
-  /* dishTypeInvalid = false;
-  ingredientsInvalid = false;
-  stepsInvalid = false; */
 
   constructor(
     private authService: AuthService,
@@ -54,7 +51,6 @@ export class RecipeFormComponent implements OnInit {
     private router: Router
   ) {
     this.userId = this.authService.user?.userId;
-    this.singleRecipe = this.recipeService.singleRecipe
   }
 
   get ingredientsControls() {
@@ -66,7 +62,8 @@ export class RecipeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formSetup()
+    // console.log(this.singleRecipe)
+    this.formSetup();
     if (!this.uiService.editState) {
       this.addIngredient();
       this.addStep();
@@ -87,8 +84,8 @@ export class RecipeFormComponent implements OnInit {
     let ingredients = new FormArray([], [Validators.required]);
     let steps = new FormArray([], [Validators.required]);
 
-    if (this.uiService.editState) {
-      console.log(this.singleRecipe)
+    if (this.uiService.editState && this.singleRecipe) {
+      // console.log(this.singleRecipe)
       mealName = this.singleRecipe.mealName;
       intro = this.singleRecipe.intro;
       dishType = this.singleRecipe!.dishType;
@@ -243,10 +240,9 @@ export class RecipeFormComponent implements OnInit {
   removeSelectedImage() {
     const fileInput = this.el.nativeElement.querySelector('#recipeImage-w');
     fileInput.value = '';
-    console.log(fileInput)
-    //this.$refs.recipeImage.value = ''
-    this.filename = ''
-    this.preview = null
+    //console.log(fileInput)
+    this.filename = '';
+    this.preview = null;
     this.recipeForm.patchValue({
       image: ''
     });
@@ -305,7 +301,7 @@ export class RecipeFormComponent implements OnInit {
     } */
 
     if (this.uiService.editState) {
-      this.recipeService.updateRecipe(this.recipeService.singleRecipe._id, fd).subscribe((res: any) => {
+      this.recipeService.updateRecipe(this.singleRecipe!._id, fd).subscribe((res: any) => {
         if (res) {
           // console.log(res);
           this.isLoading = false;

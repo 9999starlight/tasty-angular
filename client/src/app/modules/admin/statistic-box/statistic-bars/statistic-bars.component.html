@@ -1,0 +1,8 @@
+<div class="progress">
+  <span>{{ singleData.name }}</span>
+  <div class="bar-wrapper">
+    <div class="bar-progress flex" [ngStyle]="{ width: singleData.percentage }">
+      <span>{{ singleData.value }}</span>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,7 @@ import { PrivateRecipeComponent } from './components/private-recipe/private-reci
 import { SortingButtonsComponent } from './components/sorting-buttons/sorting-buttons.component';
 import { SearchComponent } from './components/search/search.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
+import { OverlayComponent } from './components/overlay/overlay.component';
 @NgModule({
   declarations: [
     SentenceCasePipe,
@@ -30,7 +31,8 @@ import { RecipeFormComponent } from './components/recipe-form/recipe-form.compon
     PrivateRecipeComponent,
     SortingButtonsComponent,
     SearchComponent,
-    RecipeFormComponent
+    RecipeFormComponent,
+    OverlayComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { RecipeFormComponent } from './components/recipe-form/recipe-form.compon
     PageErrorComponent,
     SortingButtonsComponent,
     SearchComponent,
-    RecipeFormComponent
+    RecipeFormComponent,
+    OverlayComponent
     /* FontAwesomeModule,
     FaIconLibrary */
   ],

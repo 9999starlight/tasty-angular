@@ -1,1 +1,88 @@
-<p>overview works!</p>
+<div class="overview">
+  <ng-container *ngIf="!isLoading">
+    <h1 class="mgb1 slim">Overview</h1>
+    <div class="counts flex">
+      <header class="flex flex-center"><h3>Counts</h3></header>
+      <div class="counts-inner flex center">
+        <div class="flex flex-center">
+          <h4>Users</h4>
+          <p>{{ usersCount }}</p>
+        </div>
+        <div class="flex flex-center">
+          <h4>Recipes</h4>
+          <p>{{ recipeCount }}</p>
+        </div>
+        <div class="flex flex-center">
+          <h4>Comments</h4>
+          <p>{{ commentsCount }}</p>
+        </div>
+      </div>
+    </div>
+    <section class="center grid">
+      <div class="latest-recipes">
+        <header class="flex flex-center">
+          <h3>Latest recipes</h3>
+        </header>
+        <div class="inner scrolling">
+          <a
+            [routerLink]="['/recipe', recipe._id]"
+            class="recipe grid link"
+            *ngFor="let recipe of latestRecipes"
+          >
+            <figure>
+              <img
+                *ngIf="recipe.image === undefined"
+                src="../../../../assets/images/default_recipe.jpg"
+                [alt]="recipe.mealName"
+                class="img-fit"
+                loading="lazy"
+              />
+              <img
+                *ngIf="recipe.image"
+                [src]="recipe.image"
+                [alt]="recipe.mealName"
+                class="img-fit"
+                loading="lazy"
+              />
+            </figure>
+            <h5 class="center">{{ recipe.mealName | sentenceCase }}</h5>
+            <p class="light-italic created">
+              {{ recipe.createdAt | date }}
+            </p>
+            <p class="author">{{ recipe.author.username }}</p>
+          </a>
+        </div>
+      </div>
+      <div class="latest-comments">
+        <header class="flex flex-center">
+          <h3>Latest comments</h3>
+        </header>
+        <div class="inner scrolling">
+          <div class="comment" *ngFor="let comment of latestComments">
+            <h5>{{ comment.author.username }}</h5>
+            <p class="light-italic created">
+              {{ comment.createdAt | date }}
+            </p>
+            <p>{{ comment.commentBody }}</p>
+            <small class="light-italic"
+              >Recipe id: {{ comment.commentedRecipeId }}</small
+            >
+          </div>
+        </div>
+      </div>
+      <app-statistic-box
+        title="Most commented recipes"
+        [dataArray]="mostCommented"
+        *ngIf="mostCommented.length"
+      ></app-statistic-box>
+      <app-statistic-box
+        title="Most active Users"
+        [dataArray]="mostActiveUsers"
+        *ngIf="mostActiveUsers.length"
+      ></app-statistic-box>
+    </section>
+  </ng-container>
+  <ng-container *ngIf="isLoading">
+    <app-loader [bigLoader]="true"></app-loader>
+  </ng-container>
+</div>

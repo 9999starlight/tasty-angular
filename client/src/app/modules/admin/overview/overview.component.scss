@@ -1,0 +1,167 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.overview {
+  margin-top: 4rem;
+  @include box-size($width: 100%);
+  align-self: center;
+  .counts {
+    @include alignment($direction: column);
+    @include box-size($width: 100%, $height: 150px);
+    border: 1px solid lightgray;
+    header {
+      background-color: lighten($graphite, 20%);
+      @include fonts($color: $light);
+      @include box-size($width: 100%, $height: 20%);
+    }
+    .counts-inner {
+      @include alignment($align: center);
+      @include box-size($width: 100%, $height: 80%);
+      padding: 1rem 0;
+      div {
+        @include alignment($direction: column, $justify: space-evenly);
+        @include box-size($width: 33.33%, $height: 100%);
+        color: lighten($graphite, 40%);
+        &:nth-of-type(2) {
+          border-left: 1px solid lighten($graphite, 60%);
+          border-right: 1px solid lighten($graphite, 60%);
+        }
+        p {
+          @include fonts($size: 1.5rem);
+        }
+      }
+    }
+  }
+  section {
+    place-items: center;
+    margin: 1rem auto;
+    .latest-comments,
+    .latest-recipes,
+    .statistic-box-wrapper {
+      margin-bottom: 1rem;
+    }
+  }
+  .latest-recipes,
+  .latest-comments {
+    @include box-size($width: 280px, $height: 240px);
+    border: 1px solid $lightgray;
+    position: relative;
+    header {
+      background-color: lighten($graphite, 20%);
+      @include fonts($color: $light);
+      @include box-size($width: 100%, $height: 40px);
+      position: sticky;
+      top: 0;
+    }
+    .inner {
+      overflow: auto;
+      @include box-size($height: calc(100% - 40px));
+    }
+  }
+  .recipe,
+  .comment {
+    @include box-size($width: 100%);
+    @include alignment($align: center);
+    border-bottom: 1px solid lighten($graphite, 40%);
+    color: $graphite;
+  }
+  .recipe {
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: 30px auto auto;
+    grid-template-areas: "image title title" "image created user";
+    padding: 0 0.2rem;
+    h5 {
+      grid-area: title;
+    }
+    figure {
+      @include box-size($width: 30px, $height: 40px);
+      grid-area: image;
+    }
+    p {
+      padding: 0.3rem;
+    }
+    .created {
+      grid-area: created;
+      margin: 0;
+      @include fonts($size: 0.7rem);
+    }
+    .author {
+      grid-area: user;
+      @include fonts($size: 0.8rem, $weight: 700);
+    }
+  }
+  .comment {
+    text-align: left;
+    padding: 0.4rem;
+    .created {
+      @include fonts($size: 0.7rem);
+    }
+  }
+}
+@media (min-width: 576px) {
+  .overview {
+    section {
+      .latest-comments,
+      .latest-recipes {
+        @include box-size($width: 320px);
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .overview {
+    margin-top: 0;
+    margin-left: 3rem;
+    padding: 1rem;
+    //@include box-size($width: calc(100% - 4rem));
+    width: 90%;
+    //align-self: center;
+    //align-self: flex-end;
+    section {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-gap: 20px;
+      justify-items: center;
+      align-items: stretch;
+    }
+    .recipe:hover {
+      background-color: rgba(243, 242, 242, 0.87);
+    }
+    .counts {
+      .counts-inner {
+        div {
+          p {
+            @include fonts($size: 2rem);
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 992px) {
+  .overview {
+    .counts,
+    section {
+      @include box-size($max-width: 1000px);
+    }
+    .counts {
+      margin: auto;
+    }
+    section {
+      margin-top: 2rem;
+      .latest-comments,
+      .latest-recipes {
+        @include box-size($width: 400px);
+      }
+    }
+  }
+}

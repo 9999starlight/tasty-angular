@@ -1,4 +1,9 @@
-<form class="flex pd1" [formGroup]="recipeForm" (ngSubmit)="onRecipeSubmit()" enctype="multipart/form-data">
+<form
+  [formGroup]="recipeForm"
+  (ngSubmit)="onRecipeSubmit()"
+  enctype="multipart/form-data"
+  [ngClass]="!uiService.editState ? 'flex pd1' : 'flex pd1 edit-form'"
+>
   <fieldset class="inputs-wrapper mgb1">
     <legend>Basic Data</legend>
     <div class="inner center">
@@ -89,12 +94,7 @@
         <button type="button" class="plus-minus" (click)="decreaseTiming()">
           <fa-icon [icon]="['fas', 'minus']"></fa-icon>
         </button>
-        <input
-          type="number"
-          id="timing"
-          formControlName="timing"
-          required
-        />
+        <input type="number" id="timing" formControlName="timing" required />
         <button type="button" class="plus-minus" (click)="increaseTiming()">
           <fa-icon [icon]="['fas', 'plus']"></fa-icon>
         </button>

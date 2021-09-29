@@ -1,1 +1,90 @@
-<p>navigation works!</p>
+<nav
+  [ngClass]="!showFullMenu ? 'icons-width' : 'menu-width'"
+  (mouseenter)="showFullMenu = true"
+  (mouseleave)="showFullMenu = false"
+>
+  <ul class="flex">
+    <li>
+      <a
+        routerLink="/admin"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="block full-width"
+      >
+        <fa-icon [icon]="['fas', 'chart-bar']" class="user-icon"></fa-icon>
+        <span *ngIf="showFullMenu">Overview</span>
+      </a>
+    </li>
+
+    <li>
+      <a
+        routerLink="/admin/users"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="block full-width"
+      >
+        <fa-icon [icon]="['fas', 'users']" class="user-icon"></fa-icon>
+        <span *ngIf="showFullMenu">Users</span>
+      </a>
+    </li>
+
+    <li>
+      <a
+        routerLink="/admin/recipes"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="block full-width"
+      >
+        <fa-icon [icon]="['fas', 'book']" class="user-icon"></fa-icon>
+        <span *ngIf="showFullMenu">Recipes</span>
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/admin/comments"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="block full-width"
+      >
+        <fa-icon [icon]="['fas', 'comments']" class="user-icon"></fa-icon>
+        <span *ngIf="showFullMenu">Comments</span>
+      </a>
+    </li>
+    <!--     <router-link
+      :to="{ name: 'admin_users' }"
+      tag="li"
+      active-class="active"
+      exact
+    >
+      <a class="block full-width">
+        <font-awesome-icon :icon="['fa', 'users']" class="userIcon">
+        </font-awesome-icon>
+        <transition name="fade" mode="out-in">
+          <span v-show="showFullMenu">Users</span>
+        </transition>
+      </a>
+    </router-link>
+    <router-link :to="{ name: 'admin_recipes' }" tag="li" active-class="active">
+      <a class="block full-width">
+        <font-awesome-icon :icon="['fa', 'book']" class="userIcon">
+        </font-awesome-icon
+        ><transition name="fade" mode="out-in"
+          ><span v-show="showFullMenu">Recipes</span></transition
+        >
+      </a>
+    </router-link>
+    <router-link
+      :to="{ name: 'admin_comments' }"
+      tag="li"
+      active-class="active"
+    >
+      <a class="block full-width">
+        <font-awesome-icon :icon="['far', 'comments']" class="userIcon">
+        </font-awesome-icon
+        ><transition name="fade" mode="out-in"
+          ><span v-show="showFullMenu">Comments</span></transition
+        >
+      </a>
+    </router-link> -->
+  </ul>
+</nav>

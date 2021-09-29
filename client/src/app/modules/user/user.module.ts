@@ -6,6 +6,8 @@ import { UserRecipesComponent } from './user-recipes/user-recipes.component';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { SavedRecipesComponent } from './saved-recipes/saved-recipes.component';
 import { SharedModule } from '../shared/shared.module';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     UserHomeComponent,
@@ -16,7 +18,12 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     UserRoutingModule,
-    SharedModule
+    SharedModule,
+    FontAwesomeModule
   ]
 })
-export class UserModule { }
+export class UserModule { 
+  constructor(library: FaIconLibrary){
+    library.addIcons(faTimes);
+  }
+}

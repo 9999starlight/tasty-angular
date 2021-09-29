@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AuthGuard } from './modules/auth/auth.guard';
+import { AuthAdminGuard } from './modules/admin/auth-admin.guard';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
 
   {
     path: 'admin',
-    canLoad: [AuthGuard],
+    canLoad: [AuthGuard, AuthAdminGuard],
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },

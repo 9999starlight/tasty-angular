@@ -1,26 +1,30 @@
 <div class="user-recipes flex">
-  <!-- modal -->
-  <!-- <div class="modalOverlay" v-if="getEditState" @click.self="cancelEdit">
-        <div class="modalWrapper" v-if="getEditState">
-          <header class="flex flexCenter">
-            <h2>Edit Recipe</h2>
-            <button @click="cancelEdit" class="del tooltipContainer">
-              <font-awesome-icon :icon="['fa', 'times']"></font-awesome-icon>
-              <Tooltip :tooltipText="'Cancel and close form'" />
-            </button>
-          </header>
-          <div class="editInner">
-            <CreateEditForm class="editForm" />
-          </div>
-        </div>
-      </div> -->
+  <!-- form modal -->
+  <app-overlay *ngIf="uiService.editState" (closeModal)="closeEditForm()">
+    <ng-container>
+      <header class="flex flex-center">
+        <h2>Edit Recipe</h2>
+        <button
+          type="button"
+          (click)="closeEditForm()"
+          class="del tooltip-container"
+        >
+          <fa-icon [icon]="['fas', 'times']"></fa-icon>
+          <app-tooltip tooltipText="Cancel and close form"></app-tooltip>
+        </button>
+      </header>
+      <div class="edit-inner">
+        <app-recipe-form [singleRecipe]="singleRecipe"></app-recipe-form>
+      </div>
+    </ng-container>
+  </app-overlay>
   <!-- end modal -->
 
   <h1 class="mg2">Created Recipes</h1>
 
   <app-loader [bigLoader]="true" *ngIf="isLoading"></app-loader>
   <app-page-error
-    *ngIf="!authService.user!.createdRecipes.length"
+    *ngIf="!userRecipes.length"
     message="You have not created any recipes yet"
   ></app-page-error>
   <ng-container *ngIf="userRecipes.length">
@@ -39,7 +43,7 @@
         *ngFor="let recipe of userRecipes"
         class="render-recipes sorting-item"
         (del)="deleteUserRecipe($event)"
-        (editing)="editingStateSettings()"
+        (editing)="editingStateSettings($event)"
       ></app-private-recipe>
     </div>
   </ng-container>

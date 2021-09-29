@@ -4,13 +4,13 @@
 
 header {
   @include alignment($direction: column);
-  position: sticky;
-  @include box-size($width: 100%, $height: 100%);
+  position: fixed;
+  @include box-size($width: 100%);
   top: 0;
   background-color: $light;
   z-index: 7;
   box-shadow: $shadowSmall;
-  grid-area: "header";
+  grid-area: header;
 }
 
 .active-link {
@@ -183,7 +183,7 @@ nav {
 
 @media (min-width: 992px) {
   header {
-    //height: 50px;
+    height: 50px;
     @include alignment($direction: row, $justify: space-between);
   }
 

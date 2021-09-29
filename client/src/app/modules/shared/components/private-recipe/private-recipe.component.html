@@ -34,6 +34,7 @@
       *ngIf="isUsersRecipes"
       class="tooltip-container"
       aria-label="edit recipe"
+      (click)="editRecipe(recipe._id)"
     >
       <!-- @click="$emit('editing', recipe._id)" -->
 

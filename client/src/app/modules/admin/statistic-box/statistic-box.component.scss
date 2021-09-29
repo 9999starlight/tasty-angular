@@ -1,0 +1,28 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+.statistic-box-wrapper {
+  @include box-size($width: 280px, $height: 240px);
+  border: 1px solid $lightgray;
+  h3 {
+    background-color: lighten($graphite, 20%);
+    @include fonts($color: $light);
+    margin: auto;
+    @include box-size($width: 100%);
+    padding: 0.5rem;
+  }
+  .bars-wrapper {
+    padding: 0.5rem;
+  }
+}
+@media (min-width: 576px) {
+  .statistic-box-wrapper {
+    @include box-size($width: 320px);
+  }
+}
+@media (min-width: 992px) {
+  .statistic-box-wrapper {
+    @include box-size($width: 400px);
+  }
+}

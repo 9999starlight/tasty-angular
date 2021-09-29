@@ -1,0 +1,90 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+:host {
+  width: 100%;
+}
+
+nav {
+  @include box-size($width: 100%);
+  position: fixed;
+  background-color: rgba(15, 15, 15, 0.932);
+  box-shadow: $shadowSmall;
+  transition: 0.5s ease-in-out;
+  z-index: 2;
+  ul {
+    li {
+      &:nth-of-type(2) {
+        border-left: 1px solid $light;
+        border-right: 1px solid $light;
+      }
+      &:nth-of-type(3) {
+        border-right: 1px solid $light;
+      }
+      @include box-size($width: 25%);
+      &.active {
+        background-color: rgba(250, 128, 114, 0.123);
+      }
+      a {
+        @include fonts($size: 1rem, $color: lighten($graphite, 70%));
+        padding: 0.7rem 0;
+        position: relative;
+        text-align: center;
+        .user-icon {
+          @include fonts($color: lighten($graphite, 70%));
+          @include box-size($width: 1.5rem);
+          margin: 0 0.75rem;
+        }
+        span {
+          display: block;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  nav {
+    @include box-size($height: 100%);
+    top: 50px;
+    left: 0;
+    background-color: rgba(15, 15, 15, 0.859);
+    &.icons-width {
+      @include box-size($width: 3rem);
+    }
+    &.menu-width {
+      @include box-size($width: 200px);
+    }
+    ul {
+      @include alignment($direction: column);
+      li {
+        @include box-size($width: 100%);
+        border-bottom: 1px solid $light;
+        &:nth-of-type(2),
+        &:nth-of-type(3) {
+          border-left: 0;
+          border-right: 0;
+        }
+        a {
+          text-align: left;
+          padding: 1rem 0;
+          &:hover {
+            background-color: lighten($graphite, 8%);
+          }
+          span {
+            position: absolute;
+            left: 3rem;
+            bottom: 1rem;
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 992px) {
+  nav {
+    @include box-size($height: 100%);
+  }
+}

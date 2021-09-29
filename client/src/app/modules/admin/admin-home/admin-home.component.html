@@ -1,3 +1,10 @@
-<p>admin-home works!</p>
-<app-navigation></app-navigation>
-<router-outlet></router-outlet>
+<div
+  [ngClass]="
+    uiService.editState
+      ? 'admin-container container disable-scrolling'
+      : 'admin-container container'
+  "
+>
+  <app-navigation></app-navigation>
+  <router-outlet></router-outlet>
+</div>

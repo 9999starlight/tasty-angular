@@ -33,7 +33,11 @@ export class PrivateRecipeComponent implements OnInit {
     this.updateFavorites.emit(id);
   }
 
-  allUserRecipes(id: string) { }
+  /* allUserRecipes(id: string) { } */
+
+  editRecipe(id: string){
+    this.editing.emit(id);
+  }
 
   delete(id: string) {
     this.del.emit(id);

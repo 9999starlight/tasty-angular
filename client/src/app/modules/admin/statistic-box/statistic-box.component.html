@@ -1,0 +1,9 @@
+<div class="statistic-box-wrapper">
+  <h3>{{ title }}</h3>
+  <div class="bars-wrapper">
+    <app-statistic-bars
+      *ngFor="let singleData of addPercentages"
+      [singleData]="singleData"
+    ></app-statistic-bars>
+  </div>
+</div>
