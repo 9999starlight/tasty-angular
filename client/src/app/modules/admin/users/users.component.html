@@ -1,1 +1,107 @@
-<p>users works!</p>
+<div
+  [ngClass]="
+    editModal ? 'admin-users mgt4 disable-scrolling' : 'admin-users mgt4'
+  "
+  *ngIf="!isLoading"
+>
+  <h1 class="slim" id="searchUsers">Users</h1>
+  <p class="slim mgb2">Number of users: {{ users.length }}</p>
+  <section class="search-users">
+    <!-- Sorting buttons -->
+    <div class="users-container">
+      <header class="flex flex-center">
+        <!-- <select name="" id=""></select> -->
+        <input type="text" ngModel="searchValue" placeholder="Search..." />
+      </header>
+      <div class="users-list-wrapper flex">
+        <div class="single-user mgb1 grid" *ngFor="let user of users">
+          <figure>
+            <img
+              *ngIf="user.user_image"
+              [src]="user.user_image"
+              [alt]="user.username"
+              class="img-fit"
+              loading="lazy"
+            />
+            <img
+              *ngIf="user.user_image === undefined"
+              src="../../../../assets/images/default_user.png"
+              [alt]="user.username"
+              class="img-fit"
+              loading="lazy"
+            />
+          </figure>
+          <div class="user-info">
+            <p class="username flex flex-center">
+              {{ user.username
+              }}<span class="admin-user" *ngIf="user.isAdmin">
+                <fa-icon
+                  [icon]="['fas', 'user-shield']"
+                  class="shield-icon"
+                ></fa-icon>
+                Admin</span
+              >
+              <span class="disabled-user" *ngIf="user.isDisabled">
+                <fa-icon
+                  [icon]="['fas', 'user-slash']"
+                  class="shield-icon"
+                ></fa-icon
+              ></span>
+            </p>
+            <small class="userCreated"
+              ><em>{{ user.createdAt | date }}</em></small
+            >
+            <small class="user-id"
+              ><strong>ID:</strong> {{ user.userId }}</small
+            >
+          </div>
+          <div class="recipes-favorites flex flex-center">
+            <div class="grid" (click)="allUserRecipes(user.userId)">
+              <fa-icon [icon]="['fas', 'book']" class="icon-bottom"></fa-icon>
+              <span class="text">Created recipes</span>
+              <span class="count">{{ user.createdRecipes.length }}</span>
+            </div>
+            <div class="grid">
+              <fa-icon [icon]="['fas', 'heart']" class="icon-bottom"></fa-icon>
+              <span class="text">Saved recipes</span>
+              <span class="count">{{ user.favorites.length }}</span>
+            </div>
+          </div>
+          <div class="buttons-user flex">
+            <button
+              (click)="openUserEdit(user.userId)"
+              class="tooltip-container"
+            >
+              <ng-container *ngIf="user.isDisabled">
+                <fa-icon
+                  [icon]="['fas', 'user-slash']"
+                  class="delete"
+                ></fa-icon>
+              </ng-container>
+              <ng-container *ngIf="!user.isDisabled">
+                <fa-icon
+                  [icon]="['fas', 'user']"
+                  class="edit user-enabled"
+                ></fa-icon>
+              </ng-container>
+
+              <app-tooltip
+                tooltipText="user.isDisabled ? 'Enable user' : 'Disable user'"
+              ></app-tooltip>
+            </button>
+            <button
+              (click)="adminEditing(user.userId)"
+              class="tooltip-container"
+            >
+              <fa-icon [icon]="['fas', 'user-shield']" class="edit"></fa-icon>
+              <app-tooltip tooltipText="Change admin status"></app-tooltip>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- place for pagination -->
+    </div>
+  </section>
+</div>
+
+<app-loader *ngIf="isLoading" [bigLoader]="true" class="loader"></app-loader>

@@ -2,6 +2,10 @@
   "../../../styles/abstracts/mixins.scss",
   "../../../styles/abstracts/functions.scss";
 
+:host {
+  grid-area: head;
+}
+
 header {
   @include alignment($direction: column);
   position: fixed;
@@ -10,7 +14,6 @@ header {
   background-color: $light;
   z-index: 7;
   box-shadow: $shadowSmall;
-  grid-area: header;
 }
 
 .active-link {

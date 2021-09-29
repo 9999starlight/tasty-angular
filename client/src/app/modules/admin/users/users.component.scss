@@ -1,0 +1,286 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+.sorting-btns {
+  margin: 1rem auto;
+}
+.modal-wrapper {
+  background-color: $light;
+  @include box-size($min-width: 280px, $max-width: 400px, $max-height: 300px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  .editing {
+    @include alignment($direction: column, $justify: space-evenly);
+    @include box-size($height: calc(100% - 60px));
+    label {
+      position: relative;
+      padding-left: 2rem;
+      @include box-size($height: 2rem);
+      input {
+        position: absolute;
+        visibility: hidden;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+      }
+      p {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2.2rem;
+        width: 4rem;
+        background-color: lightgray;
+        border-radius: 1rem;
+        cursor: pointer;
+        .user-svg {
+          font-size: 1.2rem;
+          position: absolute;
+          @include fonts($color: rgb(178, 178, 189));
+        }
+        .user {
+          @include fonts($color: rgb(136, 187, 54));
+          left: 0.4rem;
+        }
+        .inactive {
+          right: 0.4rem;
+        }
+      }
+      span {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        &.right-position {
+          right: 0;
+          left: initial;
+          &.right-position:before {
+            background-color: rgb(136, 187, 54);
+          }
+        }
+      }
+      span:before {
+        position: absolute;
+        content: "";
+        height: 1.8rem;
+        width: 1.8rem;
+        left: 0;
+        bottom: 0;
+        background-color: rgb(178, 178, 189);
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        top: 0.2rem;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+.users-container {
+  @include box-size($width: 280px);
+  margin: auto;
+  border: 1px solid $lightgray;
+  header {
+    @include alignment($direction: column, $justify: space-evenly);
+    @include box-size($height: 80px);
+    background-color: lighten($graphite, 20%);
+    @include fonts($color: $light);
+    input {
+      @include box-size($width: 260px);
+      padding: 0.4rem;
+      border-radius: 6px;
+      box-shadow: $shadowSmall;
+    }
+  }
+  .users-list-wrapper {
+    overflow-y: auto;
+    @include alignment($direction: column, $align: center);
+    padding: 0.5rem;
+  }
+  .single-user {
+    background: $darkSteel;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(4, auto);
+    grid-template-areas: "userImage userInfo userInfo" "userImage userInfo userInfo" "buttonsUser buttonsUser buttonsUser" "recipesFavorites recipesFavorites recipesFavorites";
+    padding: 0.5rem;
+    box-shadow: $shadowSmall;
+    border-radius: 8px;
+    color: $light;
+    figure {
+      grid-area: userImage;
+      @include box-size($width: 50px, $height: 70px);
+      img {
+        @include box-size($width: 100%);
+        box-shadow: $shadowSmall;
+      }
+    }
+    .user-info {
+      grid-area: userInfo;
+      text-align: left;
+      margin-left: 0.5rem;
+      .username {
+        @include alignment($justify: flex-start);
+        @include fonts($size: 0.9rem);
+      }
+      small {
+        display: inline-block;
+        color: $light;
+      }
+    }
+    .admin-user {
+      background-color: rgb(52, 111, 150);
+      color: $light;
+      padding: 0.2rem;
+      margin-left: 0.5rem;
+      @include fonts($size: 0.7rem, $color: rgb(235, 231, 231));
+      .shield-icon {
+        @include fonts($size: 0.7rem, $color: rgb(235, 231, 231));
+      }
+    }
+    .disabled-user {
+      background-color: crimson;
+      @include fonts($size: 0.7rem, $color: rgb(235, 231, 231));
+      padding: 0.5rem;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+    }
+    .recipes-favorites {
+      grid-area: recipesFavorites;
+      @include alignment($justify: space-evenly);
+      margin-top: 0.5rem;
+      div:first-of-type {
+        border-right: 2px solid $light;
+        cursor: pointer;
+      }
+      div {
+        grid-template-columns: repeat(2, auto);
+        grid-template-rows: repeat(2, auto);
+        grid-template-areas: "icon text" "icon count";
+        width: 50%;
+        .icon-bottom,
+        .text,
+        .count {
+          color: $light;
+        }
+        .icon-bottom {
+          grid-area: icon;
+          margin: auto;
+          @include fonts($size: 1.2rem);
+        }
+        .text,
+        .count {
+          @include fonts($size: 0.7rem);
+        }
+        .text {
+          grid-area: text;
+          margin: 0;
+        }
+        .count {
+          grid-area: count;
+          margin: 0;
+        }
+      }
+    }
+    .buttons-user {
+      @include alignment($align: center, $justify: space-evenly);
+      grid-area: buttonsUser;
+      padding: 0.5rem;
+      button {
+        background-color: transparent;
+      }
+      .edit,
+      .delete {
+        @include fonts($size: 1.2rem);
+      }
+      .edit {
+        @include fonts($color: #45a0dd);
+      }
+      .user-enabled {
+        @include fonts($color: rgb(136, 187, 54));
+      }
+      .delete {
+        @include fonts($color: crimson);
+      }
+    }
+  }
+}
+.pagination-wrapper {
+  margin: 1rem;
+}
+@media (min-width: 576px) {
+  .admin-users {
+    @include box-size($width: 100%);
+  }
+  .users-container {
+    @include box-size($width: 100%);
+    header {
+      @include box-size($height: 60px);
+      @include alignment($direction: row);
+    }
+    .users-list-wrapper {
+      @include alignment($direction: row, $justify: center);
+      flex-wrap: wrap;
+    }
+    .single-user {
+      @include box-size($width: 250px, $height: 320px);
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, auto);
+      grid-template-areas: "userImage" "userInfo" "buttonsUser" "recipesFavorites";
+      margin: 0.8rem;
+      box-shadow: $shadowBox;
+      figure {
+        margin: auto;
+        width: 80px;
+        height: 80px;
+        img {
+          border-radius: 50%;
+          border: 2px inset whitesmoke;
+        }
+      }
+      .user-info {
+        margin: auto;
+        text-align: center;
+        .username {
+          @include alignment($justify: center);
+          @include fonts($size: 1.1rem);
+          .admin-user {
+            border: 1px solid w hite;
+          }
+        }
+      }
+      .recipes-favorites {
+        div {
+          .icon-bottom {
+            @include fonts($size: 1.5rem);
+          }
+          .count {
+            @include fonts($size: 1.1rem);
+          }
+        }
+      }
+      .buttons-user {
+        @include box-size($height: 100%);
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .admin-users,
+  .loader-container {
+    margin-top: 0;
+    @include box-size($width: calc(100% - 4rem));
+    align-self: flex-end;
+  }
+  .loader-container {
+    margin: auto 0;
+  }
+}
+@media (min-width: 992px) {
+  .users-container {
+    @include box-size($max-width: 1000px);
+  }
+}
