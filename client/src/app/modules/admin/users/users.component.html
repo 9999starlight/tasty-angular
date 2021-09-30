@@ -10,26 +10,41 @@
     <!-- Sorting buttons -->
     <div class="users-container">
       <header class="flex flex-center">
-        <!-- <select name="" id=""></select> -->
-        <input type="text" ngModel="searchValue" placeholder="Search..." />
+        <div class="select-box">
+          <select
+            name="selectedOption"
+            class="admin-user-search"
+            [(ngModel)]="selectedOption"
+          >
+            <option
+              *ngFor="let option of usersOptions"
+              [value]="option.toLowerCase()"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." />
       </header>
       <div class="users-list-wrapper flex">
         <div class="single-user mgb1 grid" *ngFor="let user of users">
           <figure>
+            <ng-container *ngIf="user.user_image">
             <img
-              *ngIf="user.user_image"
               [src]="user.user_image"
               [alt]="user.username"
               class="img-fit"
               loading="lazy"
             />
+          </ng-container>
+          <ng-container *ngIf="!user.user_image">
             <img
-              *ngIf="user.user_image === undefined"
               src="../../../../assets/images/default_user.png"
               [alt]="user.username"
               class="img-fit"
               loading="lazy"
             />
+          </ng-container>
           </figure>
           <div class="user-info">
             <p class="username flex flex-center">

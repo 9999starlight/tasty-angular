@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { UpdatedUser } from 'src/app/types/userTypes';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
@@ -13,6 +14,8 @@ export class UsersComponent implements OnInit {
   isLoading = false;
   users: UpdatedUser[] = [];
   filteredUsers = [];
+  usersOptions = ['Username', 'User ID'];
+  selectedOption = 'username';
 
   constructor(private adminService: AdminService) { }
 
