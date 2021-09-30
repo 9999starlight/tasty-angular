@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { UpdatedUser } from 'src/app/types/userTypes';
-import { NgForm } from '@angular/forms';
+import { SortingService } from '../../shared/sharedServices/sorting.service';
 
 @Component({
   selector: 'app-users',
@@ -17,32 +17,45 @@ export class UsersComponent implements OnInit {
   usersOptions = ['Username', 'User ID'];
   selectedOption = 'username';
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, public sortingService: SortingService) { }
 
   ngOnInit(): void {
     this.fetchUsers()
   }
 
-  allUserRecipes(id: string) {}
+  sortUsernameAscending() {
+    const sortByUser = this.users.sort((a, b) =>
+      a.username.toLowerCase().localeCompare(b.username.toLowerCase())
+    )
+    return sortByUser
+  }
 
-  openUserEdit(id: string) {}
+  sortUsernameDescending() {
+    const sortByUser = this.users.sort((a, b) =>
+      b.username.toLowerCase().localeCompare(a.username.toLowerCase())
+    )
+    return sortByUser
+  }
 
-  adminEditing(id: string) {}
+  allUserRecipes(id: string) { }
 
-    fetchUsers() {
-      this.adminService.getUsers().subscribe((res) => {
-        if (res) {
-          console.log(res)
-          this.users = [...res];
-        }
-      }, error => {
-        this.isLoading = false;
-        //this.errorMessage = `Error: ${error.statusText}`;
-        console.log(error.statusText);
-      })
-  
-    }
-  
+  openUserEdit(id: string) { }
+
+  adminEditing(id: string) { }
+
+  fetchUsers() {
+    this.adminService.getUsers().subscribe((res) => {
+      if (res) {
+        console.log(res)
+        this.users = [...res];
+      }
+    }, error => {
+      this.isLoading = false;
+      //this.errorMessage = `Error: ${error.statusText}`;
+      console.log(error.statusText);
+    })
+  }
+
 
   /* filterUsers() {
     // if there is no search set initial array for pagination
@@ -61,5 +74,58 @@ export class UsersComponent implements OnInit {
       }
     })
   } */
+
+  /* async changeDisableStatus() {
+    try {
+      if (window.confirm('Change status for this user?')) {
+        const res = await this.editUser(
+          this.userForEdit._id,
+          'disableStatus',
+          {
+            disableStatus: this.userForEdit.isDisabled
+          }
+        )
+        if (res) {
+          this.closeUserEdit()
+          this.usersFetch()
+        }
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  },
+  async changeAdminStatus() {
+    try {
+      if (window.confirm('Change Admin status for this user?')) {
+        const res = await this.editUser(this.userForEdit._id, 'adminStatus', {
+          adminStatus: this.userForEdit.isAdmin
+        })
+        if (res) {
+          this.closeUserEdit()
+          this.usersFetch()
+        }
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  },
+  async openUserEdit(id) {
+    try {
+      const user = await this.fetchSingleUser(id)
+      this.userForEdit = user.data
+      this.editModal = true
+    } catch (error) {
+      console.log(error.message)
+    }
+  },
+  adminEditing(id) {
+    this.editAdmin = true
+    this.openUserEdit(id)
+  },
+  closeUserEdit() {
+    this.userForEdit = null
+    this.editAdmin = false
+    this.editModal = false
+  }, */
 
 }

@@ -2,12 +2,18 @@
   [ngClass]="
     editModal ? 'admin-users mgt4 disable-scrolling' : 'admin-users mgt4'
   "
-  *ngIf="!isLoading"
+  *ngIf="users.length"
 >
   <h1 class="slim" id="searchUsers">Users</h1>
   <p class="slim mgb2">Number of users: {{ users.length }}</p>
   <section class="search-users">
-    <!-- Sorting buttons -->
+    <app-sorting-buttons
+      [isRating]="false"
+      (titleAsc)="sortUsernameAscending()"
+      (titleDesc)="sortUsernameDescending()"
+      (dateAsc)="sortingService.sortDateAscending(users)"
+      (dateDesc)="sortingService.sortDateDescending(users)"
+    ></app-sorting-buttons>
     <div class="users-container">
       <header class="flex flex-center">
         <div class="select-box">
@@ -101,7 +107,7 @@
               </ng-container>
 
               <app-tooltip
-                tooltipText="user.isDisabled ? 'Enable user' : 'Disable user'"
+                [tooltipText]="user.isDisabled ? 'Enable user' : 'Disable user'"
               ></app-tooltip>
             </button>
             <button

@@ -1,1 +1,148 @@
-<p>recipes works!</p>
+<div
+  [ngClass]="
+    uiService.editState
+      ? 'adminRecipes mgt4 disable-scrolling'
+      : 'admin-recipes mgt4'
+  "
+  *ngIf="recipes.length"
+>
+  <app-overlay
+    *ngIf="uiService.editState && singleRecipe"
+    (closeModal)="closeEditForm()"
+  >
+    <ng-container>
+      <header class="flex flex-center">
+        <h2>Edit Recipe</h2>
+        <button
+          type="button"
+          (click)="closeEditForm()"
+          class="del tooltip-container"
+        >
+          <fa-icon [icon]="['fas', 'times']"></fa-icon>
+          <app-tooltip tooltipText="Cancel and close form"></app-tooltip>
+        </button>
+      </header>
+      <div class="edit-inner">
+        <app-recipe-form [singleRecipe]="singleRecipe"></app-recipe-form>
+      </div>
+    </ng-container>
+  </app-overlay>
+  <!-- end modal -->
+  <h1 class="mgb1 slim">Recipes</h1>
+  <section class="recipes-overview center grid">
+    <app-statistic-box
+      title="Level count"
+      [dataArray]="levelArray"
+      class="levels-statistics"
+    ></app-statistic-box>
+    <app-statistic-box
+      title="Vegetarian & Gluten free count"
+      [dataArray]="vegetarianGlutenFree"
+      class="other-statistics"
+    ></app-statistic-box>
+    <app-statistic-box
+      title="Dish Type count"
+      [dataArray]="dishTypeOverview"
+      [autoHeight]="true"
+      class="dishtype-statistics"
+    ></app-statistic-box>
+  </section>
+  <section class="search-section flex flex-center">
+    <h2 class="slim" id="recipesHeading">
+      Browse {{ recipes.length }} recipes
+    </h2>
+    <app-sorting-buttons
+      (titleAsc)="sortingService.sortTitleAscending(recipes)"
+      (titleDesc)="sortingService.sortTitleDescending(recipes)"
+      (ratingAsc)="sortingService.sortRatingAscending(recipes)"
+      (ratingDesc)="sortingService.sortRatingDescending(recipes)"
+      (dateAsc)="sortingService.sortDateAscending(recipes)"
+      (dateDesc)="sortingService.sortDateDescending(recipes)"
+    ></app-sorting-buttons>
+    <div class="search-recipes">
+      <header class="flex flex-center">
+        <div class="select-box">
+          <select
+            name="adminRecipesOptions"
+            class="admin-recipes-search"
+            [(ngModel)]="selectedOption"
+          >
+            <option
+              *ngFor="let option of adminRecipesOptions"
+              [value]="option.toLowerCase()"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." />
+      </header>
+      <div class="allrecipes-container">
+        <div class="recipe-single grid mgb1" *ngFor="let recipe of recipes">
+          <figure>
+            <ng-container *ngIf="!recipe.image">
+              <img
+                src="../../../../assets/images/default_recipe.jpg"
+                [alt]="recipe.mealName"
+                class="img-fit"
+                loading="lazy"
+              />
+            </ng-container>
+            <ng-container *ngIf="recipe.image">
+              <img
+                [src]="recipe.image"
+                [alt]="recipe.mealName"
+                class="img-fit"
+                loading="lazy"
+              />
+            </ng-container>
+          </figure>
+          <h5>{{ recipe.mealName | sentenceCase }}</h5>
+          <p class="light-italic created">
+            {{ recipe.createdAt | date }}
+          </p>
+          <p class="author">{{ recipe.author.username }}</p>
+          <small class="rating">
+            <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon
+            >&nbsp;{{ recipe.rating }} /
+            {{
+              recipe.rates.length ? recipe.rates.length + " votes" : "not rated"
+            }}
+          </small>
+          <small class="recipe-id slim">ID: {{ recipe._id }}</small>
+          <div class="recipe-buttons flex">
+            <button
+              (click)="deleteRecipe(recipe._id)"
+              class="tooltip-container"
+            >
+              <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
+              <app-tooltip tooltipText="Delete recipe"></app-tooltip>
+            </button>
+            <a [routerLink]="['/recipe', recipe._id]" class="details"
+              >Details</a
+            >
+            <button
+              (click)="editFormSettings(recipe._id)"
+              class="tooltip-container"
+            >
+              <fa-icon [icon]="['fas', 'edit']" class="edit"></fa-icon>
+              <app-tooltip tooltipText="Edit recipe"></app-tooltip>
+            </button>
+          </div>
+        </div>
+        <!-- <Pagination
+            v-show="!searchValue"
+            :resultsPerPage="resultsPerPage"
+            :totalResults="allRecipes.length"
+            :currentPage="currentPage"
+            @paginate="changePage"
+            @prev="prevPage"
+            @next="nextPage"
+            @first="firstPage"
+            @last="lastPage"
+          /> -->
+      </div>
+    </div>
+  </section>
+</div>
+<app-loader *ngIf="!recipes.length" [bigLoader]="true"></app-loader>

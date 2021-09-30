@@ -19,6 +19,7 @@ export class RecipeFormComponent implements OnInit {
   userId!: string | undefined;
   recipeForm!: FormGroup;
   @Input() singleRecipe!: SingleRecipe;
+  imgMessage = '';
 
   dishTypeOptions = [
     'Bread',
@@ -67,6 +68,8 @@ export class RecipeFormComponent implements OnInit {
     if (!this.uiService.editState) {
       this.addIngredient();
       this.addStep();
+    } else {
+      console.log('from form: ', this.singleRecipe)
     }
   }
 
@@ -152,7 +155,8 @@ export class RecipeFormComponent implements OnInit {
       regional: new FormControl(regional),
       vegetarian: new FormControl(vegetarian),
       glutenFree: new FormControl(glutenFree),
-      image: new FormControl(image, [this.imgValidator.imageTypeValidation, this.imgValidator.imageSizeValidation]),
+      /* image: new FormControl(image, [this.imgValidator.imageTypeValidation, this.imgValidator.imageSizeValidation]), */
+      image: new FormControl(image),
       ingredients: ingredients,
       steps: steps
     });
@@ -160,6 +164,7 @@ export class RecipeFormComponent implements OnInit {
 
   onClear(msg: string) {
     this.message = msg;
+    this.imgMessage = msg;
   }
 
   increaseTiming() {
@@ -221,6 +226,14 @@ export class RecipeFormComponent implements OnInit {
 
   uploadFile(value: any): void {
     const file = (value.target as HTMLInputElement)?.files?.[0];
+    console.log(this.imgValidator.typeValidation(file))
+    /* if(file && this.imgValidator.typeValidation(file)) { */
+    if (!this.imgValidator.typeValidation(file)) {
+      this.imgMessage = 'Unsupported file! Please check image format and size';
+      this.removeSelectedImage();
+      return;
+    }
+    //this.imgMessage = '';
     this.filename = file!.name;
     this.recipeForm.patchValue({
       image: file
@@ -235,6 +248,8 @@ export class RecipeFormComponent implements OnInit {
     reader.readAsDataURL(file!);
 
     console.log(this.preview);
+    //}
+
   }
 
   removeSelectedImage() {

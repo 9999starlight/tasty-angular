@@ -2,6 +2,7 @@
   [formGroup]="recipeForm"
   (ngSubmit)="onRecipeSubmit()"
   enctype="multipart/form-data"
+  *ngIf="recipeForm"
   [ngClass]="!uiService.editState ? 'flex pd1' : 'flex pd1 edit-form'"
 >
   <fieldset class="inputs-wrapper mgb1">
@@ -200,7 +201,7 @@
         <small>Maximum upload file size 2Mb</small>
       </div>
       <div class="warn-wrapper">
-        <p
+        <!-- <p
           class="warn"
           *ngIf="recipeForm.get('image')?.hasError('invalidFileType')"
         >
@@ -211,7 +212,13 @@
           *ngIf="recipeForm.get('image')?.hasError('invalidFileSize')"
         >
           File is larger than 2Mb!
-        </p>
+        </p> -->
+        <app-info-message
+          *ngIf="imgMessage"
+          [message]="imgMessage"
+          [messageStatus]="false"
+          (clear)="onClear('')"
+        ></app-info-message>
       </div>
     </div>
   </fieldset>

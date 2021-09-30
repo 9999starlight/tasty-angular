@@ -1,0 +1,193 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+.search-section {
+  @include alignment($direction: column);
+  h2 {
+    margin: 2rem 0 1rem 0;
+  }
+}
+.search-recipes {
+  @include box-size($width: 280px);
+  border: 1px solid $lightgray;
+  position: relative;
+  header {
+    @include alignment($direction: column, $justify: space-evenly);
+    background-color: lighten($graphite, 20%);
+    @include fonts($color: $light);
+    @include box-size($width: 100%, $height: 100px);
+    position: sticky;
+    top: 0;
+    input {
+      @include box-size($width: 260px);
+      padding: 0.5rem 0.4rem;
+      border-radius: 6px;
+      box-shadow: $shadowSmall;
+    }
+  }
+  .allrecipes-container {
+    @include box-size($height: calc(100% - 100px));
+    padding: 0.5rem;
+  }
+  .recipe-single {
+    @include box-size($width: 100%);
+    @include alignment($align: center, $text-align: left);
+    box-shadow: $shadowBox;
+    color: $graphite;
+    grid-template-rows: repeat(5, auto);
+    grid-template-columns: repeat(3, auto);
+    grid-template-areas: "image title title" "image created created" "user user rating" "recipeId recipeId recipeId" "recipeButtons recipeButtons recipeButtons";
+    grid-column-gap: 0.5rem;
+    padding: 0.4rem 0.2rem;
+    h5 {
+      grid-area: title;
+    }
+    figure {
+      grid-area: image;
+      img {
+        @include box-size($width: 60px);
+      }
+    }
+    .created {
+      grid-area: created;
+      @include fonts($size: 0.7rem);
+    }
+    .author {
+      grid-area: user;
+      @include fonts($size: 0.8rem, $weight: 700);
+      margin-top: 0.3rem;
+    }
+    .rating {
+      grid-area: rating;
+      text-align: right;
+      margin-right: 0.5rem;
+    }
+    .recipe-id {
+      grid-area: recipeId;
+    }
+    .recipe-buttons {
+      grid-area: recipeButtons;
+      @include alignment($justify: space-evenly, $align: center);
+      .details {
+        grid-area: details;
+        color: rgb(40, 53, 40);
+        text-decoration: green underline;
+        justify-self: center;
+      }
+      button {
+        background-color: transparent;
+        padding: 0.8rem;
+        @include fonts($size: 1.5rem);
+        .edit,
+        .delete {
+          position: relative;
+          z-index: -1;
+        }
+        .edit {
+          @include fonts($color: rgb(136, 187, 54));
+          filter: drop-shadow(2px 1px #393b39);
+        }
+        .delete {
+          @include fonts($color: crimson);
+          filter: drop-shadow(2px 1px #661313);
+        }
+      }
+    }
+  }
+}
+.recipes-overview {
+  place-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $lightgray;
+  .statistic-box-wrapper {
+    @include box-size($height: auto);
+  }
+}
+.pagination-wrapper {
+  margin: 1rem;
+}
+@media (min-width: 576px) {
+  .search-recipes {
+    @include box-size($width: 500px);
+    .recipe-single {
+      grid-template-rows: repeat(4, auto);
+      grid-template-columns: 20% 1fr 1fr;
+      grid-template-areas: "image title rating" "image created created" "image user recipeId" "recipeButtons recipeButtons recipeButtons";
+      grid-column-gap: 0;
+      .rating {
+        margin-top: 0;
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .admin-recipes,
+  .loader-container {
+    margin-top: 0;
+    @include box-size($width: calc(100% - 4rem));
+    align-self: flex-end;
+  }
+  .loader-container {
+    margin: auto 0;
+  }
+  .search-recipes {
+    @include box-size($width: 680px);
+    margin: auto;
+    header {
+      @include alignment($direction: row);
+      @include box-size($height: 60px);
+      input {
+        padding: 0.4rem;
+        @include box-size($width: 300px);
+      }
+    }
+    .allrecipes-container {
+      @include box-size($height: calc(100% - 60px));
+    }
+    .recipe-single {
+      grid-template-rows: repeat(3, auto);
+      grid-template-areas: "image title recipeId rating" "image created user user" "recipeButtons recipeButtons recipeButtons recipeButtons";
+      grid-template-columns: 15% 1fr 1fr;
+      .recipe-id,
+      .author {
+        margin-top: 0;
+      }
+    }
+  }
+  .recipes-overview {
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+    grid-template-areas: "levels dishTypes" "other dishTypes";
+    .levels-statistics {
+      grid-area: levels;
+    }
+    .other-statistics {
+      grid-area: other;
+    }
+    .dishtype-statistics {
+      grid-area: dishTypes;
+    }
+  }
+  .recipes-overview {
+    justify-items: center;
+    align-items: stretch;
+  }
+}
+@media (min-width: 992px) {
+  section {
+    @include box-size($width: 900px);
+    margin: auto;
+  }
+  .search-recipes {
+    @include box-size($width: 100%);
+    .recipe-single {
+      grid-template-rows: repeat(2, auto);
+      grid-template-areas: "image title recipeId rating recipeButtons" "image created user user recipeButtons";
+      grid-template-columns: 10% 1fr 1fr 100px 1fr;
+      .rating {
+        text-align: left;
+      }
+    }
+  }
+}

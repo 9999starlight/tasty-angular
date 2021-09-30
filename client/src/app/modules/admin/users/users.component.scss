@@ -2,6 +2,12 @@
   "../../../../styles/abstracts/mixins",
   "../../../../styles/abstracts/functions";
 
+/* .admin-users {
+  margin-top: 0;
+width: calc(100% - 4rem);
+align-self: flex-end;
+} */
+  
 .sorting-btns {
   margin: 1rem auto;
 }
@@ -80,6 +86,7 @@
     }
   }
 }
+
 .users-container {
   @include box-size($width: 280px);
   margin: auto;
@@ -272,7 +279,7 @@
   .admin-users,
   .loader-container {
     margin-top: 0;
-    @include box-size($width: calc(100% - 4rem));
+    /* @include box-size($width: calc(100% - 4rem)); */
     align-self: flex-end;
   }
   .loader-container {

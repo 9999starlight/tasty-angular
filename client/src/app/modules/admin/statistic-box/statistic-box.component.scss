@@ -4,6 +4,9 @@
 
 .statistic-box-wrapper {
   @include box-size($width: 280px, $height: 240px);
+  &.height-auto {
+    height: auto;
+  }
   border: 1px solid $lightgray;
   h3 {
     background-color: lighten($graphite, 20%);

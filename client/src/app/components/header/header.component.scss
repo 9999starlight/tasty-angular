@@ -9,7 +9,7 @@
 header {
   @include alignment($direction: column);
   position: fixed;
-  @include box-size($width: 100%);
+  @include box-size($width: 100%, $height: 50px);
   top: 0;
   background-color: $light;
   z-index: 7;
@@ -209,7 +209,7 @@ nav {
   }
 
   nav {
-    @include box-size($height: 50px);
+    /* @include box-size($height: 50px); */
     @include alignment($justify: flex-end);
 
     ul {

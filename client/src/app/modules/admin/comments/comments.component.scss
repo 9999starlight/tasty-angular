@@ -1,0 +1,122 @@
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
+
+.admin-comments {
+    margin: 0 auto;
+}
+
+.sorting-btns {
+  margin: 1rem auto;
+}
+.comments-container {
+  @include box-size($width: 100%);
+  margin: auto;
+  border: 1px solid $lightgray;
+  header {
+    @include alignment($direction: column, $justify: space-evenly);
+    @include box-size($height: 80px);
+    background-color: lighten($graphite, 20%);
+    @include fonts($color: $light);
+    input {
+      @include box-size($width: 260px);
+      padding: 0.4rem;
+      border-radius: 6px;
+      box-shadow: $shadowSmall;
+    }
+  }
+  .comments-list-wrapper {
+    overflow-y: auto;
+    @include alignment($direction: column, $align: center);
+    padding: 0.5rem;
+  }
+  .single-comment {
+    box-shadow: $shadowBox;
+    text-align: left;
+    @include box-size($width: 100%);
+    background-color: $light;
+    div {
+      padding: 0.5rem;
+    }
+    .username {
+      @include alignment($align: center);
+      img {
+        @include box-size($width: 20px, $height: 20px);
+        border-radius: 50%;
+        margin: 0 5px;
+      }
+    }
+    p {
+      @include fonts($size: 0.8rem);
+    }
+    .comment-body {
+      background-color: lighten($graphite, 20%);
+      @include fonts($color: $light);
+      margin: 0.5rem;
+      p:first-of-type {
+        @include fonts($color: lighten($graphite, 55%));
+      }
+      .comment-text {
+        @include fonts($size: 1rem);
+      }
+    }
+    .basic-info,
+    .author-info {
+      border-bottom: 1px solid $lightgray;
+    }
+    .buttons-comments {
+      @include alignment($justify: space-evenly);
+      button {
+        background-color: transparent;
+      }
+      .delete {
+        @include fonts($size: 1.2rem);
+        @include fonts($color: crimson);
+      }
+    }
+  }
+}
+@media (min-width: 576px) {
+  .admin-comments {
+    @include box-size($width: 100%);
+  }
+  .comments-container {
+    header {
+      @include box-size($height: 60px);
+      @include alignment($direction: row);
+    }
+    .single-comment {
+      grid-template-columns: repeat(2, auto);
+      grid-template-rows: repeat(3, auto);
+      grid-template-areas: "basicInfo authorInfo" "commentBody commentBody" "buttonsComments buttonsComments";
+    }
+    .comment-body {
+      grid-area: commentBody;
+    }
+    .author-info {
+      grid-area: authorInfo;
+    }
+    .basicč-info {
+      grid-area: basicInfo;
+    }
+    .buttons-comments {
+      grid-area: buttonsComments;
+    }
+  }
+}
+@media (min-width: 768px) {
+  .admin-comments,
+  .loader-container {
+    margin-top: 0;
+    @include box-size($width: calc(100% - 4rem));
+    align-self: flex-end;
+  }
+  .loader-container {
+    margin: auto 0;
+  }
+}
+@media (min-width: 992px) {
+  .comments-container {
+    @include box-size($max-width: 800px);
+  }
+}

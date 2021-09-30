@@ -38,4 +38,17 @@ export class AdminService {
     )
   }
 
+  deleteComment(id: string) {
+    return this.http.delete<any>(`${commentsUrl}/${id}`).pipe(
+      map(res => {
+        return res
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
+
 }

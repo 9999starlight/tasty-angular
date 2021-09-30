@@ -120,10 +120,9 @@
 @media (min-width: 768px) {
   .overview {
     margin-top: 0;
-    margin-left: 3rem;
     padding: 1rem;
     //@include box-size($width: calc(100% - 4rem));
-    width: 90%;
+    width: 100%;
     //align-self: center;
     //align-self: flex-end;
     section {

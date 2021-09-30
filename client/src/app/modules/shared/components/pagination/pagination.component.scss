@@ -1,0 +1,69 @@
+@import "../../../../../styles/abstracts/variables",
+  "../../../../../styles/abstracts/mixins",
+  "../../../../../styles/abstracts/functions";
+
+.pagination-wrapper {
+  ul {
+    @include box-size($max-width: 100%, $height: 3rem);
+    box-shadow: 0px 20px 9px -17px rgba(16, 16, 16, 0.79);
+    li {
+      background-color: rgba(29, 28, 28, 0.774);
+      &:first-of-type {
+        border-right: 1px solid darken($midTone, 10%);
+        border-radius: 40% 0px 0px 40%;
+      }
+      &:last-of-type {
+        border-left: 1px solid darken($midTone, 10%);
+        border-radius: 0px 40% 40% 0px;
+      }
+    }
+    a,
+    .more-pages-indicator {
+      @include alignment($display: flex, $align: center);
+      @include box-size($height: 100%);
+      padding: 0.7rem;
+      @include fonts($color: saturate(orange, 70%), $size: 0.9rem);
+      transition: background-color 0.4s;
+      border-right: 1px solid darken($midTone, 10%);
+      &.active {
+        background-color: lighten($midTone, 5%);
+      }
+      &:last-of-type {
+        border: none;
+      }
+      &.prev.disabled,
+      &.next.disabled {
+        cursor: not-allowed;
+        color: gray;
+        pointer-events: none;
+      }
+    }
+    a:first-of-type,
+    a:last-of-type {
+      padding: 0.7rem 1rem;
+    }
+  }
+  .pagination-arrow {
+    font-size: 1.2rem;
+  }
+}
+@media (min-width: 576px) {
+  .pagination-wrapper {
+    ul {
+      a,
+      .more-pages-indicator {
+        padding: 0.8rem;
+        @include fonts($size: 1rem);
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .pagination-wrapper {
+    ul {
+      li:hover {
+        background-color: darken($midTone, 25%);
+      }
+    }
+  }
+}

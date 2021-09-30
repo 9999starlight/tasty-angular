@@ -1,0 +1,77 @@
+<nav
+  class="pagination-wrapper flex flex-center mgt2"
+  *ngIf="pageNumbers.length > 1"
+>
+  <ul class="flex">
+    <li>
+      <button
+        type="button"
+        (click)="prev()"
+        [ngClass]="togglePrevDisabled ? 'prev disabled' : 'prev'"
+      >
+        <fa-icon
+          [icon]="['fas', 'angle-double-left']"
+          class="pagination-arrow"
+        ></fa-icon>
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        (click)="first()"
+        [ngClass]="{ active: currentPage === 1 }"
+      >
+        1
+      </button>
+    </li>
+    <li
+      class="more-pages-indicator"
+      *ngIf="!togglePrevDisabled && currentPage > 3"
+    >
+      ...
+    </li>
+    <li *ngFor="let num of pagesForShow">
+      <button
+        type="button"
+        (click)="pagina(num)"
+        [ngClass]="{ active: currentPage === num }"
+        *ngIf="
+          currentPage === num ||
+          (num >= currentPage - 1 && num < currentPage + 2)
+        "
+      >
+        {{ num }}
+      </button>
+    </li>
+    <li
+      class="more-pages-indicator"
+      *ngIf="
+        !toggleNextDisabled && currentPage < pageNumbers[pageNumbers.length - 3]
+      "
+    >
+      ...
+    </li>
+    <li>
+      <button
+        type="button"
+        (click)="last(pageNumbers)"
+        [ngClass]="{ active: currentPage === pageNumbers.length }"
+        *ngIf="pageNumbers.length > 1"
+      >
+        {{ pageNumbers.length }}
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        (click)="next(pageNumbers)"
+        [ngClass]="toggleNextDisabled ? 'next disabled' : 'next'"
+      >
+        <fa-icon
+          [icon]="['fas', 'angle-double-right']"
+          class="pagination-arrow"
+        ></fa-icon>
+      </button>
+    </li>
+  </ul>
+</nav>

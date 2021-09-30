@@ -8,40 +8,40 @@ export class SortingService {
 
   constructor() { }
 
-  sortTitleAscending(arr: RecipeResponse[]) {
-    const sortedArr = arr.sort((a, b) =>
+  sortTitleAscending(arr: any) {
+    const sortedArr = arr.sort((a: any, b: any) =>
       a.mealName.toLowerCase().localeCompare(b.mealName.toLowerCase())
     )
     return sortedArr
   }
 
-  sortTitleDescending(arr: RecipeResponse[]) {
-    const sortedArr = arr.sort((a, b) =>
+  sortTitleDescending(arr: any) {
+    const sortedArr = arr.sort((a: any, b: any) =>
       b.mealName.toLowerCase().localeCompare(a.mealName.toLowerCase())
     )
     return sortedArr
   }
 
-  sortRatingAscending(arr: RecipeResponse[]) {
-    const sortedArr = arr.sort((a, b) => a.rating - b.rating)
+  sortRatingAscending(arr: any) {
+    const sortedArr = arr.sort((a: any, b: any) => a.rating - b.rating)
     return sortedArr
   }
 
-  sortRatingDescending(arr: RecipeResponse[]) {
-    const sortedArr = arr.sort((a, b) => b.rating - a.rating)
+  sortRatingDescending(arr: any) {
+    const sortedArr = arr.sort((a: any, b: any) => b.rating - a.rating)
     return sortedArr
   }
 
-  sortDateAscending(arr: RecipeResponse[]) {
+  sortDateAscending(arr: any) {
     const sortedArr = arr.sort(
-      (a, b) => <any>new Date(a.createdAt) - <any>new Date(b.createdAt)
+      (a: any, b: any) => <any>new Date(a.createdAt) - <any>new Date(b.createdAt)
     )
     return sortedArr
   }//<any>new Date(b.createdAt) - <any>new Date(a.createdAt)
 
-  sortDateDescending(arr: RecipeResponse[]) {
+  sortDateDescending(arr: any) {
     const sortedArr = arr.sort(
-      (a, b) => <any>new Date(b.createdAt) - <any>new Date(a.createdAt)
+      (a: any, b: any) => <any>new Date(b.createdAt) - <any>new Date(a.createdAt)
     )
     return sortedArr
   }

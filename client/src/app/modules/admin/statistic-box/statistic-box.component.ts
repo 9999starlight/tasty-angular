@@ -11,14 +11,13 @@ export class StatisticBoxComponent implements OnInit {
     name: string,
     value: number
   }[] = [];
+  @Input() autoHeight = false;
   addPercentages: any = [];
 
   constructor() { }
 
   ngOnInit(): void {
     this.percentages();
-    console.log('from stat box: ', this.dataArray)
-    console.log(this.addPercentages)
   }
 
   percentages() {
