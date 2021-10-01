@@ -30,10 +30,12 @@ export class PaginationService {
   }
 
   lastResultIndex(resPerPage: number) {
+    console.log('lastIndex: ',this.currentPage * resPerPage)
     return this.currentPage * resPerPage
   }
 
   firstResultIndex(resPerPage: number) {
+    console.log('firstIndex:', this.lastResultIndex(resPerPage) - resPerPage)
     return this.lastResultIndex(resPerPage) - resPerPage
   }
 }

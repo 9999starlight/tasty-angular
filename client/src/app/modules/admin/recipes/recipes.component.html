@@ -1,11 +1,4 @@
-<div
-  [ngClass]="
-    uiService.editState
-      ? 'adminRecipes mgt4 disable-scrolling'
-      : 'admin-recipes mgt4'
-  "
-  *ngIf="recipes.length"
->
+<div class="admin-recipes mgt4" *ngIf="recipes.length">
   <app-overlay
     *ngIf="uiService.editState && singleRecipe"
     (closeModal)="closeEditForm()"

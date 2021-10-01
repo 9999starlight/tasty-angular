@@ -9,6 +9,7 @@ export class PaginationComponent implements OnInit {
   @Input() resultsPerPage: number = 1;
   @Input() totalResults: number = 1;
   @Input() currentPage: number = 1;
+  pgNum: any = [];
   @Output() prevPage = new EventEmitter();
   @Output() firstPage = new EventEmitter();
   @Output() paginate = new EventEmitter();
@@ -18,6 +19,8 @@ export class PaginationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.pageNumbers()
+    console.log('from pagination: ', 'total results: ' + this.totalResults, 'resultsPerPage: ' + this.resultsPerPage, 'page numbers: ' + this.pgNum, 'pagesForShow: ' + this.pagesForShow())
   }
 
   prev() {
@@ -40,7 +43,7 @@ export class PaginationComponent implements OnInit {
     this.nextPage.emit(pgNums)
   }
 
-  get pageNumbers() {
+  pageNumbers() {
     let arr = []
     for (
       let i = 1;
@@ -49,7 +52,7 @@ export class PaginationComponent implements OnInit {
     ) {
       arr.push(i)
     }
-    return arr
+    this.pgNum = arr
   }
 
   get togglePrevDisabled() {
@@ -61,16 +64,16 @@ export class PaginationComponent implements OnInit {
   }
 
   get toggleNextDisabled() {
-    const pgNums = this.pageNumbers;
-    if (this.currentPage >= pgNums[pgNums.length - 1]) {
+    //const pgNums = this.pageNumbers();
+    if (this.currentPage >= this.pgNum[this.pgNum.length - 1]) {
       return true
     } else {
       return false
     }
   }
   // pages between first and last
-  get pagesForShow() {
-    const pgNums = this.pageNumbers;
-    return pgNums.slice(1, pgNums.length - 1)
+  pagesForShow() {
+    //const pgNums = this.pageNumbers();
+    return this.pgNum.slice(1, this.pgNum.length - 1)
   }
 }

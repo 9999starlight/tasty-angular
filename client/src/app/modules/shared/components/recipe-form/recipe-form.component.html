@@ -159,7 +159,7 @@
     <legend>Image Upload</legend>
     <div class="inner center">
       <div class="images flex">
-        <figure *ngIf="preview" class="flex flex-center">
+        <figure *ngIf="preview" [ngClass]="uiService.editState && singleRecipe.image ? 'flex flex-center half-size' : 'flex flex-center'">
           <img
             [src]="preview"
             [alt]="filename"
@@ -170,12 +170,13 @@
         </figure>
         <figure
           *ngIf="uiService.editState && singleRecipe.image"
-          class="flex flex-center"
+          [ngClass]="preview ? 'flex flex-center half-size' : 'flex flex-center'"
         >
           <img
             [src]="singleRecipe.image.url"
             [alt]="singleRecipe.mealName"
             loading="lazy"
+            class="img-fit"
           />
           <figcaption>Current image</figcaption>
         </figure>

@@ -1,10 +1,4 @@
-<div
-  [ngClass]="
-    uiService.editState
-      ? 'admin-container container disable-scrolling'
-      : 'admin-container container'
-  "
->
+<div class="admin-container container">
   <app-navigation></app-navigation>
   <div class="flex flex-center outlet-wrapper">
     <router-outlet></router-outlet>

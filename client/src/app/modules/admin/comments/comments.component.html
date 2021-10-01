@@ -1,4 +1,4 @@
-<div class="admin-comments mgt4" *ngIf="comments.length">
+<div class="admin-comments mgt4" *ngIf="filteredCom.length">
   <h1 class="slim" id="commentsHeading">Comments</h1>
   <p class="slim mgb2">Number of comments: {{ comments.length }}</p>
   <section>
@@ -25,10 +25,10 @@
             </option>
           </select>
         </div>
-        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." />
+        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filteredComments()" />
       </header>
       <div class="comments-list-wrapper flex">
-        <div class="single-comment mgb1 grid" *ngFor="let comment of comments">
+        <div class="single-comment mgb1 grid" *ngFor="let comment of filteredCom">
           <div class="basic-info">
             <p class="comment-id">
               <strong>Comment ID:</strong> {{ comment._id }}
@@ -92,9 +92,9 @@
             @first="firstPage"
             @last="lastPage"
           /> -->
-        <!-- <app-pagination
+        <app-pagination
           *ngIf="!searchValue"
-          [resultsPerPage]="resultsPerPage"
+          [resultsPerPage]="resultsPerPage()"
           [totalResults]="comments.length"
           [currentPage]="pgOptions.currentPage"
           (paginate)="pgOptions.changePage($event)"
@@ -102,9 +102,9 @@
           (nextPage)="pgOptions.nextPage($event)"
           (firstPage)="pgOptions.firstPage()"
           (lastPage)="pgOptions.lastPage($event)"
-        ></app-pagination> -->
+        ></app-pagination>
       </div>
     </div>
   </section>
 </div>
-<app-loader *ngIf="!comments.length" [bigLoader]="true"></app-loader>
+<app-loader *ngIf="!filteredCom.length" [bigLoader]="true"></app-loader>

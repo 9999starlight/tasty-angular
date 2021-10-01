@@ -1,6 +1,6 @@
 <nav
   class="pagination-wrapper flex flex-center mgt2"
-  *ngIf="pageNumbers.length > 1"
+  *ngIf="pgNum.length > 1"
 >
   <ul class="flex">
     <li>
@@ -30,7 +30,7 @@
     >
       ...
     </li>
-    <li *ngFor="let num of pagesForShow">
+    <li *ngFor="let num of pagesForShow()">
       <button
         type="button"
         (click)="pagina(num)"
@@ -46,7 +46,7 @@
     <li
       class="more-pages-indicator"
       *ngIf="
-        !toggleNextDisabled && currentPage < pageNumbers[pageNumbers.length - 3]
+        !toggleNextDisabled && (currentPage < pgNum[pgNum.length - 3])
       "
     >
       ...
@@ -54,17 +54,17 @@
     <li>
       <button
         type="button"
-        (click)="last(pageNumbers)"
-        [ngClass]="{ active: currentPage === pageNumbers.length }"
-        *ngIf="pageNumbers.length > 1"
+        (click)="last(pgNum)"
+        [ngClass]="{ active: currentPage === pgNum.length }"
+        *ngIf="pgNum.length > 1"
       >
-        {{ pageNumbers.length }}
+        {{ pgNum.length }}
       </button>
     </li>
     <li>
       <button
         type="button"
-        (click)="next(pageNumbers)"
+        (click)="next(pgNum)"
         [ngClass]="toggleNextDisabled ? 'next disabled' : 'next'"
       >
         <fa-icon

@@ -1,9 +1,4 @@
-<div
-  [ngClass]="
-    editModal ? 'admin-users mgt4 disable-scrolling' : 'admin-users mgt4'
-  "
-  *ngIf="users.length"
->
+<div class="admin-users mgt4" *ngIf="users.length">
   <h1 class="slim" id="searchUsers">Users</h1>
   <p class="slim mgb2">Number of users: {{ users.length }}</p>
   <section class="search-users">
@@ -36,21 +31,21 @@
         <div class="single-user mgb1 grid" *ngFor="let user of users">
           <figure>
             <ng-container *ngIf="user.user_image">
-            <img
-              [src]="user.user_image"
-              [alt]="user.username"
-              class="img-fit"
-              loading="lazy"
-            />
-          </ng-container>
-          <ng-container *ngIf="!user.user_image">
-            <img
-              src="../../../../assets/images/default_user.png"
-              [alt]="user.username"
-              class="img-fit"
-              loading="lazy"
-            />
-          </ng-container>
+              <img
+                [src]="user.user_image"
+                [alt]="user.username"
+                class="img-fit"
+                loading="lazy"
+              />
+            </ng-container>
+            <ng-container *ngIf="!user.user_image">
+              <img
+                src="../../../../assets/images/default_user.png"
+                [alt]="user.username"
+                class="img-fit"
+                loading="lazy"
+              />
+            </ng-container>
           </figure>
           <div class="user-info">
             <p class="username flex flex-center">

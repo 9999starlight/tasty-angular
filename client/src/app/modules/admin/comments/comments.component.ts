@@ -14,6 +14,7 @@ export class CommentsComponent implements OnInit {
   commentsOptions = ['Author', 'Comment ID', 'Recipe ID'];
   selectedOption = 'author';
   searchValue = '';
+  filteredCom: any = []
 
   constructor(public sortingService: SortingService, private adminService: AdminService, public pgOptions: PaginationService) { }
 
@@ -25,6 +26,7 @@ export class CommentsComponent implements OnInit {
     this.adminService.getComments().subscribe((res) => {
       if (res) {
         this.comments = [...res];
+        this.setFilteredArray();
       }
     }, error => {
       console.log(error.statusText)
@@ -63,7 +65,7 @@ export class CommentsComponent implements OnInit {
   }
 
   // pagination - page settings
-  get resultsPerPage() {
+ resultsPerPage() {
     if (this.comments.length < 10) {
       return this.comments.length
     } else {
@@ -94,5 +96,43 @@ export class CommentsComponent implements OnInit {
       }
     })
   } */
+
+  setFilteredArray() {
+    const resPerPage = this.resultsPerPage()
+    this.filteredCom = this.comments.slice(
+      this.pgOptions.firstResultIndex(resPerPage),
+      this.pgOptions.lastResultIndex(resPerPage)
+    )
+    console.log(this.filteredCom, this.pgOptions.firstResultIndex(resPerPage),
+    this.pgOptions.lastResultIndex(resPerPage))
+  }
+
+  filteredComments() {
+    if (!this.searchValue) {
+      this.setFilteredArray()
+      /* this.filteredCom = this.comments.slice(
+        this.pgOptions.firstResultIndex(this.resultsPerPage()),
+        this.pgOptions.lastResultIndex(this.resultsPerPage())
+      )
+      console.log(this.filteredCom) */
+    } else {
+      this.filteredCom = this.comments.filter((comment) => {
+        if (this.selectedOption === 'Comment ID') {
+          return comment._id
+            .toLowerCase()
+            .includes(this.searchValue.toLowerCase())
+        } else if (this.selectedOption === 'Recipe ID') {
+          return comment.commentedRecipeId
+            .toLowerCase()
+            .includes(this.searchValue.toLowerCase())
+        } else {
+          return comment.author.username
+            .toLowerCase()
+            .includes(this.searchValue.toLowerCase())
+        }
+      })
+    }
+    
+  }
 
 }
