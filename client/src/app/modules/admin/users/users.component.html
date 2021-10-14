@@ -1,4 +1,86 @@
 <div class="admin-users mgt4" *ngIf="users.length">
+  <app-overlay
+    *ngIf="uiService.editState"
+    (closeModal)="closeUserEdit()"
+  >
+    <ng-container>
+      <header class="flex flex-center">
+        <h2>Edit User</h2>
+        <button (click)="closeUserEdit()" class="del tooltip-container">
+          <fa-icon [icon]="['fas', 'times']"></fa-icon>
+          <app-tooltip tooltipText="Close"></app-tooltip>
+        </button>
+      </header>
+      <div class="editing flex flex-center" *ngIf="editAdmin">
+        <h3 class="slim">
+          Admin permissions for <!-- {{ userForEdit.username }} --> are
+          <!-- <strong *ngIf="userForEdit.isAdmin">enabled</strong
+          ><strong *ngIf="!userForEdit.isAdmin">disabled</strong> -->
+        </h3>
+        <div class="admin-user-check-box">
+          <label for="adminCheck" class="flex flex-center">
+            <!-- <input
+              type="checkbox"
+              id="adminCheck"
+              name="adminCheck"
+              value="Enable Admin"
+              [checked]="userForEdit.isAdmin"
+              (change)="(e) => (userForEdit.isAdmin = e.target.checked)"
+            /> -->
+            <p class="flex flex-center">
+              <!-- <fa-icon
+                [icon]="['fas', 'user-shield']"
+                [ngClass]="
+                  userForEdit.isAdmin ? 'user user-svg' : 'inactive user-svg'
+                "
+              ></fa-icon> -->
+            </p>
+            <!-- <span
+              [ngClass]="userForEdit.isAdmin ? 'right-position' : ''"
+            ></span> -->
+          </label>
+        </div>
+        <button (click)="changeAdminStatus()" class="btn-action">
+          Submit Changes
+        </button>
+      </div>
+      <div class="editing flex flex-center" *ngIf="!editAdmin">
+        <h3 class="slim">
+          User <!-- {{ userForEdit.username }} --> is
+          <!-- <strong *ngIf="userForEdit.isDisabled">disabled</strong
+          ><strong *ngIf="!userForEdit.isDisabled">active</strong> -->
+        </h3>
+        <div class="admin-user-check-box">
+          <label for="disableCheck" class="flex flex-center">
+            <!-- <input
+              type="checkbox"
+              id="disableCheck"
+              name="disableCheck"
+              value="Change user status"
+              [checked]="userForEdit.isDisabled"
+              (change)="(e) => (userForEdit.isDisabled = e.target.checked)"
+            /> -->
+            <p class="flex flex-center">
+              <!-- <fa-icon
+                [icon]="['fas', 'user']"
+                [ngClass]="[
+                  userForEdit.isDisabled
+                    ? 'inactive user-svg'
+                    : 'user user-svg'
+                ]"
+              ></fa-icon> -->
+            </p>
+            <!-- <span
+              [ngClass]="[!userForEdit.isDisabled ? 'right-position' : '']"
+            ></span> -->
+          </label>
+        </div>
+        <button (click)="changeDisableStatus()" class="btn-action">
+          Submit Changes
+        </button>
+      </div>
+    </ng-container>
+  </app-overlay>
   <h1 class="slim" id="searchUsers">Users</h1>
   <p class="slim mgb2">Number of users: {{ users.length }}</p>
   <section class="search-users">
@@ -72,11 +154,15 @@
             >
           </div>
           <div class="recipes-favorites flex flex-center">
-            <div class="grid" (click)="allUserRecipes(user.userId)">
+            <a
+              [routerLink]="['/results']"
+              [queryParams]="{ author: user.userId }"
+              class="grid"
+            >
               <fa-icon [icon]="['fas', 'book']" class="icon-bottom"></fa-icon>
               <span class="text">Created recipes</span>
               <span class="count">{{ user.createdRecipes.length }}</span>
-            </div>
+            </a>
             <div class="grid">
               <fa-icon [icon]="['fas', 'heart']" class="icon-bottom"></fa-icon>
               <span class="text">Saved recipes</span>
@@ -100,7 +186,6 @@
                   class="edit user-enabled"
                 ></fa-icon>
               </ng-container>
-
               <app-tooltip
                 [tooltipText]="user.isDisabled ? 'Enable user' : 'Disable user'"
               ></app-tooltip>

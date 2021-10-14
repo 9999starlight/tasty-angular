@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
@@ -20,12 +21,11 @@ export class RecipeComponent implements OnInit {
   isLoading = false;
   infoMessage = '';
   msgStatus = false;
-  //user: CurrentUser | UpdatedUser | null = null;
-  // user state
-  //isLogged$: BehaviorSubject<boolean | null>;
-  //currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
-
-  //disableRecipeSaving: boolean = true;
+  routeSubscription!: Subscription;
+  updateRatingSubscription!: Subscription;
+  recipeSubscription!: Subscription;
+  favoritesSubscription!: Subscription;
+  newResultSubscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,11 +36,10 @@ export class RecipeComponent implements OnInit {
   ) {
 
     // resolver
-    this.route.data.subscribe(({ recipe }) => {
+    this.routeSubscription = this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;
     });
-    /* this.authService.isLogged = this.authService.isLogged$.getValue();
-    this.currentUser$ = this.authService.currentUser$; */
+    
   }
 
   ngOnInit(): void {
@@ -120,7 +119,7 @@ export class RecipeComponent implements OnInit {
   }
 
   updateRatingHandler(rateVal: number) {
-    this.recipesService.updateRating(this.recipe._id, rateVal).subscribe((res: any) => {
+    this.updateRatingSubscription = this.recipesService.updateRating(this.recipe._id, rateVal).subscribe((res: any) => {
       if (res) {
         this.updateMsgStatusHandler(true);
         this.updateMsgHandler('Recipe has been rated');
@@ -130,7 +129,7 @@ export class RecipeComponent implements OnInit {
   }
 
   getNewData(id: string) {
-    this.recipesService.getSingleRecipe(id).subscribe((res: any) => {
+    this.recipeSubscription = this.recipesService.getSingleRecipe(id).subscribe((res: any) => {
       if (res) {
         this.recipe = Object.assign({}, res);
         this.checkRatedBy();
@@ -150,7 +149,7 @@ export class RecipeComponent implements OnInit {
       this.updateMsgHandler('Login to save this recipe')
       return
     }
-    this.authService.updateFavorites({ favoriteId: this.recipe._id }).subscribe((res: any) => {
+    this.favoritesSubscription = this.authService.updateFavorites({ favoriteId: this.recipe._id }).subscribe((res: any) => {
       if (res) {
         //console.log(res)
         this.updateMsgStatusHandler(true)
@@ -168,7 +167,7 @@ export class RecipeComponent implements OnInit {
   }
 
   getNewResults(params: any){
-    this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
+    this.newResultSubscription = this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
       console.log(params)
       this.router.navigate(['results'], { queryParams: params });
     }, (error: any) => {  

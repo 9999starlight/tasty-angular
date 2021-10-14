@@ -1,4 +1,4 @@
-<div class="admin-comments mgt4" *ngIf="filteredCom.length">
+<div class="admin-comments mgt4" *ngIf="comments.length">
   <h1 class="slim" id="commentsHeading">Comments</h1>
   <p class="slim mgb2">Number of comments: {{ comments.length }}</p>
   <section>
@@ -6,8 +6,8 @@
       [isRating]="false"
       (titleAsc)="sortByAuthorAscending()"
       (titleDesc)="sortByAuthorDescending()"
-      (dateAsc)="sortingService.sortDateAscending(comments)"
-      (dateDesc)="sortingService.sortDateDescending(comments)"
+      (dateAsc)="sortingService.sortDateAscending(filteredCom)"
+      (dateDesc)="sortingService.sortDateDescending(filteredCom)"
     ></app-sorting-buttons>
     <div class="comments-container">
       <header class="flex flex-center">
@@ -25,7 +25,7 @@
             </option>
           </select>
         </div>
-        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filteredComments()" />
+        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filteredComments($event)" />
       </header>
       <div class="comments-list-wrapper flex">
         <div class="single-comment mgb1 grid" *ngFor="let comment of filteredCom">
@@ -81,18 +81,8 @@
             </button>
           </div>
         </div>
-        <!-- <Pagination
-            v-show="!searchValue"
-            :resultsPerPage="resultsPerPage"
-            :totalResults="allComments.length"
-            :currentPage="currentPage"
-            @paginate="changePage"
-            @prev="prevPage"
-            @next="nextPage"
-            @first="firstPage"
-            @last="lastPage"
-          /> -->
-        <app-pagination
+      
+        <!-- <app-pagination
           *ngIf="!searchValue"
           [resultsPerPage]="resultsPerPage()"
           [totalResults]="comments.length"
@@ -102,9 +92,9 @@
           (nextPage)="pgOptions.nextPage($event)"
           (firstPage)="pgOptions.firstPage()"
           (lastPage)="pgOptions.lastPage($event)"
-        ></app-pagination>
+        ></app-pagination> -->
       </div>
     </div>
   </section>
 </div>
-<app-loader *ngIf="!filteredCom.length" [bigLoader]="true"></app-loader>
+<app-loader *ngIf="!comments.length" [bigLoader]="true"></app-loader>

@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Comment } from 'src/app/types/Comment';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { AdminService } from '../admin.service';
 import { PaginationService } from '../../shared/sharedServices/pagination.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class CommentsComponent implements OnInit {
+export class CommentsComponent implements OnInit, OnDestroy {
   comments: Comment[] = [];
   commentsOptions = ['Author', 'Comment ID', 'Recipe ID'];
   selectedOption = 'author';
   searchValue = '';
-  filteredCom: any = []
+  filteredCom: any = [];
+  fetchSubscription: Subscription | undefined;
+  deleteSubscription: Subscription | undefined;
 
   constructor(public sortingService: SortingService, private adminService: AdminService, public pgOptions: PaginationService) { }
 
@@ -23,10 +26,11 @@ export class CommentsComponent implements OnInit {
   }
 
   fetchComments() {
-    this.adminService.getComments().subscribe((res) => {
+    this.fetchSubscription = this.adminService.getComments().subscribe((res) => {
       if (res) {
         this.comments = [...res];
-        this.setFilteredArray();
+        this.filteredCom = [...this.comments]
+        //this.setFilteredArray();
       }
     }, error => {
       console.log(error.statusText)
@@ -34,26 +38,24 @@ export class CommentsComponent implements OnInit {
   }
 
   sortByAuthorAscending() {
-    const sortByUser = this.comments.sort((a: Comment, b: Comment) =>
+    this.filteredCom = this.comments.sort((a: Comment, b: Comment) =>
       a.author.username
         .toLowerCase()
         .localeCompare(b.author.username.toLowerCase())
     )
-    return sortByUser
   }
 
   sortByAuthorDescending() {
-    const sortByUser = this.comments.sort((a, b) =>
+    this.filteredCom = this.comments.sort((a, b) =>
       b.author.username
         .toLowerCase()
         .localeCompare(a.author.username.toLowerCase())
     )
-    return sortByUser
   }
 
   deleteComment(id: string) {
     if (window.confirm('Remove this comment?')) {
-      this.adminService.deleteComment(id).subscribe(res => {
+      this.deleteSubscription = this.adminService.deleteComment(id).subscribe(res => {
         if (res) {
           console.log(res)
           this.comments = [];
@@ -65,39 +67,42 @@ export class CommentsComponent implements OnInit {
   }
 
   // pagination - page settings
- resultsPerPage() {
-    if (this.comments.length < 10) {
-      return this.comments.length
-    } else {
-      return 4
-    }
-  }
+  /* resultsPerPage() {
+     if (this.comments.length < 10) {
+       return this.comments.length
+     } else {
+       return 4
+     }
+   } */
 
-  /* filteredComments() {
-    if (!this.searchValue) {
-      return this.comments.slice(
+
+  filteredComments(value: any) {
+
+    if (!value.target.value) {
+      /* return this.comments.slice(
         this.firstResultIndex,
         this.lastResultIndex
-      )
+      ) */
+      this.filteredCom = [...this.comments]
     }
-    return this.comments.filter((comment) => {
+    this.filteredCom = this.comments.filter((comment) => {
       if (this.selectedOption === 'comment id') {
         return comment._id
           .toLowerCase()
-          .includes(this.searchValue.toLowerCase())
+          .includes(value.target.value.toLowerCase())
       } else if (this.selectedOption === 'recipe id') {
         return comment.commentedRecipeId
           .toLowerCase()
-          .includes(this.searchValue.toLowerCase())
+          .includes(value.target.value.toLowerCase())
       } else {
         return comment.author.username
           .toLowerCase()
-          .includes(this.searchValue.toLowerCase())
+          .includes(value.target.value.toLowerCase())
       }
     })
-  } */
+  }
 
-  setFilteredArray() {
+  /* setFilteredArray() {
     const resPerPage = this.resultsPerPage()
     this.filteredCom = this.comments.slice(
       this.pgOptions.firstResultIndex(resPerPage),
@@ -105,16 +110,16 @@ export class CommentsComponent implements OnInit {
     )
     console.log(this.filteredCom, this.pgOptions.firstResultIndex(resPerPage),
     this.pgOptions.lastResultIndex(resPerPage))
-  }
+  } */
 
-  filteredComments() {
+  /* filteredComments() {
     if (!this.searchValue) {
       this.setFilteredArray()
-      /* this.filteredCom = this.comments.slice(
+      this.filteredCom = this.comments.slice(
         this.pgOptions.firstResultIndex(this.resultsPerPage()),
         this.pgOptions.lastResultIndex(this.resultsPerPage())
       )
-      console.log(this.filteredCom) */
+      console.log(this.filteredCom)
     } else {
       this.filteredCom = this.comments.filter((comment) => {
         if (this.selectedOption === 'Comment ID') {
@@ -133,6 +138,11 @@ export class CommentsComponent implements OnInit {
       })
     }
     
+  } */
+
+  ngOnDestroy() {
+    this.fetchSubscription?.unsubscribe();
+    this.deleteSubscription?.unsubscribe();
   }
 
 }

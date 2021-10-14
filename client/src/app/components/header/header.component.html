@@ -18,7 +18,7 @@
       Tasty</a
     >
     <button
-    *ngIf="showSearchBtn"
+      *ngIf="showSearchBtn"
       class="header-search"
       aria-label="search for recipes"
       (click)="toggleSearch()"
@@ -48,12 +48,12 @@
       </li>
       <!-- dropdown user menu if logged in-->
       <ng-container *ngIf="isLogged$ | async">
-        <li class="userpanel-menu" (click)="toggleUserDropdown()">
+        <li
+          class="userpanel-menu"
+          (mouseover)="showUserDropdown = true"
+          (mouseleave)="showUserDropdown = false"
+        >
           <span class="flex flex-center">
-            <!-- <fa-icon
-                        [icon]="['fas', 'user']"
-                        class="user-icon"
-                    ></fa-icon> -->
             <ng-container
               *ngIf="currentUser$.value && currentUser$.value.user_image"
             >

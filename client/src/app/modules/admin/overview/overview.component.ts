@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Comment } from 'src/app/types/Comment';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
@@ -9,7 +10,7 @@ import { AdminService } from '../admin.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
   latestRecipes: RecipeResponse[] = [];
   latestComments: Comment[] = [];
   mostCommented: {
@@ -24,6 +25,9 @@ export class OverviewComponent implements OnInit {
   usersCount = 0;
   commentsCount = 0;
   isLoading = true;
+  commentSubscription!: Subscription;
+  recipeSubscription!: Subscription;
+  userSubscription!: Subscription;
 
   constructor(private recipesService: RecipesService, private adminService: AdminService) { }
 
@@ -34,7 +38,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fetchUsers() {
-    this.adminService.getUsers().subscribe((res) => {
+    this.userSubscription = this.adminService.getUsers().subscribe((res) => {
       if (res) {
         console.log(res)
         this.usersCount = res.length;
@@ -57,7 +61,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fetchComments() {
-    this.adminService.getComments().subscribe((res) => {
+    this.commentSubscription = this.adminService.getComments().subscribe((res) => {
       if (res) {
         console.log(res)
         this.isLoading = false;
@@ -72,7 +76,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fetchRecipes() {
-    this.recipesService.getRecipes().subscribe((res) => {
+    this.recipeSubscription = this.recipesService.getRecipes().subscribe((res) => {
       if (res) {
         const recipes = JSON.parse(JSON.stringify(res));
         // console.log(recipes);
@@ -100,6 +104,12 @@ export class OverviewComponent implements OnInit {
       //this.errorMessage = `Error: ${error.statusText}`;
       console.log(error.statusText);
     });
+  }
+
+  ngOnDestroy() {
+    this.recipeSubscription.unsubscribe();
+    this.commentSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
 }

@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { AuthService } from '../../auth/auth.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 //import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   recipes: RecipeResponse[] = [];
   displayedRecipes: number = 6;
   highestRatedRecipes: RecipeResponse[] = [];
@@ -18,6 +19,8 @@ export class HomePageComponent implements OnInit {
   recommendedRecipes: RecipeResponse[] = [];
   errorMessage = '';
   isLoading = true;
+  getSubscription: Subscription | undefined;
+  querySubscription: Subscription | undefined;
 
   constructor(
     private recipesService: RecipesService, private authService: AuthService, public uiService: UIService, private router: Router) {
@@ -26,7 +29,7 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     this.uiService.toggleSearchForm(false);
     console.log('user getter home page: ', this.authService.user)
-    this.recipesService.getRecipes().subscribe((res) => {
+    this.getSubscription = this.recipesService.getRecipes().subscribe((res) => {
       if(res) {
         this.isLoading = false;
         this.recipes = JSON.parse(JSON.stringify(res));
@@ -72,11 +75,16 @@ export class HomePageComponent implements OnInit {
   }
 
   getNewResults(params: any){
-    this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
+    this.querySubscription = this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
       console.log(params)
       this.router.navigate(['results'], { queryParams: params });
     }, (error: any) => {  
       console.log(error.statusText);
     });
+  }
+
+  ngOnDestroy() {
+    this.getSubscription?.unsubscribe();
+    this.querySubscription?.unsubscribe();
   }
 }

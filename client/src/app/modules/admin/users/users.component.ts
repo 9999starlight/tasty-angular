@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { UpdatedUser } from 'src/app/types/userTypes';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
+import { UIService } from '../../shared/sharedServices/ui.service';
 
 @Component({
   selector: 'app-users',
@@ -10,14 +11,15 @@ import { SortingService } from '../../shared/sharedServices/sorting.service';
 })
 export class UsersComponent implements OnInit {
   searchValue = '';
-  editModal = false;
+  //editModal = false;
   isLoading = false;
   users: UpdatedUser[] = [];
   filteredUsers = [];
   usersOptions = ['Username', 'User ID'];
   selectedOption = 'username';
+  editAdmin = false;
 
-  constructor(private adminService: AdminService, public sortingService: SortingService) { }
+  constructor(private adminService: AdminService, public sortingService: SortingService, public uiService: UIService) { }
 
   ngOnInit(): void {
     this.fetchUsers()
@@ -37,11 +39,15 @@ export class UsersComponent implements OnInit {
     return sortByUser
   }
 
-  allUserRecipes(id: string) { }
+  openUserEdit(id: string) {
+    this.uiService.toggleEditState(true);
+   }
 
-  openUserEdit(id: string) { }
-
-  adminEditing(id: string) { }
+  adminEditing(id: string) { 
+    this.uiService.toggleEditState(true);
+    this.editAdmin = true
+    this.openUserEdit(id)
+  }
 
   fetchUsers() {
     this.adminService.getUsers().subscribe((res) => {
@@ -56,6 +62,16 @@ export class UsersComponent implements OnInit {
     })
   }
 
+  closeUserEdit() {
+    this.uiService.toggleEditState(false);
+  }
+
+  changeDisableStatus(){
+    if (window.confirm('Change status for this user?')) {
+
+    }
+  }
+  changeAdminStatus(){}
 
   /* filterUsers() {
     // if there is no search set initial array for pagination

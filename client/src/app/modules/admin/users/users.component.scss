@@ -11,7 +11,8 @@ align-self: flex-end;
 .sorting-btns {
   margin: 1rem auto;
 }
-.modal-wrapper {
+
+::ng-deep .modal-wrapper {
   background-color: $light;
   @include box-size($min-width: 280px, $max-width: 400px, $max-height: 300px);
   top: 50%;
@@ -159,10 +160,11 @@ align-self: flex-end;
       grid-area: recipesFavorites;
       @include alignment($justify: space-evenly);
       margin-top: 0.5rem;
-      div:first-of-type {
+      a {
         border-right: 2px solid $light;
         cursor: pointer;
       }
+      a,
       div {
         grid-template-columns: repeat(2, auto);
         grid-template-rows: repeat(2, auto);
@@ -260,13 +262,19 @@ align-self: flex-end;
         }
       }
       .recipes-favorites {
+        a,
         div {
           .icon-bottom {
             @include fonts($size: 1.5rem);
           }
+          .text,
           .count {
             @include fonts($size: 1.1rem);
           }
+        }
+
+        div {
+          padding-left: 0.5rem;
         }
       }
       .buttons-user {

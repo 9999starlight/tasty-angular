@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { ElementRef } from '@angular/core';
-import { Router, Event, NavigationEnd, ActivatedRoute, ActivationStart, ResolveEnd, ActivationEnd } from '@angular/router';
+//import { ElementRef } from '@angular/core';
+import { Router, Event, NavigationEnd, ActivationEnd } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { UIService } from 'src/app/modules/shared/sharedServices/ui.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
@@ -31,9 +31,9 @@ export class HeaderComponent implements OnInit {
   faSignInAlt = faSignInAlt;
 
   constructor(
-    private host: ElementRef,
+    //private host: ElementRef,
     private router: Router,
-    private route: ActivatedRoute,
+    //private route: ActivatedRoute,
     private authService: AuthService,
     private uiService: UIService
   ) {
@@ -77,9 +77,9 @@ export class HeaderComponent implements OnInit {
     this.uiService.toggleSearchForm(!this.uiService.searchForm);
   }
 
-  toggleUserDropdown() {
+  /* toggleUserDropdown() {
     this.showUserDropdown = !this.showUserDropdown;
-  }
+  } */
 
   toggleMobileMenu() {
     this.displayMenu = !this.displayMenu;
