@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { commentsUrl, usersUrl } from 'src/app/apiData';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { UpdatedUser } from 'src/app/types/userTypes';
+import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { Comment } from 'src/app/types/Comment';
 
 @Injectable({
@@ -18,6 +18,18 @@ export class AdminService {
     return this.http.get<{ response: { users: UpdatedUser[], count: number } }>(usersUrl).pipe(
       map(res => {
         return res.response.users;
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
+  getUser(id: string) {
+    return this.http.get<any>(`${usersUrl}/${id}`).pipe(
+      map(res => {
+        return res;
       }),
       catchError((err) => {
         console.log(err)

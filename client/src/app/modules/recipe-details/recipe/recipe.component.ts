@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 //import { BehaviorSubject } from 'rxjs';
 //import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss'],
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent implements OnInit, OnDestroy {
   recipe: any;
   ratedByUser: Rate[] | [] = [];
   isSavingEnabled = false;
@@ -26,6 +26,7 @@ export class RecipeComponent implements OnInit {
   recipeSubscription!: Subscription;
   favoritesSubscription!: Subscription;
   newResultSubscription!: Subscription;
+  subscriptions!: Subscription[];
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +40,7 @@ export class RecipeComponent implements OnInit {
     this.routeSubscription = this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;
     });
-    
+
   }
 
   ngOnInit(): void {
@@ -51,6 +52,16 @@ export class RecipeComponent implements OnInit {
     this.enableRating();
     //console.log(this.ratedByUser);
     console.log('user getter in recipe: ', this.authService.user)
+
+
+    this.subscriptions.push(
+      this.routeSubscription,
+      this.updateRatingSubscription,
+      this.recipeSubscription,
+      this.favoritesSubscription,
+      this.newResultSubscription
+    )
+
   }
 
   enableSaving() {
@@ -166,12 +177,16 @@ export class RecipeComponent implements OnInit {
 
   }
 
-  getNewResults(params: any){
+  getNewResults(params: any) {
     this.newResultSubscription = this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
       console.log(params)
       this.router.navigate(['results'], { queryParams: params });
-    }, (error: any) => {  
+    }, (error: any) => {
       console.log(error.statusText);
     });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe())
   }
 }

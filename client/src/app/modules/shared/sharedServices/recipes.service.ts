@@ -6,6 +6,8 @@ import { throwError } from 'rxjs';
 import { RecipesResponse } from 'src/app/types/recipesTypes';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { BehaviorSubject } from 'rxjs';
+import { RecipeResponse } from 'src/app/types/RecipeResponse';
+import { UpdatedUser } from 'src/app/types/userTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +58,7 @@ export class RecipesService {
   // POST
   createRecipe(recipeData: any) {
     //console.log('data sent by service', recipeData)
-    return this.http.post<any>(recipesUrl, recipeData).pipe(
+    return this.http.post<{ message: string, createdRecipe: SingleRecipe }>(recipesUrl, recipeData).pipe(
       map(res => {
         this.singleRecipe$.next(res.createdRecipe);
         return res
@@ -70,7 +72,7 @@ export class RecipesService {
 
   // PATCH requests
   updateRecipe(id: string, recipeData: any) {
-    return this.http.patch<any>(`${recipesUrl}/${id}`, recipeData).pipe(
+    return this.http.patch<{ message: string, updatedRecipe: SingleRecipe }>(`${recipesUrl}/${id}`, recipeData).pipe(
       map(res => {
         this.singleRecipe$.next(res.updatedRecipe);
         return res
@@ -91,7 +93,7 @@ export class RecipesService {
 
   // DELETE
   deleteRecipe(id: string) {
-    return this.http.delete<any>(`${recipesUrl}/${id}`).pipe(
+    return this.http.delete<{ message: string, userUpdate: UpdatedUser }>(`${recipesUrl}/${id}`).pipe(
       map(res => {
         return res //userUpdate
       }),
@@ -104,11 +106,11 @@ export class RecipesService {
 
 
   // Getters
-  get recipesList(): any {
+  get recipesList(): RecipeResponse[] {
     return this.recipesList$.value;
   }
 
-  get singleRecipe(): any {
+  get singleRecipe(): SingleRecipe {
     return this.singleRecipe$.value;
   }
 }

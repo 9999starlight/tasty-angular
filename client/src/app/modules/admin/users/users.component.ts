@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { UpdatedUser } from 'src/app/types/userTypes';
+import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 
@@ -18,6 +18,7 @@ export class UsersComponent implements OnInit {
   usersOptions = ['Username', 'User ID'];
   selectedOption = 'username';
   editAdmin = false;
+  userForEdit: UpdatedUser | CurrentUser | null = null;
 
   constructor(private adminService: AdminService, public sortingService: SortingService, public uiService: UIService) { }
 
@@ -41,9 +42,17 @@ export class UsersComponent implements OnInit {
 
   openUserEdit(id: string) {
     this.uiService.toggleEditState(true);
-   }
+    this.adminService.getUser(id).subscribe((res: any) => {
+      if (res) {
+        this.userForEdit = Object.assign(this.userForEdit, res);
+        console.log(this.userForEdit)
+      }
+    }, error => {
+      console.log(error.statusText);
+    })
+  }
 
-  adminEditing(id: string) { 
+  adminEditing(id: string) {
     this.uiService.toggleEditState(true);
     this.editAdmin = true
     this.openUserEdit(id)
@@ -64,14 +73,16 @@ export class UsersComponent implements OnInit {
 
   closeUserEdit() {
     this.uiService.toggleEditState(false);
+    this.userForEdit = null
+    this.editAdmin = false
   }
 
-  changeDisableStatus(){
+  changeDisableStatus() {
     if (window.confirm('Change status for this user?')) {
 
     }
   }
-  changeAdminStatus(){}
+  changeAdminStatus() { }
 
   /* filterUsers() {
     // if there is no search set initial array for pagination

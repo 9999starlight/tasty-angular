@@ -10,8 +10,8 @@ import {
   CurrentUser,
   UpdatedUser
 } from 'src/app/types/userTypes';
-import { BehaviorSubject } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -32,6 +32,10 @@ export class AuthService {
     return this.http.post<UserResponse>(`${usersUrl}/login`, credentials).pipe(
       tap(({ token }) => {
         this.authHelper(token);
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
       })
     );
   }
@@ -42,6 +46,10 @@ export class AuthService {
       .pipe(
         tap(({ token }) => {
           this.authHelper(token);
+        }),
+        catchError((err) => {
+          console.log(err)
+          return throwError(err);
         })
       );
   }
@@ -68,6 +76,10 @@ export class AuthService {
       map(updated => {
         this.currentUser$.next(updated.updatedUser);
         return updated.message
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
       })
     )
   }
@@ -78,6 +90,10 @@ export class AuthService {
       map(updated => {
         this.currentUser$.next(updated.updatedUser);
         return updated
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
       })
     )
   }
@@ -91,10 +107,8 @@ export class AuthService {
     )
   } */
 
-  
-
   updateUser(payload: UpdatedUser) {
-    console.log('payload for update: ' , payload)
+    console.log('payload for update: ', payload)
     this.currentUser$.next(payload);
     console.log('user after update in service: ', this.user)
   }
@@ -104,7 +118,7 @@ export class AuthService {
     return this.currentUser$.value
   }
 
-  get isLogged(): any {
+  get isLogged(): boolean {
     return this.isLogged$.value
   }
 
