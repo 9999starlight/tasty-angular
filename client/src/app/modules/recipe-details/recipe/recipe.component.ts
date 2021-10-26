@@ -26,7 +26,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   recipeSubscription!: Subscription;
   favoritesSubscription!: Subscription;
   newResultSubscription!: Subscription;
-  subscriptions!: Subscription[];
+  subscriptions: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -45,14 +45,12 @@ export class RecipeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.uiService.toggleSearchForm(false);
-    console.log('user in recipe: ', this.authService.user, this.authService.isLogged);
     console.log(this.recipe);
     this.checkRatedBy();
     this.enableSaving();
     this.enableRating();
     //console.log(this.ratedByUser);
     console.log('user getter in recipe: ', this.authService.user)
-
 
     this.subscriptions.push(
       this.routeSubscription,
@@ -61,7 +59,6 @@ export class RecipeComponent implements OnInit, OnDestroy {
       this.favoritesSubscription,
       this.newResultSubscription
     )
-
   }
 
   enableSaving() {
@@ -167,7 +164,6 @@ export class RecipeComponent implements OnInit, OnDestroy {
         this.updateMsgHandler(res.message)
         this.enableSaving();
         //console.log('after getting recipe saving user getter: ', this.authService.user)
-        //console.log('after recipe saving in component' ,this.currentUser$.value)
       }
     }, (error: any) => {
       console.log(error.statusText);
@@ -187,6 +183,9 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe())
+    this.subscriptions.forEach(sub => {
+      if(!sub === undefined)
+        sub.unsubscribe()
+    })
   }
 }

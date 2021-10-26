@@ -227,7 +227,6 @@ export class RecipeFormComponent implements OnInit {
   uploadFile(value: any): void {
     const file = (value.target as HTMLInputElement)?.files?.[0];
     console.log(this.imgValidator.typeValidation(file))
-    /* if(file && this.imgValidator.typeValidation(file)) { */
     if (!this.imgValidator.typeValidation(file)) {
       this.imgMessage = 'Unsupported file! Please check image format and size';
       this.removeSelectedImage();
@@ -248,8 +247,6 @@ export class RecipeFormComponent implements OnInit {
     reader.readAsDataURL(file!);
 
     console.log(this.preview);
-    //}
-
   }
 
   removeSelectedImage() {
