@@ -18,7 +18,7 @@ export class UsersComponent implements OnInit {
   usersOptions = ['Username', 'User ID'];
   selectedOption = 'username';
   editAdmin = false;
-  userForEdit: UpdatedUser | CurrentUser | null = null;
+  userForEdit!: UpdatedUser | CurrentUser | null;
 
   constructor(private adminService: AdminService, public sortingService: SortingService, public uiService: UIService) { }
 
@@ -42,10 +42,12 @@ export class UsersComponent implements OnInit {
 
   openUserEdit(id: string) {
     this.uiService.toggleEditState(true);
+    this.editAdmin = true
     this.adminService.getUser(id).subscribe((res: any) => {
       if (res) {
-        this.userForEdit = Object.assign(this.userForEdit, res);
-        console.log(this.userForEdit)
+        //this.userForEdit = Object.assign(this.userForEdit, res);
+        console.log('res: ', res)
+        console.log('user for edit: ' + this.userForEdit)
       }
     }, error => {
       console.log(error.statusText);
@@ -80,9 +82,17 @@ export class UsersComponent implements OnInit {
   changeDisableStatus() {
     if (window.confirm('Change status for this user?')) {
 
+
+      this.closeUserEdit()
     }
   }
-  changeAdminStatus() { }
+  changeAdminStatus() {
+    if (window.confirm('Change permissions for this user?')) {
+
+
+      this.closeUserEdit()
+    }
+  }
 
   /* filterUsers() {
     // if there is no search set initial array for pagination

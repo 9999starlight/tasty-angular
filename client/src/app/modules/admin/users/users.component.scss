@@ -7,83 +7,76 @@
 width: calc(100% - 4rem);
 align-self: flex-end;
 } */
-  
+
 .sorting-btns {
   margin: 1rem auto;
 }
 
-::ng-deep .modal-wrapper {
-  background-color: $light;
-  @include box-size($min-width: 280px, $max-width: 400px, $max-height: 300px);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  .editing {
-    @include alignment($direction: column, $justify: space-evenly);
-    @include box-size($height: calc(100% - 60px));
-    label {
-      position: relative;
-      padding-left: 2rem;
-      @include box-size($height: 2rem);
-      input {
+.editing {
+  @include alignment($direction: column, $justify: space-evenly);
+  @include box-size($height: calc(100% - 60px));
+  label {
+    position: relative;
+    padding-left: 2rem;
+    @include box-size($height: 2rem);
+    input {
+      position: absolute;
+      visibility: hidden;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+    }
+    p {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2.2rem;
+      width: 4rem;
+      background-color: lightgray;
+      border-radius: 1rem;
+      cursor: pointer;
+      .user-svg {
+        font-size: 1.2rem;
         position: absolute;
-        visibility: hidden;
-        cursor: pointer;
-        top: 0;
-        left: 0;
+        @include fonts($color: rgb(178, 178, 189));
       }
-      p {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 2.2rem;
-        width: 4rem;
-        background-color: lightgray;
-        border-radius: 1rem;
-        cursor: pointer;
-        .user-svg {
-          font-size: 1.2rem;
-          position: absolute;
-          @include fonts($color: rgb(178, 178, 189));
-        }
-        .user {
-          @include fonts($color: rgb(136, 187, 54));
-          left: 0.4rem;
-        }
-        .inactive {
-          right: 0.4rem;
-        }
+      .user {
+        @include fonts($color: rgb(136, 187, 54));
+        left: 0.4rem;
       }
-      span {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-        &.right-position {
-          right: 0;
-          left: initial;
-          &.right-position:before {
-            background-color: rgb(136, 187, 54);
-          }
+      .inactive {
+        right: 0.4rem;
+      }
+    }
+    span {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+      &.right-position {
+        right: 0;
+        left: initial;
+        &.right-position:before {
+          background-color: rgb(136, 187, 54);
         }
       }
-      span:before {
-        position: absolute;
-        content: "";
-        height: 1.8rem;
-        width: 1.8rem;
-        left: 0;
-        bottom: 0;
-        background-color: rgb(178, 178, 189);
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-        top: 0.2rem;
-        border-radius: 50%;
-      }
+    }
+    span:before {
+      position: absolute;
+      content: "";
+      height: 1.8rem;
+      width: 1.8rem;
+      left: 0;
+      bottom: 0;
+      background-color: rgb(178, 178, 189);
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+      top: 0.2rem;
+      border-radius: 50%;
     }
   }
 }

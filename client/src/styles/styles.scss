@@ -179,6 +179,14 @@ small {
   background-color: rgba(15, 15, 15, 0.832);
   z-index: 8;
 
+  &.small-wrapper {
+    @include box-size($min-width: 280px, $max-width: 400px, $max-height: 300px);
+    background-color: $light;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   header {
     @include box-size($height: 60px);
     background-color: lighten($graphite, 20%);

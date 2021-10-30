@@ -2,6 +2,7 @@
   <app-overlay
     *ngIf="uiService.editState"
     (closeModal)="closeUserEdit()"
+    [editAdmin]="editAdmin"
   >
     <ng-container>
       <header class="flex flex-center">
