@@ -15,6 +15,9 @@ align-self: flex-end;
 .editing {
   @include alignment($direction: column, $justify: space-evenly);
   @include box-size($height: calc(100% - 60px));
+  h3 {
+    padding: 0.5rem;
+  }
   label {
     position: relative;
     padding-left: 2rem;

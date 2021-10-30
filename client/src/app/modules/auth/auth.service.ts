@@ -98,15 +98,6 @@ export class AuthService {
     )
   }
 
-  /* getUser(id: string) {
-    return this.http.get<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/${this.currentUser$.value?.userId}`, ).pipe(
-      map(updated => {
-        this.currentUser$.next(updated.updatedUser);
-        return updated.message
-      })
-    )
-  } */
-
   updateUser(payload: UpdatedUser) {
     console.log('payload for update: ', payload)
     this.currentUser$.next(payload);

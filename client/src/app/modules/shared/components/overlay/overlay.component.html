@@ -1,5 +1,5 @@
 <div [ngClass]="editing ? 'modal-overlay' : 'modal-overlay transparent'" (click)="closing()">
-  <div [ngClass]="!editAdmin ? 'modal-wrapper' : 'modal-wrapper small-wrapper'" (click)="$event.stopPropagation()">
+  <div [ngClass]="editModal ? 'modal-wrapper' : 'modal-wrapper small-wrapper'" (click)="$event.stopPropagation()">
     <ng-content></ng-content>
   </div>
 </div>

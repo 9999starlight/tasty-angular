@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { commentsUrl, usersUrl } from 'src/app/apiData';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { Comment } from 'src/app/types/Comment';
@@ -28,7 +28,7 @@ export class AdminService {
 
   getUser(id: string) {
     return this.http.get<any>(`${usersUrl}/${id}`).pipe(
-      map(res => {
+      map(res => {        
         return res;
       }),
       catchError((err) => {
@@ -50,6 +50,19 @@ export class AdminService {
     )
   }
 
+  // PATCH
+  // change user status & change admin status
+  patchUser(userId: string, change: string, payload: object) {
+    return this.http.patch<{ message: string }>(`${usersUrl}/${change}/${userId}`, payload).pipe(
+      tap(res => res),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
+  // DELETE
   deleteComment(id: string) {
     return this.http.delete<any>(`${commentsUrl}/${id}`).pipe(
       map(res => {

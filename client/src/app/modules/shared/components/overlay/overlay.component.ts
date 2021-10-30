@@ -8,7 +8,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, Renderer2 } 
 export class OverlayComponent implements OnInit, OnDestroy {
   @Output() closeModal = new EventEmitter();
   @Input() editing: boolean = true;
-  @Input() editAdmin: boolean = false;
+  @Input() editModal: boolean = false;
 
   constructor(private renderer: Renderer2) { }
 

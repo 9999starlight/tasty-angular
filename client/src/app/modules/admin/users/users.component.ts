@@ -7,100 +7,163 @@ import { UIService } from '../../shared/sharedServices/ui.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
   searchValue = '';
-  //editModal = false;
+  editModal = false;
   isLoading = false;
   users: UpdatedUser[] = [];
-  filteredUsers = [];
+  filteredUsers: UpdatedUser[] = [];
   usersOptions = ['Username', 'User ID'];
   selectedOption = 'username';
-  editAdmin = false;
-  userForEdit!: UpdatedUser | CurrentUser | null;
+  editAdmin: boolean | null = null;
+  userForEdit: any = {
+    username: '',
+    _id: '',
+    isAdmin: false,
+    isDisabled: false,
+    createdAt: '',
+    createdRecipes: [],
+    favorites: [],
+    user_image: '',
+  };
 
-  constructor(private adminService: AdminService, public sortingService: SortingService, public uiService: UIService) { }
+  constructor(
+    private adminService: AdminService,
+    public sortingService: SortingService,
+    public uiService: UIService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchUsers()
+    this.fetchUsers();
+  }
+
+  onChangeSelect(e: any) {
+    this.selectedOption = e.target.value;
   }
 
   sortUsernameAscending() {
     const sortByUser = this.users.sort((a, b) =>
       a.username.toLowerCase().localeCompare(b.username.toLowerCase())
-    )
-    return sortByUser
+    );
+    return sortByUser;
   }
 
   sortUsernameDescending() {
     const sortByUser = this.users.sort((a, b) =>
       b.username.toLowerCase().localeCompare(a.username.toLowerCase())
-    )
-    return sortByUser
+    );
+    return sortByUser;
   }
 
-  openUserEdit(id: string) {
-    this.uiService.toggleEditState(true);
-    this.editAdmin = true
-    this.adminService.getUser(id).subscribe((res: any) => {
-      if (res) {
-        //this.userForEdit = Object.assign(this.userForEdit, res);
-        console.log('res: ', res)
-        console.log('user for edit: ' + this.userForEdit)
+  openUserEdit(id: string, isAdminEdit: boolean) {
+    this.adminService.getUser(id).subscribe(
+      (res: UpdatedUser) => {
+        if (res) {
+          this.userForEdit = JSON.parse(JSON.stringify(res));
+          isAdminEdit ? (this.editAdmin = true) : (this.editAdmin = false);
+          this.uiService.toggleEditState(true);
+        }
+      },
+      (error) => {
+        console.log(error.statusText);
       }
-    }, error => {
-      console.log(error.statusText);
-    })
-  }
-
-  adminEditing(id: string) {
-    this.uiService.toggleEditState(true);
-    this.editAdmin = true
-    this.openUserEdit(id)
+    );
   }
 
   fetchUsers() {
-    this.adminService.getUsers().subscribe((res) => {
-      if (res) {
-        console.log(res)
-        this.users = [...res];
+    this.adminService.getUsers().subscribe(
+      (res) => {
+        if (res) {
+          console.log(res);
+          this.users = [...res];
+          this.filteredUsers = [...this.users];
+        }
+      },
+      (error) => {
+        this.isLoading = false;
+        //this.errorMessage = `Error: ${error.statusText}`;
+        console.log(error.statusText);
       }
-    }, error => {
-      this.isLoading = false;
-      //this.errorMessage = `Error: ${error.statusText}`;
-      console.log(error.statusText);
-    })
+    );
   }
 
   closeUserEdit() {
     this.uiService.toggleEditState(false);
-    this.userForEdit = null
-    this.editAdmin = false
+    this.userForEdit = {
+      username: '',
+      _id: '',
+      isAdmin: false,
+      isDisabled: false,
+      createdAt: '',
+      createdRecipes: [],
+      favorites: [],
+      user_image: '',
+    };
+    this.editAdmin = null;
+  }
+
+  onChangeAdmin(e: any) {
+    this.userForEdit.isAdmin = e.target.checked;
+    console.log(this.userForEdit.isAdmin);
+  }
+
+  onChangeUserStatus(e: any) {
+    this.userForEdit.isDisabled = e.target.checked;
+    console.log(this.userForEdit.isDisabled);
   }
 
   changeDisableStatus() {
+    // console.log(this.userForEdit._id)
     if (window.confirm('Change status for this user?')) {
-
-
-      this.closeUserEdit()
+      this.adminService
+        .patchUser(this.userForEdit._id, 'disableStatus', {
+          disableStatus: this.userForEdit.isDisabled,
+        })
+        .subscribe(
+          (message: any) => {
+            if (message) {
+              console.log(message);
+              this.closeUserEdit();
+              this.fetchUsers();
+            }
+          },
+          (error) => {
+            console.log(error.statusText);
+          }
+        );
     }
   }
   changeAdminStatus() {
     if (window.confirm('Change permissions for this user?')) {
-
-
-      this.closeUserEdit()
+      this.adminService
+        .patchUser(this.userForEdit._id, 'adminStatus', {
+          adminStatus: this.userForEdit.isAdmin,
+        })
+        .subscribe(
+          (message: any) => {
+            if (message) {
+              console.log(message);
+              this.closeUserEdit();
+              this.fetchUsers();
+            }
+          },
+          (error) => {
+            console.log(error.statusText);
+          }
+        );
+      this.closeUserEdit();
     }
   }
 
-  /* filterUsers() {
-    // if there is no search set initial array for pagination
+   filterUsers() {
     if (!this.searchValue) {
-      return this.allUsers.slice(this.firstResultIndex, this.lastResultIndex)
+      this.filteredUsers = [...this.filteredUsers];
     }
-    return this.allUsers.filter((user) => {
-      if (this.selectedValueUsers === 'User ID') {
+    console.log(this.selectedOption, this.searchValue)
+    this.filteredUsers = this.users.filter((user) => {
+      if (this.selectedOption === 'user id') {
         return user.userId
           .toLowerCase()
           .includes(this.searchValue.toLowerCase())
@@ -110,59 +173,5 @@ export class UsersComponent implements OnInit {
           .includes(this.searchValue.toLowerCase())
       }
     })
-  } */
-
-  /* async changeDisableStatus() {
-    try {
-      if (window.confirm('Change status for this user?')) {
-        const res = await this.editUser(
-          this.userForEdit._id,
-          'disableStatus',
-          {
-            disableStatus: this.userForEdit.isDisabled
-          }
-        )
-        if (res) {
-          this.closeUserEdit()
-          this.usersFetch()
-        }
-      }
-    } catch (error) {
-      console.log(error.message)
-    }
-  },
-  async changeAdminStatus() {
-    try {
-      if (window.confirm('Change Admin status for this user?')) {
-        const res = await this.editUser(this.userForEdit._id, 'adminStatus', {
-          adminStatus: this.userForEdit.isAdmin
-        })
-        if (res) {
-          this.closeUserEdit()
-          this.usersFetch()
-        }
-      }
-    } catch (error) {
-      console.log(error.message)
-    }
-  },
-  async openUserEdit(id) {
-    try {
-      const user = await this.fetchSingleUser(id)
-      this.userForEdit = user.data
-      this.editModal = true
-    } catch (error) {
-      console.log(error.message)
-    }
-  },
-  adminEditing(id) {
-    this.editAdmin = true
-    this.openUserEdit(id)
-  },
-  closeUserEdit() {
-    this.userForEdit = null
-    this.editAdmin = false
-    this.editModal = false
-  }, */
-
+  } 
 }
