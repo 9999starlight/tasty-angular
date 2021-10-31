@@ -1,6 +1,10 @@
 <div class="user-recipes flex">
   <!-- form modal -->
-  <app-overlay *ngIf="uiService.editState" (closeModal)="closeEditForm()">
+  <app-overlay
+    *ngIf="uiService.editState"
+    (closeModal)="closeEditForm()"
+    [editModal]="true"
+  >
     <ng-container>
       <header class="flex flex-center">
         <h2>Edit Recipe</h2>

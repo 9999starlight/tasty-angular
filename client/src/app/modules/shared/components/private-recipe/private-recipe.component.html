@@ -47,7 +47,7 @@
       *ngIf="!isUsersRecipes"
       [routerLink]="['/results']"
       [queryParams]="{ author: recipe.author._id }"
-      class="block user-info flex flex-center tooltip-container"
+      class="user-info flex flex-center tooltip-container"
     >
       <ng-container *ngIf="recipe.image">
         <img

@@ -7,73 +7,76 @@ import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { Comment } from 'src/app/types/Comment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // GET
   getUsers() {
-    return this.http.get<{ response: { users: UpdatedUser[], count: number } }>(usersUrl).pipe(
-      map(res => {
-        return res.response.users;
-      }),
-      catchError((err) => {
-        console.log(err)
-        return throwError(err);
-      })
-    )
+    return this.http
+      .get<{ response: { users: UpdatedUser[]; count: number } }>(usersUrl)
+      .pipe(
+        map((res) => {
+          return res.response.users;
+        }),
+        catchError((err) => {
+          console.log(err);
+          return throwError(err);
+        })
+      );
   }
 
   getUser(id: string) {
     return this.http.get<any>(`${usersUrl}/${id}`).pipe(
-      map(res => {        
+      map((res) => {
         return res;
       }),
       catchError((err) => {
-        console.log(err)
+        console.log(err);
         return throwError(err);
       })
-    )
+    );
   }
 
   getComments() {
-    return this.http.get<{ response: { comments: Comment[] } }>(commentsUrl).pipe(
-      map(res => {
-        return res.response.comments;
-      }),
-      catchError((err) => {
-        console.log(err)
-        return throwError(err);
-      })
-    )
+    return this.http
+      .get<{ response: { comments: Comment[] } }>(commentsUrl)
+      .pipe(
+        map((res) => {
+          return res.response.comments;
+        }),
+        catchError((err) => {
+          console.log(err);
+          return throwError(err);
+        })
+      );
   }
 
   // PATCH
   // change user status & change admin status
   patchUser(userId: string, change: string, payload: object) {
-    return this.http.patch<{ message: string }>(`${usersUrl}/${change}/${userId}`, payload).pipe(
-      tap(res => res),
-      catchError((err) => {
-        console.log(err)
-        return throwError(err);
-      })
-    )
+    return this.http
+      .patch<{ message: string }>(`${usersUrl}/${change}/${userId}`, payload)
+      .pipe(
+        tap((res) => res),
+        catchError((err) => {
+          console.log(err);
+          return throwError(err);
+        })
+      );
   }
 
   // DELETE
   deleteComment(id: string) {
     return this.http.delete<any>(`${commentsUrl}/${id}`).pipe(
-      map(res => {
-        return res
+      map((res) => {
+        return res;
       }),
       catchError((err) => {
-        console.log(err)
+        console.log(err);
         return throwError(err);
       })
-    )
+    );
   }
-
-
 }

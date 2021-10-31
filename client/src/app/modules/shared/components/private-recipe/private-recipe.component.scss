@@ -47,6 +47,9 @@
   .edit-delete {
     grid-area: editDelete;
     @include alignment($justify: space-around);
+    .user-info {
+      color: $golden;
+    }
     button {
       background-color: transparent;
       padding: 0.8rem;

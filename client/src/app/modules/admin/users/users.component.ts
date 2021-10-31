@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
-import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
+import { UpdatedUser } from 'src/app/types/userTypes';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 
@@ -9,7 +9,7 @@ import { UIService } from '../../shared/sharedServices/ui.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   searchValue = '';
   editModal = false;
   isLoading = false;
@@ -106,12 +106,12 @@ export class UsersComponent implements OnInit {
 
   onChangeAdmin(e: any) {
     this.userForEdit.isAdmin = e.target.checked;
-    console.log(this.userForEdit.isAdmin);
+    //console.log(this.userForEdit.isAdmin);
   }
 
   onChangeUserStatus(e: any) {
     this.userForEdit.isDisabled = e.target.checked;
-    console.log(this.userForEdit.isDisabled);
+    //console.log(this.userForEdit.isDisabled);
   }
 
   changeDisableStatus() {
@@ -157,21 +157,25 @@ export class UsersComponent implements OnInit {
     }
   }
 
-   filterUsers() {
+  filterUsers() {
     if (!this.searchValue) {
       this.filteredUsers = [...this.filteredUsers];
     }
-    console.log(this.selectedOption, this.searchValue)
+    // console.log(this.selectedOption, this.searchValue);
     this.filteredUsers = this.users.filter((user) => {
       if (this.selectedOption === 'user id') {
         return user.userId
           .toLowerCase()
-          .includes(this.searchValue.toLowerCase())
+          .includes(this.searchValue.toLowerCase());
       } else {
         return user.username
           .toLowerCase()
-          .includes(this.searchValue.toLowerCase())
+          .includes(this.searchValue.toLowerCase());
       }
-    })
-  } 
+    });
+  }
+
+  ngOnDestroy() {
+    this.closeUserEdit();
+  }
 }

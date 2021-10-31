@@ -14,31 +14,31 @@
       </header>
       <div class="editing flex flex-center" *ngIf="editAdmin">
         <h3 class="slim">
-          Admin permissions for  {{ userForEdit.username }}  are
-           <strong *ngIf="userForEdit.isAdmin">enabled</strong
-          ><strong *ngIf="!userForEdit.isAdmin">disabled</strong> 
+          Admin permissions for {{ userForEdit.username }} are
+          <strong *ngIf="userForEdit.isAdmin">enabled</strong
+          ><strong *ngIf="!userForEdit.isAdmin">disabled</strong>
         </h3>
         <div class="admin-user-check-box">
           <label for="adminCheck" class="flex flex-center">
-             <input
+            <input
               type="checkbox"
               id="adminCheck"
               name="adminCheck"
               value="Enable Admin"
               [checked]="userForEdit.isAdmin"
               (change)="onChangeAdmin($event)"
-            /> 
+            />
             <p class="flex flex-center">
-               <fa-icon
+              <fa-icon
                 [icon]="['fas', 'user-shield']"
                 [ngClass]="
                   userForEdit.isAdmin ? 'user user-svg' : 'inactive user-svg'
                 "
-              ></fa-icon> 
+              ></fa-icon>
             </p>
-             <span
+            <span
               [ngClass]="userForEdit.isAdmin ? 'right-position' : ''"
-            ></span> 
+            ></span>
           </label>
         </div>
         <button (click)="changeAdminStatus()" class="btn-action">
@@ -47,33 +47,31 @@
       </div>
       <div class="editing flex flex-center" *ngIf="!editAdmin">
         <h3 class="slim">
-          User  {{ userForEdit.username }}  is
-           <strong *ngIf="userForEdit.isDisabled">disabled</strong
-          ><strong *ngIf="!userForEdit.isDisabled">active</strong> 
+          User {{ userForEdit.username }} is
+          <strong *ngIf="userForEdit.isDisabled">disabled</strong
+          ><strong *ngIf="!userForEdit.isDisabled">active</strong>
         </h3>
         <div class="admin-user-check-box">
           <label for="disableCheck" class="flex flex-center">
-             <input
+            <input
               type="checkbox"
               id="disableCheck"
               name="disableCheck"
               value="Change user status"
               [checked]="userForEdit.isDisabled"
               (change)="onChangeUserStatus($event)"
-            /> 
+            />
             <p class="flex flex-center">
-               <fa-icon
+              <fa-icon
                 [icon]="['fas', 'user']"
                 [ngClass]="[
-                  userForEdit.isDisabled
-                    ? 'inactive user-svg'
-                    : 'user user-svg'
+                  userForEdit.isDisabled ? 'inactive user-svg' : 'user user-svg'
                 ]"
-              ></fa-icon> 
+              ></fa-icon>
             </p>
-             <span
+            <span
               [ngClass]="[!userForEdit.isDisabled ? 'right-position' : '']"
-            ></span> 
+            ></span>
           </label>
         </div>
         <button (click)="changeDisableStatus()" class="btn-action">
@@ -109,7 +107,12 @@
             </option>
           </select>
         </div>
-        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filterUsers()"/>
+        <input
+          type="text"
+          [(ngModel)]="searchValue"
+          placeholder="Search..."
+          (input)="filterUsers()"
+        />
       </header>
       <div class="users-list-wrapper flex">
         <div class="single-user mgb1 grid" *ngFor="let user of filteredUsers">

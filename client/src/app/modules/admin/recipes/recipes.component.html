@@ -1,6 +1,7 @@
 <div class="admin-recipes mgt4" *ngIf="recipes.length">
   <app-overlay
     *ngIf="uiService.editState && singleRecipe"
+    [editModal]="true"
     (closeModal)="closeEditForm()"
   >
     <ng-container>
@@ -59,6 +60,7 @@
             name="adminRecipesOptions"
             class="admin-recipes-search"
             [(ngModel)]="selectedOption"
+            (change)="onChangeSelect($event)"
           >
             <option
               *ngFor="let option of adminRecipesOptions"
@@ -68,10 +70,10 @@
             </option>
           </select>
         </div>
-        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." />
+        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filterRecipes()"/>
       </header>
       <div class="allrecipes-container">
-        <div class="recipe-single grid mgb1" *ngFor="let recipe of recipes">
+        <div class="recipe-single grid mgb1" *ngFor="let recipe of filteredRecipes">
           <figure>
             <ng-container *ngIf="!recipe.image">
               <img

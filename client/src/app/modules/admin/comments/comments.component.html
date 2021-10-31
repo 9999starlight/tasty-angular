@@ -6,8 +6,8 @@
       [isRating]="false"
       (titleAsc)="sortByAuthorAscending()"
       (titleDesc)="sortByAuthorDescending()"
-      (dateAsc)="sortingService.sortDateAscending(filteredCom)"
-      (dateDesc)="sortingService.sortDateDescending(filteredCom)"
+      (dateAsc)="sortingService.sortDateAscending(filteredComments)"
+      (dateDesc)="sortingService.sortDateDescending(filteredComments)"
     ></app-sorting-buttons>
     <div class="comments-container">
       <header class="flex flex-center">
@@ -20,15 +20,24 @@
             <option
               *ngFor="let option of commentsOptions"
               [value]="option.toLowerCase()"
+              (change)="onChangeSelect($event)"
             >
               {{ option }}
             </option>
           </select>
         </div>
-        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filteredComments($event)" />
+        <input
+          type="text"
+          [(ngModel)]="searchValue"
+          placeholder="Search..."
+          (input)="filterComments()"
+        />
       </header>
       <div class="comments-list-wrapper flex">
-        <div class="single-comment mgb1 grid" *ngFor="let comment of filteredCom">
+        <div
+          class="single-comment mgb1 grid"
+          *ngFor="let comment of filteredComments"
+        >
           <div class="basic-info">
             <p class="comment-id">
               <strong>Comment ID:</strong> {{ comment._id }}
@@ -81,7 +90,7 @@
             </button>
           </div>
         </div>
-      
+
         <!-- <app-pagination
           *ngIf="!searchValue"
           [resultsPerPage]="resultsPerPage()"
