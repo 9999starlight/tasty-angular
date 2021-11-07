@@ -2,23 +2,23 @@
   "../../../../../styles/abstracts/mixins.scss",
   "../../../../../styles/abstracts/functions.scss";
 .tooltip-box {
-    display: none;
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background-color: lighten($graphite, 10%);
+  @include box-size($min-width: 200px, $max-width: 200px);
+  border-radius: 8px;
+  padding: 0.8rem;
+  @include fonts($color: $light, $size: 0.9rem);
+  transition: ease-in-out 0.3s;
+  &::after {
+    content: "";
     position: absolute;
-    bottom: 100%;
+    bottom: -19%;
+    right: 50%;
     transform: translateX(-50%);
-    background-color: lighten($graphite, 10%);
-    @include box-size($min-width: 200px, $max-width: 200px);
-    border-radius: 8px;
-    padding: 0.8rem;
-    @include fonts($color: $light, $size: 0.9rem);
-    transition: ease-in-out 0.3s;
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -19%;
-      right: 50%;
-      transform: translateX(-50%);
-      border: 0.5rem solid transparent;
-      border-top-color: lighten($graphite, 10%);
-    }
+    border: 0.5rem solid transparent;
+    border-top-color: lighten($graphite, 10%);
   }
+}

@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UIService {
   isSearchShowed$ = new BehaviorSubject(false);
   isEditState$ = new BehaviorSubject(false);
 
-  constructor() { }
+  constructor() {}
 
   // show/hide Search Forms
   toggleSearchForm(payload: boolean) {
-    this.isSearchShowed$.next(payload)
+    this.isSearchShowed$.next(payload);
   }
 
   get searchForm(): boolean {
@@ -21,7 +21,7 @@ export class UIService {
 
   // edit state
   toggleEditState(payload: boolean) {
-    this.isEditState$.next(payload)
+    this.isEditState$.next(payload);
   }
 
   get editState(): boolean {

@@ -3,10 +3,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-sorting-buttons',
   templateUrl: './sorting-buttons.component.html',
-  styleUrls: ['./sorting-buttons.component.scss']
+  styleUrls: ['./sorting-buttons.component.scss'],
 })
 export class SortingButtonsComponent implements OnInit {
-
   @Input() isRating: boolean = true;
   @Output() titleAsc = new EventEmitter();
   @Output() titleDesc = new EventEmitter();
@@ -15,8 +14,7 @@ export class SortingButtonsComponent implements OnInit {
   @Output() dateAsc = new EventEmitter();
   @Output() dateDesc = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

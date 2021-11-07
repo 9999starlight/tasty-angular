@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UIService } from '../../sharedServices/ui.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
@@ -6,13 +6,14 @@ import { RecipesService } from '../../sharedServices/recipes.service';
 import { ImageValidatorService } from '../../sharedServices/image-validator.service';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
   styleUrls: ['./recipe-form.component.scss'],
 })
-export class RecipeFormComponent implements OnInit {
+export class RecipeFormComponent implements OnInit, OnDestroy {
   isLoading = false;
   message = '';
   messageStatus = false;
@@ -42,6 +43,8 @@ export class RecipeFormComponent implements OnInit {
   difficultyOptions = ['Easy', 'Medium', 'Hard'];
   filename = '';
   preview: any = '';
+  updateSubscription?: Subscription;
+  createSubscription?: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -69,7 +72,7 @@ export class RecipeFormComponent implements OnInit {
       this.addIngredient();
       this.addStep();
     } else {
-      console.log('from form: ', this.singleRecipe)
+      console.log('from form: ', this.singleRecipe);
     }
   }
 
@@ -155,10 +158,9 @@ export class RecipeFormComponent implements OnInit {
       regional: new FormControl(regional),
       vegetarian: new FormControl(vegetarian),
       glutenFree: new FormControl(glutenFree),
-      /* image: new FormControl(image, [this.imgValidator.imageTypeValidation, this.imgValidator.imageSizeValidation]), */
       image: new FormControl(image),
       ingredients: ingredients,
-      steps: steps
+      steps: steps,
     });
   }
 
@@ -226,7 +228,7 @@ export class RecipeFormComponent implements OnInit {
 
   uploadFile(value: any): void {
     const file = (value.target as HTMLInputElement)?.files?.[0];
-    console.log(this.imgValidator.typeValidation(file))
+    console.log(this.imgValidator.typeValidation(file));
     if (!this.imgValidator.typeValidation(file)) {
       this.imgMessage = 'Unsupported file! Please check image format and size';
       this.removeSelectedImage();
@@ -235,9 +237,9 @@ export class RecipeFormComponent implements OnInit {
     //this.imgMessage = '';
     this.filename = file!.name;
     this.recipeForm.patchValue({
-      image: file
+      image: file,
     });
-    this.recipeForm.get('image')!.updateValueAndValidity()
+    this.recipeForm.get('image')!.updateValueAndValidity();
 
     // File Preview
     const reader = new FileReader();
@@ -256,45 +258,48 @@ export class RecipeFormComponent implements OnInit {
     this.filename = '';
     this.preview = null;
     this.recipeForm.patchValue({
-      image: ''
+      image: '',
     });
   }
 
   configureFormData() {
-    const formData = new FormData()
-    if (this.recipeForm.value.image) {
-      formData.append('image', this.recipeForm.value.image)
+    const formData = new FormData();
+    if (this.recipeForm.value.image && this.el.nativeElement.querySelector('#recipeImage-w').value) {
+      formData.append('image', this.recipeForm.value.image);
     }
-    formData.append('mealName', this.recipeForm.value.mealName)
+    formData.append('mealName', this.recipeForm.value.mealName);
     if (!this.uiService.editState) {
-      formData.append('author', this.userId as any)
+      formData.append('author', this.userId as any);
     }
-    formData.append('intro', this.recipeForm.value.intro)
-    formData.append('dishType', this.recipeForm.value.dishType)
-    formData.append('level', this.recipeForm.value.level)
-    formData.append('timing', this.recipeForm.value.timing as any)
-    formData.append('persons', this.recipeForm.value.persons as any)
+    formData.append('intro', this.recipeForm.value.intro);
+    formData.append('dishType', this.recipeForm.value.dishType);
+    formData.append('level', this.recipeForm.value.level);
+    formData.append('timing', this.recipeForm.value.timing as any);
+    formData.append('persons', this.recipeForm.value.persons as any);
     if (this.recipeForm.value.regional) {
-      formData.append('regional', this.recipeForm.value.regional)
+      formData.append('regional', this.recipeForm.value.regional);
     }
-    formData.append('vegetarian', this.recipeForm.value.vegetarian as any)
-    formData.append('glutenFree', this.recipeForm.value.glutenFree as any)
+    formData.append('vegetarian', this.recipeForm.value.vegetarian as any);
+    formData.append('glutenFree', this.recipeForm.value.glutenFree as any);
     // form data - append arrays of objects (ingredients and steps)
     for (let i = 0; i < this.recipeForm.value.ingredients.length; i++) {
       for (let prop in this.recipeForm.value.ingredients[i]) {
         formData.append(
           `ingredients[${i}][${prop}]`,
           this.recipeForm.value.ingredients[i][prop]
-        )
+        );
       }
     }
     for (let i = 0; i < this.recipeForm.value.steps.length; i++) {
       for (let prop in this.recipeForm.value.steps[i]) {
-        formData.append(`steps[${i}][${prop}]`, this.recipeForm.value.steps[i][prop])
+        formData.append(
+          `steps[${i}][${prop}]`,
+          this.recipeForm.value.steps[i][prop]
+        );
       }
     }
 
-    return formData
+    return formData;
   }
 
   onRecipeSubmit() {
@@ -303,47 +308,58 @@ export class RecipeFormComponent implements OnInit {
       this.recipeForm.markAllAsTouched();
       this.isLoading = false;
       this.messageStatus = false;
-      this.message = 'Please check and fill in required fields'
-      return
+      this.message = 'Please check and fill in required fields';
+      return;
     }
-    const fd = this.configureFormData()
+    const fd = this.configureFormData();
     // fd check
     /* for (const [key, value] of fd.entries()) {
       console.log(key, value);
-    } */
+    }*/ 
 
     if (this.uiService.editState) {
-      this.recipeService.updateRecipe(this.singleRecipe!._id, fd).subscribe((res: any) => {
-        if (res) {
-          // console.log(res);
+      this.updateSubscription = this.recipeService.updateRecipe(this.singleRecipe!._id, fd).subscribe(
+        (res: any) => {
+          if (res) {
+            // console.log(res);
+            this.isLoading = false;
+            this.messageStatus = true;
+            this.message = res.message;
+            this.uiService.toggleEditState(false);
+            this.router.navigate([`recipe/${res.updatedRecipe._id}`]);
+          }
+        },
+        (error) => {
           this.isLoading = false;
-          this.messageStatus = true;
-          this.message = res.message;
-          this.uiService.toggleEditState(false);
-          this.router.navigate([`recipe/${res.updatedRecipe._id}`]);
+          this.messageStatus = false;
+          this.message = `Error: ${error.statusText}`;
+          console.log(error.statusText);
         }
-      }, error => {
-        this.isLoading = false;
-        this.messageStatus = false;
-        this.message = `Error: ${error.statusText}`;
-        console.log(error.statusText);
-      });
+      );
     } else {
-      this.recipeService.createRecipe(fd).subscribe((res: any) => {
-        if (res) {
-          // console.log(res); 
-          this.authService.updateUser(res.updatedUser);
+      this.createSubscription = this.recipeService.createRecipe(fd).subscribe(
+        (res: any) => {
+          if (res) {
+            // console.log(res);
+            this.authService.updateUser(res.updatedUser);
+            this.isLoading = false;
+            this.messageStatus = true;
+            this.message = res.message;
+            this.router.navigate([`recipe/${res.createdRecipe._id}`]);
+          }
+        },
+        (error) => {
           this.isLoading = false;
-          this.messageStatus = true;
-          this.message = res.message;
-          this.router.navigate([`recipe/${res.createdRecipe._id}`]);
+          this.messageStatus = false;
+          this.message = `Error: ${error.statusText}`;
+          console.log(error.statusText);
         }
-      }, error => {
-        this.isLoading = false;
-        this.messageStatus = false;
-        this.message = `Error: ${error.statusText}`;
-        console.log(error.statusText);
-      });
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.createSubscription?.unsubscribe();
+    this.updateSubscription?.unsubscribe();
   }
 }

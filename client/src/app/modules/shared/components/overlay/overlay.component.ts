@@ -1,16 +1,24 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, Renderer2 } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+  Input,
+  Renderer2,
+} from '@angular/core';
 
 @Component({
   selector: 'app-overlay',
   templateUrl: './overlay.component.html',
-  styleUrls: ['./overlay.component.scss']
+  styleUrls: ['./overlay.component.scss'],
 })
 export class OverlayComponent implements OnInit, OnDestroy {
   @Output() closeModal = new EventEmitter();
   @Input() editing: boolean = true;
   @Input() editModal: boolean = false;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'disable-scrolling');
@@ -23,5 +31,4 @@ export class OverlayComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'disable-scrolling');
   }
-
 }

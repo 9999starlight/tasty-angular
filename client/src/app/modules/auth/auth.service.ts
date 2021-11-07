@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { usersUrl } from 'src/app/apiData';
+import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
 // import interface
 import {
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials) {
-    return this.http.post<UserResponse>(`${usersUrl}/login`, credentials).pipe(
+    return this.http.post<UserResponse>(`${environment.usersUrl}/login`, credentials).pipe(
       tap(({ token }) => {
         this.authHelper(token);
       }),
@@ -42,7 +42,7 @@ export class AuthService {
 
   register(credentials: RegisterCredentials) {
     return this.http
-      .post<UserResponse>(`${usersUrl}/register`, credentials)
+      .post<UserResponse>(`${environment.usersUrl}/register`, credentials)
       .pipe(
         tap(({ token }) => {
           this.authHelper(token);
@@ -72,7 +72,7 @@ export class AuthService {
 
   updateFavorites(id: {}) {
     // console.log('from service update favorites: ', id)
-    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/favorites/${this.currentUser$.value?.userId}`, id).pipe(
+    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${environment.usersUrl}/favorites/${this.currentUser$.value?.userId}`, id).pipe(
       map(updated => {
         this.currentUser$.next(updated.updatedUser);
         return updated.message
@@ -86,7 +86,7 @@ export class AuthService {
 
   deleteFromFavorites(recipeId: string) {
     // console.log('from service update favorites: ', id)
-    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${usersUrl}/remove_favorite/${this.currentUser$.value?.userId}`, { favoriteId: recipeId }).pipe(
+    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${environment.usersUrl}/remove_favorite/${this.currentUser$.value?.userId}`, { favoriteId: recipeId }).pipe(
       map(updated => {
         this.currentUser$.next(updated.updatedUser);
         return updated

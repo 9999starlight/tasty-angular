@@ -1,9 +1,9 @@
 <header class="flex">
   <div
     [ngClass]="
-      !mobileMenu ? 'dropdown-overlay' : 'dropdown-overlay mobile-overlay'
+      mobileMenu && displayMenu ? 'dropdown-overlay  mobile-overlay' : 'dropdown-overlay'
     "
-    *ngIf="showUserDropdown || (mobileMenu && displayMenu)"
+    *ngIf="mobileMenu && displayMenu"
   ></div>
   <div class="menu-wrapper flex">
     <a routerLink="" class="flex flex-center">
@@ -159,17 +159,8 @@
           </a>
         </li>
         <li>
-          <!--<a
-            routerLink="auth/signup"
-            routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            Sign Up
-          </a>-->
         </li>
       </ng-container>
     </ul>
   </nav>
-  <!--</ng-container
-  >-->
 </header>

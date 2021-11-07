@@ -1,12 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
-/* import { Router, ActivatedRoute } from '@angular/router';
-import { RecipesService } from '../../sharedServices/recipes.service'; */
-
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
   searchValue = '';
@@ -30,46 +27,55 @@ export class SearchComponent implements OnInit {
     'Cookie',
     'Dessert',
     'Drink',
-    'Snack'
+    'Snack',
   ];
   difficultyOptions = ['Easy', 'Medium', 'Hard'];
   vegetarian = false;
   glutenFree = false;
   isResultsPage = false;
-  queryParams: { mealName?: string, title?: string, 'ingredients.ingredient'?: string, dishType?: string, level?: string, vegetarian?: boolean, glutenFree?: boolean } = {};
+  queryParams: {
+    mealName?: string;
+    title?: string;
+    'ingredients.ingredient'?: string;
+    dishType?: string;
+    level?: string;
+    vegetarian?: boolean;
+    glutenFree?: boolean;
+  } = {};
   @Output() changeParams = new EventEmitter();
   @Input() isResultPage = false;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   basicSearch(basicSearchForm: NgForm) {
-    this.queryParams = {}
+    this.queryParams = {};
     if (this.basicOption !== '') {
       if (this.basicOption === 'title')
-        this.queryParams = { mealName: this.searchValue.toLowerCase() }
+        this.queryParams = { mealName: this.searchValue.toLowerCase() };
       if (this.basicOption === 'ingredient') {
-        this.queryParams = { 'ingredients.ingredient': this.searchValue.toLowerCase() }
+        this.queryParams = {
+          'ingredients.ingredient': this.searchValue.toLowerCase(),
+        };
       }
     }
-    this.changeParams.emit(this.queryParams)
+    this.changeParams.emit(this.queryParams);
   }
 
   categoriesSearch(categoriesForm: NgForm) {
-    this.queryParams = {}
+    this.queryParams = {};
     if (this.dishType !== '') {
-      this.queryParams.dishType = this.dishType
+      this.queryParams.dishType = this.dishType;
     }
     if (this.difficulty !== '') {
-      this.queryParams.level = this.difficulty
+      this.queryParams.level = this.difficulty;
     }
     if (this.vegetarian) {
-      this.queryParams.vegetarian = true
+      this.queryParams.vegetarian = true;
     }
     if (this.glutenFree) {
-      this.queryParams.glutenFree = true
+      this.queryParams.glutenFree = true;
     }
-    this.changeParams.emit(this.queryParams)
+    this.changeParams.emit(this.queryParams);
   }
 }

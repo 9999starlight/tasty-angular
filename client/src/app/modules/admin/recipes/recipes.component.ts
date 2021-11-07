@@ -4,6 +4,7 @@ import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { SingleRecipe } from '../../../types/SingleRecipe';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipes',
@@ -24,14 +25,18 @@ export class RecipesComponent implements OnInit, OnDestroy {
   adminRecipesOptions = ['Meal Name', 'User', 'Recipe ID'];
   selectedOption = 'meal name';
   searchValue = '';
-  singleRecipe!: SingleRecipe;
+  singleRecipe?: SingleRecipe;
+  recipeSubcription?: Subscription;
+  deleteSubscription?: Subscription;
+  singleRecipeSubscription?: Subscription;
+  subscriptions: (Subscription | undefined)[] = [];
 
   ngOnInit(): void {
     this.fetchRecipes();
   }
 
   fetchRecipes() {
-    this.recipesService.getRecipes().subscribe(
+    this.recipeSubcription = this.recipesService.getRecipes().subscribe(
       (res) => {
         if (res) {
           this.recipes = JSON.parse(JSON.stringify(res));
@@ -40,10 +45,10 @@ export class RecipesComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        /* this.errorMessage = `Error: ${error.statusText}`; */
         console.log(error.statusText);
       }
     );
+    this.subscriptions.push(this.recipeSubcription);
   }
 
   setStatisticBoxes() {
@@ -91,28 +96,34 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   deleteRecipe(id: string) {
-    this.recipesService.deleteRecipe(id).subscribe((res) => {
-      if (res) {
-        console.log(res);
-        this.recipes = [];
-        this.fetchRecipes();
-      }
-    });
+    this.deleteSubscription = this.recipesService
+      .deleteRecipe(id)
+      .subscribe((res) => {
+        if (res) {
+          // console.log(res);
+          this.recipes = [];
+          this.fetchRecipes();
+        }
+      });
+    this.subscriptions.push(this.deleteSubscription);
   }
 
   editFormSettings(id: string) {
-    this.recipesService.getSingleRecipe(id).subscribe(
-      (res: SingleRecipe) => {
-        if (res) {
-          console.log(res);
-          this.singleRecipe = JSON.parse(JSON.stringify(res));
-          this.uiService.toggleEditState(true);
+    this.singleRecipeSubscription = this.recipesService
+      .getSingleRecipe(id)
+      .subscribe(
+        (res: SingleRecipe) => {
+          if (res) {
+            // console.log(res);
+            this.singleRecipe = JSON.parse(JSON.stringify(res));
+            this.uiService.toggleEditState(true);
+          }
+        },
+        (error: any) => {
+          console.log(error.statusText);
         }
-      },
-      (error: any) => {
-        console.log(error.statusText);
-      }
-    );
+      );
+    this.subscriptions.push(this.singleRecipeSubscription);
   }
 
   closeEditForm() {
@@ -127,7 +138,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
     if (!this.searchValue) {
       this.filteredRecipes = [...this.filteredRecipes];
     }
-    // console.log(this.selectedOption, this.searchValue);
     this.filteredRecipes = this.recipes.filter((recipe) => {
       if (this.selectedOption === 'recipe id') {
         return recipe._id
@@ -147,5 +157,8 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.closeEditForm();
+    this.subscriptions.forEach((sub) => {
+      if (!sub === undefined) sub?.unsubscribe();
+    });
   }
 }

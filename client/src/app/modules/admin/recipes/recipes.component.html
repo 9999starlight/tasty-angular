@@ -46,12 +46,12 @@
       Browse {{ recipes.length }} recipes
     </h2>
     <app-sorting-buttons
-      (titleAsc)="sortingService.sortTitleAscending(recipes)"
-      (titleDesc)="sortingService.sortTitleDescending(recipes)"
-      (ratingAsc)="sortingService.sortRatingAscending(recipes)"
-      (ratingDesc)="sortingService.sortRatingDescending(recipes)"
-      (dateAsc)="sortingService.sortDateAscending(recipes)"
-      (dateDesc)="sortingService.sortDateDescending(recipes)"
+      (titleAsc)="sortingService.sortTitleAscending(filteredRecipes)"
+      (titleDesc)="sortingService.sortTitleDescending(filteredRecipes)"
+      (ratingAsc)="sortingService.sortRatingAscending(filteredRecipes)"
+      (ratingDesc)="sortingService.sortRatingDescending(filteredRecipes)"
+      (dateAsc)="sortingService.sortDateAscending(filteredRecipes)"
+      (dateDesc)="sortingService.sortDateDescending(filteredRecipes)"
     ></app-sorting-buttons>
     <div class="search-recipes">
       <header class="flex flex-center">
@@ -70,10 +70,18 @@
             </option>
           </select>
         </div>
-        <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (input)="filterRecipes()"/>
+        <input
+          type="text"
+          [(ngModel)]="searchValue"
+          placeholder="Search..."
+          (input)="filterRecipes()"
+        />
       </header>
       <div class="allrecipes-container">
-        <div class="recipe-single grid mgb1" *ngFor="let recipe of filteredRecipes">
+        <div
+          class="recipe-single grid mgb1"
+          *ngFor="let recipe of filteredRecipes"
+        >
           <figure>
             <ng-container *ngIf="!recipe.image">
               <img
@@ -125,17 +133,6 @@
             </button>
           </div>
         </div>
-        <!-- <Pagination
-            v-show="!searchValue"
-            :resultsPerPage="resultsPerPage"
-            :totalResults="allRecipes.length"
-            :currentPage="currentPage"
-            @paginate="changePage"
-            @prev="prevPage"
-            @next="nextPage"
-            @first="firstPage"
-            @last="lastPage"
-          /> -->
       </div>
     </div>
   </section>

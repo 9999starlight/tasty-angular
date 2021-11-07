@@ -159,7 +159,14 @@
     <legend>Image Upload</legend>
     <div class="inner center">
       <div class="images flex">
-        <figure *ngIf="preview" [ngClass]="uiService.editState && singleRecipe.image ? 'flex flex-center half-size' : 'flex flex-center'">
+        <figure
+          *ngIf="preview"
+          [ngClass]="
+            uiService.editState && singleRecipe.image
+              ? 'flex flex-center half-size'
+              : 'flex flex-center'
+          "
+        >
           <img
             [src]="preview"
             [alt]="filename"
@@ -170,7 +177,9 @@
         </figure>
         <figure
           *ngIf="uiService.editState && singleRecipe.image"
-          [ngClass]="preview ? 'flex flex-center half-size' : 'flex flex-center'"
+          [ngClass]="
+            preview ? 'flex flex-center half-size' : 'flex flex-center'
+          "
         >
           <img
             [src]="singleRecipe.image.url"
@@ -202,18 +211,6 @@
         <small>Maximum upload file size 2Mb</small>
       </div>
       <div class="warn-wrapper">
-        <!-- <p
-          class="warn"
-          *ngIf="recipeForm.get('image')?.hasError('invalidFileType')"
-        >
-          Unsupported file type!
-        </p>
-        <p
-          class="warn"
-          *ngIf="recipeForm.get('image')?.hasError('invalidFileSize')"
-        >
-          File is larger than 2Mb!
-        </p> -->
         <app-info-message
           *ngIf="imgMessage"
           [message]="imgMessage"
@@ -227,7 +224,6 @@
   <fieldset class="ingredients mgb1">
     <legend>Ingredients</legend>
     <div class="inner center">
-      <!-- <transition-group name="scale-in-tl"> -->
       <ul formArrayName="ingredients">
         <li
           class="single-ingredient"
@@ -277,7 +273,6 @@
           </button>
         </li>
       </ul>
-      <!-- </transition-group> -->
       <button
         class="mgt1 add tooltip-container"
         type="button"
@@ -293,7 +288,6 @@
   <fieldset class="steps">
     <legend>Preparation steps</legend>
     <div class="inner center">
-      <!-- <transition-group name="scale-in-tl" tag="ul"> -->
       <ul formArrayName="steps">
         <li
           class="single-step"
@@ -330,7 +324,6 @@
           </button>
         </li>
       </ul>
-      <!-- </transition-group> -->
       <button
         type="button"
         class="mgt1 add tooltip-container"

@@ -1,32 +1,30 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-//import { BehaviorSubject } from 'rxjs';
-//import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SingleRecipe } from 'src/app/types/SingleRecipe';
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss'],
 })
 export class RecipeComponent implements OnInit, OnDestroy {
-  recipe: any;
+  recipe!: SingleRecipe;
   ratedByUser: Rate[] | [] = [];
   isSavingEnabled = false;
   isRatingEnabled = true;
   isLoading = false;
   infoMessage = '';
   msgStatus = false;
-  routeSubscription!: Subscription;
-  updateRatingSubscription!: Subscription;
-  recipeSubscription!: Subscription;
-  favoritesSubscription!: Subscription;
-  newResultSubscription!: Subscription;
-  subscriptions: Subscription[] = [];
+  updateRatingSubscription?: Subscription;
+  recipeSubscription?: Subscription;
+  favoritesSubscription?: Subscription;
+  newResultSubscription?: Subscription;
+  subscriptions: (Subscription | undefined)[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -35,30 +33,27 @@ export class RecipeComponent implements OnInit, OnDestroy {
     public uiService: UIService,
     private router: Router
   ) {
-
     // resolver
-    this.routeSubscription = this.route.data.subscribe(({ recipe }) => {
+    this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;
     });
-
   }
 
   ngOnInit(): void {
     this.uiService.toggleSearchForm(false);
-    console.log(this.recipe);
+    //console.log(this.recipe);
     this.checkRatedBy();
     this.enableSaving();
     this.enableRating();
     //console.log(this.ratedByUser);
-    console.log('user getter in recipe: ', this.authService.user)
+    //console.log('user getter in recipe: ', this.authService.user)
 
     this.subscriptions.push(
-      this.routeSubscription,
       this.updateRatingSubscription,
       this.recipeSubscription,
       this.favoritesSubscription,
       this.newResultSubscription
-    )
+    );
   }
 
   enableSaving() {
@@ -90,22 +85,22 @@ export class RecipeComponent implements OnInit, OnDestroy {
   enableRating() {
     if (!this.authService.isLogged) {
       this.isRatingEnabled = true;
-    }
-    if (
-      this.authService.isLogged &&
-      (this.recipe.author._id === this.authService.user?.userId ||
-        this.ratedByUser.length)
-    ) {
-      this.isRatingEnabled = false;
     } else {
-      this.isRatingEnabled = true;
+      if (
+        this.recipe.author._id === this.authService.user?.userId ||
+        this.ratedByUser.length
+      ) {
+        this.isRatingEnabled = false;
+      } else {
+        this.isRatingEnabled = true;
+      }
     }
   }
 
   userRate(): number | null {
     if (
       this.authService.isLogged &&
-      this.recipe.author.userId !== this.authService.user?.userId &&
+      this.recipe.author._id !== this.authService.user?.userId &&
       this.ratedByUser.length
     ) {
       return this.ratedByUser[0].rate;
@@ -127,65 +122,78 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
 
   updateRatingHandler(rateVal: number) {
-    this.updateRatingSubscription = this.recipesService.updateRating(this.recipe._id, rateVal).subscribe((res: any) => {
-      if (res) {
-        this.updateMsgStatusHandler(true);
-        this.updateMsgHandler('Recipe has been rated');
-        this.getNewData(this.recipe._id);
-      }
-    })
+    this.updateRatingSubscription = this.recipesService
+      .updateRating(this.recipe._id, rateVal)
+      .subscribe((res: any) => {
+        if (res) {
+          this.updateMsgStatusHandler(true);
+          this.updateMsgHandler('Recipe has been rated');
+          this.getNewData(this.recipe._id);
+        }
+      });
   }
 
   getNewData(id: string) {
-    this.recipeSubscription = this.recipesService.getSingleRecipe(id).subscribe((res: any) => {
-      if (res) {
-        this.recipe = Object.assign({}, res);
-        this.checkRatedBy();
-        this.enableRating();
-        console.log(this.recipe)
+    this.recipeSubscription = this.recipesService.getSingleRecipe(id).subscribe(
+      (res: any) => {
+        if (res) {
+          this.recipe = Object.assign({}, res);
+          this.checkRatedBy();
+          this.enableRating();
+          //console.log(this.recipe)
+        }
+      },
+      (error: any) => {
+        //this.isLoading = false;
+        this.infoMessage = `Error: ${error.statusText}`;
+        console.log(error.statusText);
       }
-    }, (error: any) => {
-      //this.isLoading = false;
-      this.infoMessage = `Error: ${error.statusText}`;
-      console.log(error.statusText);
-    });
+    );
   }
 
   saveRecipe() {
     if (!this.authService.isLogged) {
-      this.updateMsgStatusHandler(false)
-      this.updateMsgHandler('Login to save this recipe')
-      return
+      this.updateMsgStatusHandler(false);
+      this.updateMsgHandler('Login to save this recipe');
+      return;
     }
-    this.favoritesSubscription = this.authService.updateFavorites({ favoriteId: this.recipe._id }).subscribe((res: any) => {
-      if (res) {
-        //console.log(res)
-        this.updateMsgStatusHandler(true)
-        this.updateMsgHandler(res.message)
-        this.enableSaving();
-        //console.log('after getting recipe saving user getter: ', this.authService.user)
-      }
-    }, (error: any) => {
-      console.log(error.statusText);
-      this.updateMsgStatusHandler(false)
-      this.updateMsgHandler(`Error: ${error.statusText}`)
-    });
-
+    this.favoritesSubscription = this.authService
+      .updateFavorites({ favoriteId: this.recipe._id })
+      .subscribe(
+        (res: any) => {
+          if (res) {
+            //console.log(res)
+            this.updateMsgStatusHandler(true);
+            this.updateMsgHandler(res.message);
+            this.enableSaving();
+            //console.log('after getting recipe saving user getter: ', this.authService.user)
+          }
+        },
+        (error: any) => {
+          console.log(error.statusText);
+          this.updateMsgStatusHandler(false);
+          this.updateMsgHandler(`Error: ${error.statusText}`);
+        }
+      );
   }
 
   getNewResults(params: any) {
-    this.newResultSubscription = this.recipesService.getRecipesByQuery(params).subscribe((res: any) => {
-      console.log(params)
-      this.router.navigate(['results'], { queryParams: params });
-    }, (error: any) => {
-      console.log(error.statusText);
-    });
+    this.newResultSubscription = this.recipesService
+      .getRecipesByQuery(params)
+      .subscribe(
+        (res: any) => {
+          //console.log(params)
+          this.router.navigate(['results'], { queryParams: params });
+        },
+        (error: any) => {
+          console.log(error.statusText);
+        }
+      );
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => {
-      if(!sub === undefined)
-        sub.unsubscribe()
-    })
+    this.subscriptions.forEach((sub) => {
+      if (!sub === undefined) sub?.unsubscribe();
+    });
   }
 }

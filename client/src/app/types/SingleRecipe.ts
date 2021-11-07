@@ -1,3 +1,4 @@
+import { Comment } from './Comment';
 export interface SingleRecipe {
   _id: string;
   mealName: string;
@@ -5,9 +6,13 @@ export interface SingleRecipe {
   author: {
     _id: string;
     username: string;
-    image: string;
+    user_image?: {
+      url: string;
+      id: string;
+    };
+    createdRecipes: string[] | [];
   };
-  comments: string[] | [];
+  comments: Comment[] | [];
   createdAt: string;
   dishType: string;
   glutenFree?: boolean;
@@ -25,6 +30,7 @@ export interface SingleRecipe {
   vegetarian?: boolean;
   timing: number;
   persons: number;
+  rating?: number;
   steps: {
     step: string;
   }[];

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Comment } from 'src/app/types/Comment';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { AdminService } from '../admin.service';
-import { PaginationService } from '../../shared/sharedServices/pagination.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,13 +15,12 @@ export class CommentsComponent implements OnInit, OnDestroy {
   selectedOption = 'author';
   searchValue = '';
   filteredComments: Comment[] = [];
-  fetchSubscription: Subscription | undefined;
-  deleteSubscription: Subscription | undefined;
+  fetchSubscription?: Subscription;
+  deleteSubscription?: Subscription;
 
   constructor(
     public sortingService: SortingService,
-    private adminService: AdminService,
-    public pgOptions: PaginationService
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +33,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
         if (res) {
           this.comments = [...res];
           this.filteredComments = [...this.comments];
-          //this.setFilteredArray();
         }
       },
       (error) => {

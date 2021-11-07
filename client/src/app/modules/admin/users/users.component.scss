@@ -213,9 +213,7 @@ align-self: flex-end;
     }
   }
 }
-.pagination-wrapper {
-  margin: 1rem;
-}
+
 @media (min-width: 576px) {
   .admin-users {
     @include box-size($width: 100%);

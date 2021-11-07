@@ -1,35 +1,35 @@
-@import '../../../../styles/abstracts/variables',
-'../../../../styles/abstracts/mixins',
-'../../../../styles/abstracts/functions';
+@import "../../../../styles/abstracts/variables",
+  "../../../../styles/abstracts/mixins",
+  "../../../../styles/abstracts/functions";
 
 .create-recipe {
-    @include alignment($direction: column);
-    @include box-size($width: 100%, $height: 100%);
-    position: relative;
+  @include alignment($direction: column);
+  @include box-size($width: 100%, $height: 100%);
+  position: relative;
+  h1 {
+    font-family: "Lobster", cursive;
+    color: lighten($graphite, 15%);
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
+      0px -1px 0px rgba(0, 0, 0, 0.7);
+  }
+  .formWrapper {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .form-wrapper {
+    max-width: 600px;
+  }
+}
+@media (min-width: 992px) {
+  .create-recipe {
+    //background: url('../../../../assets/images/backgrounds/rosemary.jpg') $backConfig;
+    //background: #eacda3;
+    //background-image: $lightOrange;
+    background-attachment: fixed;
     h1 {
-      font-family: 'Lobster', cursive;
-      color: lighten($graphite, 15%);
-      text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
-        0px -1px 0px rgba(0, 0, 0, 0.7);
-    }
-    .formWrapper {
-      width: 100%;
+      @include fonts($size: 2.2rem);
+      //background-color: $light;
     }
   }
-  @media (min-width: 768px) {
-    .form-wrapper {
-      max-width: 600px;
-    }
-  }
-  @media (min-width: 992px) {
-    .create-recipe {
-      //background: url('../../../../assets/images/backgrounds/rosemary.jpg') $backConfig;
-      //background: #eacda3;
-      //background-image: $lightOrange;
-      background-attachment: fixed;
-      h1 {
-        @include fonts($size: 2.2rem);
-        //background-color: $light;
-      }
-    }
-  }
+}

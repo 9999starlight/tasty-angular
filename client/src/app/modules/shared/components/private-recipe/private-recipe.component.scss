@@ -18,10 +18,6 @@
     grid-area: image;
     @include box-size($width: 100px, $height: 80px);
     box-shadow: $shadowSmall;
-    img {
-      @include box-size($width: 100%, $height: 100%);
-      object-fit: cover;
-    }
   }
   h4,
   .details {
@@ -87,7 +83,6 @@
     grid-template-areas: "image mealName rating editDelete" "image details date editDelete";
     @include alignment($align: center);
     figure {
-      @include box-size($width: 120px, $height: 100px);
       justify-self: center;
     }
     h4,

@@ -3,13 +3,11 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-tooltip',
   templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss']
+  styleUrls: ['./tooltip.component.scss'],
 })
 export class TooltipComponent implements OnInit {
   @Input() tooltipText: string = '';
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

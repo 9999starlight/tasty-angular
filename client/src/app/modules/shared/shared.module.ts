@@ -7,7 +7,7 @@ import { AuthInterceptor } from '../auth/auth-interceptor';
 // pipes
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 // FA
-import { faAngleDoubleDown, faAngleDoubleLeft, faAngleDoubleRight, faArrowDown, faArrowUp, faEdit, faInfoCircle, faMinus, faPlus, faSearch, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleLeft, faAngleDoubleRight, faArrowDown, faArrowUp, faEdit, faInfoCircle, faMinus, faPlus, faSearch, faStar, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 // Components
 import { InfoMessageComponent } from './components/info-message/info-message.component';
@@ -20,7 +20,6 @@ import { SortingButtonsComponent } from './components/sorting-buttons/sorting-bu
 import { SearchComponent } from './components/search/search.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { OverlayComponent } from './components/overlay/overlay.component';
-import { PaginationComponent } from './components/pagination/pagination.component';
 @NgModule({
   declarations: [
     SentenceCasePipe,
@@ -33,8 +32,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     SortingButtonsComponent,
     SearchComponent,
     RecipeFormComponent,
-    OverlayComponent,
-    PaginationComponent
+    OverlayComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +40,6 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule
-    //FaIconLibrary
   ],
   exports: [
     SentenceCasePipe,
@@ -56,10 +53,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     SortingButtonsComponent,
     SearchComponent,
     RecipeFormComponent,
-    OverlayComponent,
-    PaginationComponent
-    /* FontAwesomeModule,
-    FaIconLibrary */
+    OverlayComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

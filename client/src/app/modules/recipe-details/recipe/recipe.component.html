@@ -1,5 +1,8 @@
 <div class="single-result-container container">
-  <app-search (changeParams)="getNewResults($event)" *ngIf="uiService.searchForm"></app-search>
+  <app-search
+    (changeParams)="getNewResults($event)"
+    *ngIf="uiService.searchForm"
+  ></app-search>
 
   <div class="single-result-wrapper">
     <h1>{{ recipe.mealName | sentenceCase }}</h1>
@@ -34,7 +37,7 @@
       <!-- Rating -->
       <ng-container *ngIf="isRatingEnabled">
         <app-rating
-          [recipeId]="recipe.id"
+          [recipeId]="recipe._id"
           (updateMsgStatus)="updateMsgStatusHandler($event)"
           (updateMsg)="updateMsgHandler($event)"
           (updateRecipe)="updateRatingHandler($event)"

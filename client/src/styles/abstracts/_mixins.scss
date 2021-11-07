@@ -1,36 +1,50 @@
 // background all
 @mixin background($filter, $url, $backConfig) {
-	background: $filter, $url $backConfig;
+  background: $filter, $url $backConfig;
 }
 
 // boxes - size/alignment
-@mixin box-size($width: false, $height: false, $max-width: false, $min-width: false, $max-height: false, $min-height: false) {
-  @if($width) {
+@mixin box-size(
+  $width: false,
+  $height: false,
+  $max-width: false,
+  $min-width: false,
+  $max-height: false,
+  $min-height: false
+) {
+  @if ($width) {
     width: $width;
   }
 
-  @if($height) {
+  @if ($height) {
     height: $height;
   }
 
-  @if($max-width) {
+  @if ($max-width) {
     max-width: $max-width;
   }
 
-  @if($min-width) {
+  @if ($min-width) {
     min-width: $min-width;
   }
 
-  @if($max-height) {
+  @if ($max-height) {
     max-height: $max-height;
   }
 
-  @if($min-height) {
+  @if ($min-height) {
     min-height: $min-height;
   }
 }
 
-@mixin alignment($display: false, $align: false, $justify: false, $justify-grid: false, $direction: false, $text-align: false) {
+@mixin alignment(
+  $display: false,
+  $align: false,
+  $justify: false,
+  $justify-grid: false,
+  $direction: false,
+  $text-align: false
+) {
   @if $display {
     display: $display;
   }
@@ -57,7 +71,7 @@
 }
 
 // fonts
-@mixin fonts ($size: false, $color: false, $weight: false, $style: false) {
+@mixin fonts($size: false, $color: false, $weight: false, $style: false) {
   @if $size {
     font-size: $size;
   }
@@ -74,4 +88,3 @@
     font-style: $style;
   }
 }
-

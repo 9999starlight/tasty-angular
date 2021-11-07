@@ -87,8 +87,8 @@
       [isRating]="false"
       (titleAsc)="sortUsernameAscending()"
       (titleDesc)="sortUsernameDescending()"
-      (dateAsc)="sortingService.sortDateAscending(users)"
-      (dateDesc)="sortingService.sortDateDescending(users)"
+      (dateAsc)="sortingService.sortDateAscending(filteredUsers)"
+      (dateDesc)="sortingService.sortDateDescending(filteredUsers)"
     ></app-sorting-buttons>
     <div class="users-container">
       <header class="flex flex-center">
@@ -205,7 +205,6 @@
           </div>
         </div>
       </div>
-      <!-- place for pagination -->
     </div>
   </section>
 </div>

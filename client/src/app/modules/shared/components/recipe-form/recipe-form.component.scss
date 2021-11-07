@@ -130,13 +130,13 @@ form {
           width: 50%;
           margin-bottom: 1.2rem;
 
-            figcaption {
-              height: 20%;
-            }
+          figcaption {
+            height: 20%;
+          }
 
-            img {
-              height: 80%;
-            }
+          img {
+            height: 80%;
+          }
         }
         figcaption {
           @include fonts($size: 0.8rem);

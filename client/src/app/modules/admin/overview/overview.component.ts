@@ -26,9 +26,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
   usersCount = 0;
   commentsCount = 0;
   isLoading = true;
-  commentSubscription!: Subscription;
-  recipeSubscription!: Subscription;
-  userSubscription!: Subscription;
+  commentSubscription?: Subscription;
+  recipeSubscription?: Subscription;
+  userSubscription?: Subscription;
+  subscriptions: (Subscription | undefined)[]  = [];
 
   constructor(
     private recipesService: RecipesService,
@@ -40,13 +41,18 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.fetchRecipes();
     this.fetchUsers();
     this.fetchComments();
+    this.subscriptions.push(
+      this.recipeSubscription,
+      this.userSubscription,
+      this.commentSubscription
+    );
   }
 
   fetchUsers() {
     this.userSubscription = this.adminService.getUsers().subscribe(
       (res) => {
         if (res) {
-          console.log(res);
+          // console.log(res);
           this.usersCount = res.length;
           const sortedByRecipes = [...res]
             .sort((a, b) => b.createdRecipes.length - a.createdRecipes.length)
@@ -61,7 +67,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.isLoading = false;
-        //this.errorMessage = `Error: ${error.statusText}`;
         console.log(error.statusText);
       }
     );
@@ -71,7 +76,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.commentSubscription = this.adminService.getComments().subscribe(
       (res) => {
         if (res) {
-          console.log(res);
+          // console.log(res);
           this.isLoading = false;
           this.commentsCount = res.length;
           this.latestComments = this.sortingService
@@ -100,27 +105,25 @@ export class OverviewComponent implements OnInit, OnDestroy {
           const sortedByComments = [...recipes]
             .sort((a, b) => b.comments.length - a.comments.length)
             .slice(0, 5);
-          console.log(sortedByComments);
           sortedByComments.map((single) => {
             this.mostCommented.push({
               name: single.mealName,
               value: single.comments.length,
             });
           });
-          console.log(this.mostCommented);
+          // console.log(this.mostCommented);
         }
       },
       (error) => {
         this.isLoading = false;
-        //this.errorMessage = `Error: ${error.statusText}`;
         console.log(error.statusText);
       }
     );
   }
 
   ngOnDestroy() {
-    this.recipeSubscription.unsubscribe();
-    this.commentSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      if (!sub === undefined) sub?.unsubscribe();
+    });
   }
 }

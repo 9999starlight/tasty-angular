@@ -2,9 +2,9 @@
   "../../../../../styles/abstracts/mixins",
   "../../../../../styles/abstracts/functions";
 
-  :host {
-    width: 100%;
-  }
+:host {
+  width: 100%;
+}
 
 .sorting-buttons-wrapper {
   @include box-size($width: 100%);
@@ -50,7 +50,7 @@
 
     .button-pair {
       @include alignment($direction: row, $justify: center);
-        
+
       .sort-btn:hover {
         transform: scale(1.02);
         transition: 0.5s;

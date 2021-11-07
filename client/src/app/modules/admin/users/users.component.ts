@@ -3,6 +3,7 @@ import { AdminService } from '../admin.service';
 import { UpdatedUser } from 'src/app/types/userTypes';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -28,6 +29,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     favorites: [],
     user_image: '',
   };
+  usersSubscription?: Subscription;
+  userSubscription?: Subscription;
+  disableSubscription?: Subscription;
+  adminSubscription?: Subscription;
+  subscriptions: (Subscription | undefined)[] = [];
 
   constructor(
     private adminService: AdminService,
@@ -37,6 +43,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchUsers();
+    this.subscriptions.push(
+      this.usersSubscription,
+      this.userSubscription,
+      this.disableSubscription,
+      this.adminSubscription
+    );
   }
 
   onChangeSelect(e: any) {
@@ -44,21 +56,21 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   sortUsernameAscending() {
-    const sortByUser = this.users.sort((a, b) =>
+    const sortByUser = this.filteredUsers.sort((a, b) =>
       a.username.toLowerCase().localeCompare(b.username.toLowerCase())
     );
     return sortByUser;
   }
 
   sortUsernameDescending() {
-    const sortByUser = this.users.sort((a, b) =>
+    const sortByUser = this.filteredUsers.sort((a, b) =>
       b.username.toLowerCase().localeCompare(a.username.toLowerCase())
     );
     return sortByUser;
   }
 
   openUserEdit(id: string, isAdminEdit: boolean) {
-    this.adminService.getUser(id).subscribe(
+    this.userSubscription = this.adminService.getUser(id).subscribe(
       (res: UpdatedUser) => {
         if (res) {
           this.userForEdit = JSON.parse(JSON.stringify(res));
@@ -73,7 +85,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   fetchUsers() {
-    this.adminService.getUsers().subscribe(
+    this.usersSubscription = this.adminService.getUsers().subscribe(
       (res) => {
         if (res) {
           console.log(res);
@@ -117,7 +129,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   changeDisableStatus() {
     // console.log(this.userForEdit._id)
     if (window.confirm('Change status for this user?')) {
-      this.adminService
+      this.disableSubscription = this.adminService
         .patchUser(this.userForEdit._id, 'disableStatus', {
           disableStatus: this.userForEdit.isDisabled,
         })
@@ -137,7 +149,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
   changeAdminStatus() {
     if (window.confirm('Change permissions for this user?')) {
-      this.adminService
+      this.adminSubscription = this.adminService
         .patchUser(this.userForEdit._id, 'adminStatus', {
           adminStatus: this.userForEdit.isAdmin,
         })
@@ -177,5 +189,8 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.closeUserEdit();
+    this.subscriptions.forEach((sub) => {
+      if (!sub === undefined) sub?.unsubscribe();
+    });
   }
 }

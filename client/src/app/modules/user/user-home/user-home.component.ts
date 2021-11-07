@@ -5,7 +5,7 @@ import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
-  styleUrls: ['./user-home.component.scss']
+  styleUrls: ['./user-home.component.scss'],
 })
 export class UserHomeComponent implements OnInit {
   user: CurrentUser | UpdatedUser;
@@ -17,17 +17,15 @@ export class UserHomeComponent implements OnInit {
 
   constructor(private authService: AuthService) {
     this.user = this.authService.user!;
-   }
-
-  ngOnInit(): void {
   }
+
+  ngOnInit(): void {}
 
   selectImageFile() {}
 
-  removeSelectedImage(){}
+  removeSelectedImage() {}
 
   updateMessage(msg: string) {}
 
-  submitImage(){}
-
+  submitImage() {}
 }

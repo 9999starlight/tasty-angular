@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { commentsUrl, usersUrl } from 'src/app/apiData';
+import { environment } from 'src/environments/environment';
 import { map, catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
@@ -15,7 +15,7 @@ export class AdminService {
   // GET
   getUsers() {
     return this.http
-      .get<{ response: { users: UpdatedUser[]; count: number } }>(usersUrl)
+      .get<{ response: { users: UpdatedUser[]; count: number } }>(environment.usersUrl)
       .pipe(
         map((res) => {
           return res.response.users;
@@ -28,7 +28,7 @@ export class AdminService {
   }
 
   getUser(id: string) {
-    return this.http.get<any>(`${usersUrl}/${id}`).pipe(
+    return this.http.get<any>(`${environment.usersUrl}/${id}`).pipe(
       map((res) => {
         return res;
       }),
@@ -41,7 +41,7 @@ export class AdminService {
 
   getComments() {
     return this.http
-      .get<{ response: { comments: Comment[] } }>(commentsUrl)
+      .get<{ response: { comments: Comment[] } }>(environment.commentsUrl)
       .pipe(
         map((res) => {
           return res.response.comments;
@@ -54,10 +54,10 @@ export class AdminService {
   }
 
   // PATCH
-  // change user status & change admin status
+  // change user status or change admin status
   patchUser(userId: string, change: string, payload: object) {
     return this.http
-      .patch<{ message: string }>(`${usersUrl}/${change}/${userId}`, payload)
+      .patch<{ message: string }>(`${environment.usersUrl}/${change}/${userId}`, payload)
       .pipe(
         tap((res) => res),
         catchError((err) => {
@@ -69,7 +69,7 @@ export class AdminService {
 
   // DELETE
   deleteComment(id: string) {
-    return this.http.delete<any>(`${commentsUrl}/${id}`).pipe(
+    return this.http.delete<any>(`${environment.commentsUrl}/${id}`).pipe(
       map((res) => {
         return res;
       }),

@@ -123,8 +123,6 @@
     padding: 1rem;
     //@include box-size($width: calc(100% - 4rem));
     width: 100%;
-    //align-self: center;
-    //align-self: flex-end;
     section {
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(2, 1fr);

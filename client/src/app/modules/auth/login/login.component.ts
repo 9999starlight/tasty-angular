@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   username: string = '';
   password: string = '';
   errorMessage: string | null = null;
   isLoading: boolean = false;
   isRegisterState = false;
+  authSubscription?: Subscription;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -32,16 +34,14 @@ export class LoginComponent implements OnInit {
     if (authForm.invalid) {
       return;
     }
-
     let authObs;
-
     if (this.isRegisterState) {
       authObs = this.authService.register(authForm.value);
     } else {
       authObs = this.authService.login(authForm.value);
     }
 
-    authObs.subscribe({
+    this.authSubscription = authObs.subscribe({
       next: (res) => {
         this.errorMessage = '';
         this.isLoading = false;
@@ -53,5 +53,9 @@ export class LoginComponent implements OnInit {
         console.log(err.error.message);
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.authSubscription?.unsubscribe();
   }
 }

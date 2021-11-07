@@ -45,9 +45,7 @@
     }
     figure {
       grid-area: image;
-      img {
-        @include box-size($width: 60px);
-      }
+      @include box-size($width: 60px, $height: 50px);
     }
     .created {
       grid-area: created;
@@ -104,9 +102,7 @@
     @include box-size($height: auto);
   }
 }
-.pagination-wrapper {
-  margin: 1rem;
-}
+
 @media (min-width: 576px) {
   .search-recipes {
     @include box-size($width: 500px);
