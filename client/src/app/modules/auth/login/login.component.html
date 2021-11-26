@@ -91,17 +91,28 @@
         <div class="upload flex">
           <div class="buttons flex">
             <label for="image" class="upload-btn-wrapper hover-effect">
-              <input type="file" id="image" />
+              <input type="file" id="image" (change)="uploadFile($event)" />
               Browse image
             </label>
-            <button class="btn-cancel hover-effect">Cancel image</button>
+            <button
+              type="button"
+              *ngIf="preview"
+              class="btn-cancel hover-effect"
+              (click)="removeSelectedImage()"
+            >
+              Cancel image
+            </button>
           </div>
-          <!-- <figure class="flex">
-          <img :src="preview" alt="preview" class="img-fit" />
-        </figure> -->
+          <figure class="flex" *ngIf="preview">
+            <img
+              [src]="preview"
+              [alt]="filename"
+              class="img-fit"
+            />
+          </figure>
         </div>
         <div class="small">
-          <!-- <small class="selected block">{{ filename }}</small> -->
+          <small class="selected block">{{ filename }}</small>
           <small class="block">File formats accepted: jpg/jpeg/png/gif</small>
           <small>Maximum upload file size 2Mb</small>
         </div>

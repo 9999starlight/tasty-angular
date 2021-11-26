@@ -4,7 +4,7 @@ import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-results-home',
@@ -15,6 +15,8 @@ export class ResultsHomeComponent implements OnInit, OnDestroy {
   queryResults = [];
   params: any;
   newResultsSubscription?: Subscription;
+  //recipesList$: BehaviorSubject<any>;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -26,11 +28,13 @@ export class ResultsHomeComponent implements OnInit, OnDestroy {
     this.route.data.subscribe((res) => {
       this.queryResults = res.recipes.slice();
     });
+    //this.recipesList$ = this.recipesService.recipesList$;
   }
 
   ngOnInit(): void {
     this.uiService.toggleSearchForm(false);
     //console.log(this.queryResults)
+    //console.log('subject from component: ', this.recipesList$.value);
   }
 
   getNewResults(params: any) {

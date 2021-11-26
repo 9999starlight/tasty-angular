@@ -54,17 +54,18 @@ export class RecipeComponent implements OnInit, OnDestroy {
       this.favoritesSubscription,
       this.newResultSubscription
     );
+    console.log(this.authService.user)
+    console.log(this.recipe.author)
   }
 
   enableSaving() {
     if (!this.authService.isLogged) {
       this.isSavingEnabled = true;
     }
-    const checkUserFavorites: string[] | [] | undefined =
+    const checkUserFavorites =
       this.authService.user?.favorites.filter(
         (fav: string) => fav === this.recipe._id
       );
-    //console.log(checkUserFavorites);
     if (checkUserFavorites !== undefined && checkUserFavorites.length) {
       this.isSavingEnabled = false;
     } else {
@@ -145,7 +146,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       },
       (error: any) => {
         //this.isLoading = false;
-        this.infoMessage = `Error: ${error.statusText}`;
+        this.infoMessage = `Error: ${error.error.message}`;
         console.log(error.statusText);
       }
     );
@@ -170,9 +171,9 @@ export class RecipeComponent implements OnInit, OnDestroy {
           }
         },
         (error: any) => {
-          console.log(error.statusText);
+          console.log(error.error.message);
           this.updateMsgStatusHandler(false);
-          this.updateMsgHandler(`Error: ${error.statusText}`);
+          this.updateMsgHandler(`Error: ${error.error.message}`);
         }
       );
   }
@@ -186,7 +187,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
           this.router.navigate(['results'], { queryParams: params });
         },
         (error: any) => {
-          console.log(error.statusText);
+          console.log(error.error.message);
         }
       );
   }

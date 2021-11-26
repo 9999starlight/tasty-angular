@@ -1,31 +1,86 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
-
+import { ImageValidatorService } from '../../shared/sharedServices/image-validator.service';
+import { Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
   styleUrls: ['./user-home.component.scss'],
 })
-export class UserHomeComponent implements OnInit {
-  user: CurrentUser | UpdatedUser;
-  preview = false;
+export class UserHomeComponent implements OnInit, OnDestroy {
+  currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
+  preview: string | null = null;
   filename = '';
   isLoading = false;
   message = '';
   messageStatus = false;
+  imgSubscription?: Subscription;
 
-  constructor(private authService: AuthService) {
-    this.user = this.authService.user!;
+  constructor(private authService: AuthService, private imgValidator: ImageValidatorService, private el: ElementRef) {
+    this.currentUser$ = this.authService.currentUser$;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.currentUser$)
+  }
 
-  selectImageFile() {}
+  selectImageFile(value: any): void {
+    const file = (value.target as HTMLInputElement)?.files?.[0];
+    if (!this.imgValidator.typeValidation(file)) {
+      this.messageStatus = false;
+      this.message = 'Unsupported file! Please check image format and size';
+      this.removeSelectedImage();
+      // console.log('file after bad valid: ' + file)
+      return;
+    }
+    this.filename = file!.name;
 
-  removeSelectedImage() {}
+    // File Preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.preview = reader.result as string;
+      console.log(this.preview)
+    };
+    reader.readAsDataURL(file!);
+  }
 
-  updateMessage(msg: string) {}
+  removeSelectedImage() {
+    const fileInput = this.el.nativeElement.querySelector('#userImageUpload');
+    fileInput.value = '';
+    this.filename = '';
+    this.preview = null;
+  }
 
-  submitImage() {}
+  updateMessage(msg: string) {
+    this.message = msg;
+  }
+
+  submitImage() {
+    this.isLoading = true;
+    if (!this.el.nativeElement.querySelector('#userImageUpload').value) {
+      return;
+    }
+    const formData = new FormData;
+    formData.append('user_image', this.el.nativeElement.querySelector('#userImageUpload').files[0])
+
+    this.imgSubscription = this.authService.updateUserImage(formData).subscribe({
+      next: (res) => {
+        this.messageStatus = true;
+        this.message = 'Image uploaded successfully!';
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.messageStatus = false;
+        this.message = err.error.message;
+        this.isLoading = false;
+        console.log(err.error.message);
+      },
+    });
+  }
+
+  ngOnDestroy() {
+    this.imgSubscription?.unsubscribe;
+  }
 }

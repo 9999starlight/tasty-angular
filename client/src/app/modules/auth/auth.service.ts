@@ -40,7 +40,7 @@ export class AuthService {
     );
   }
 
-  register(credentials: RegisterCredentials) {
+  register(credentials: any) {
     return this.http
       .post<UserResponse>(`${environment.usersUrl}/register`, credentials)
       .pipe(
@@ -73,6 +73,19 @@ export class AuthService {
   updateFavorites(id: {}) {
     // console.log('from service update favorites: ', id)
     return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${environment.usersUrl}/favorites/${this.currentUser$.value?.userId}`, id).pipe(
+      map(updated => {
+        this.currentUser$.next(updated.updatedUser);
+        return updated.message
+      }),
+      catchError((err) => {
+        console.log(err)
+        return throwError(err);
+      })
+    )
+  }
+
+  updateUserImage(payload: FormData) {
+    return this.http.patch<{ message: string, updatedUser: UpdatedUser }>(`${environment.usersUrl}/${this.currentUser$.value?.userId}`, payload).pipe(
       map(updated => {
         this.currentUser$.next(updated.updatedUser);
         return updated.message

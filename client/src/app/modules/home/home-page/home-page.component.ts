@@ -3,7 +3,7 @@ import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 @Component({
   selector: 'app-home-page',

@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { ImageValidatorService } from '../../shared/sharedServices/image-validator.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -16,8 +17,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   isRegisterState = false;
   authSubscription?: Subscription;
+  preview: string | null = '';
+  filename = '';
+  image: any = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private imgValidator: ImageValidatorService, private el: ElementRef) {}
 
   ngOnInit() {}
 
@@ -34,9 +38,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (authForm.invalid) {
       return;
     }
+    const formData = new FormData;
+    formData.append('username', authForm.value.username)
+    formData.append('password', authForm.value.password)
+    if(this.isRegisterState && this.image) {
+      console.log(this.image)
+      formData.append('user_image', this.el.nativeElement.querySelector('#image').files[0])
+    }
     let authObs;
     if (this.isRegisterState) {
-      authObs = this.authService.register(authForm.value);
+      authObs = this.authService.register(formData);
     } else {
       authObs = this.authService.login(authForm.value);
     }
@@ -53,6 +64,35 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(err.error.message);
       },
     });
+  }
+
+  uploadFile(value: any): void {
+    const file = (value.target as HTMLInputElement)?.files?.[0];
+    console.log(this.imgValidator.typeValidation(file));
+    if (!this.imgValidator.typeValidation(file)) {
+      this.errorMessage = 'Unsupported file! Please check image format and size';
+      this.removeSelectedImage();
+      console.log('file after bad valid: ' + file)
+      return;
+    }
+    this.filename = file!.name;
+    this.image = file;
+
+    // File Preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.preview = reader.result as string;
+      console.log(this.preview)
+    };
+    reader.readAsDataURL(file!);
+  }
+
+  removeSelectedImage() {
+    const fileInput = this.el.nativeElement.querySelector('#image');
+    fileInput.value = '';
+    this.image = null;
+    this.filename = '';
+    this.preview = null;
   }
 
   ngOnDestroy() {
