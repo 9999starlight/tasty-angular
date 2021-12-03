@@ -41,7 +41,6 @@ export class UserHomeComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     reader.onload = () => {
       this.preview = reader.result as string;
-      console.log(this.preview)
     };
     reader.readAsDataURL(file!);
   }
@@ -70,6 +69,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
         this.messageStatus = true;
         this.message = 'Image uploaded successfully!';
         this.isLoading = false;
+
       },
       error: (err) => {
         this.messageStatus = false;
@@ -78,6 +78,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
         console.log(err.error.message);
       },
     });
+    this.removeSelectedImage();
   }
 
   ngOnDestroy() {

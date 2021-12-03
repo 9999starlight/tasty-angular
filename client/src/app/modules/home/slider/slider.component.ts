@@ -1,10 +1,42 @@
 import { Component, OnInit, Input, OnDestroy, ElementRef } from '@angular/core';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  useAnimation,
+  state
+} from '@angular/animations';
+//import { fadeIn, fadeOut } from 'src/app/animations/fade.animations';
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
+  animations: [
+    /* trigger('carouselAnimation', [
+      transition(':enter', [
+        useAnimation(fadeIn, { params: { time: '1000ms' } }),
+      ]),
+      transition(':leave', [
+        useAnimation(fadeOut, { params: { time: '1000ms' } }),
+      ]),
+    ]), */
+    /* trigger('carouselAnimation', [
+      state('false', style({ opacity: 0 })),
+      state('true', style({ opacity: 1 })),
+      transition('false => true', animate('1000ms ease-in')),
+      transition('true => false', animate('1000ms ease-out'))
+    ]) */
+  ]
 })
+
+/* trigger('fade', [
+      state('false', style({ opacity: 0 })),
+      state('true', style({ opacity: 1 })),
+      transition('false => true', animate('2000ms ease-in')),
+      transition('true => false', animate('2000ms ease-out'))
+    ]), */
 export class SliderComponent implements OnInit, OnDestroy {
   @Input() sliderRecipes: RecipeResponse[] = [];
   numberOfRecipes: number[] = [];

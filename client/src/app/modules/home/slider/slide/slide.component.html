@@ -1,5 +1,5 @@
 <a [routerLink]="['/recipe', recipe._id]" class="block single-recipe-slide">
-  <figure (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <figure (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()"         [@carouselAnimation]="imgAnimate">
     <!-- add transition here-->
     <ng-container *ngIf="recipe.image === undefined">
       <img
