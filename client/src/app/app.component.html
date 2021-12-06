@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="content-wrapper">
-  <router-outlet></router-outlet>
+<div class="content-wrapper" [@fadeAnimation]="prepareRoute(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
 </div>
 <app-back-to-top></app-back-to-top>

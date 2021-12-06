@@ -4,10 +4,22 @@ import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UpdatedUser } from 'src/app/types/userTypes';
 import { Subscription } from 'rxjs';
+import { scaleIn, scaleOut } from 'src/app/animations/scale.animations';
+import { transition, useAnimation, trigger } from '@angular/animations';
 @Component({
   selector: 'app-saved-recipes',
   templateUrl: './saved-recipes.component.html',
   styleUrls: ['./saved-recipes.component.scss'],
+  animations: [
+    trigger('scaleAnimation', [
+      transition('void => *', [
+         useAnimation(scaleIn, { params: { time: '300ms' } })
+      ]),
+      transition('* => void', [
+         useAnimation(scaleOut, { params: { time: '200ms' } })
+      ]),
+    ]),
+  ]
 })
 export class SavedRecipesComponent implements OnInit, OnDestroy {
   @Output() deletedFromFavorites = new EventEmitter();

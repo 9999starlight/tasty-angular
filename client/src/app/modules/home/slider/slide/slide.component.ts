@@ -8,40 +8,44 @@ import {
   style,
   animate,
   useAnimation,
-  state
+  state,
+  query
 } from '@angular/animations';
 @Component({
   selector: 'app-slide',
   templateUrl: './slide.component.html',
   styleUrls: ['./slide.component.scss'],
    animations: [
-    /* trigger('carouselAnimation', [
-      transition(':enter', [
+    trigger('fadeAnimation', [
+      /* transition(':enter', [
         useAnimation(fadeIn, { params: { time: '1000ms' } }),
       ]),
       transition(':leave', [
         useAnimation(fadeOut, { params: { time: '1000ms' } }),
-      ]),
-    ]), */
-    trigger('carouselAnimation', [
-      state('false', style({ opacity: 0 })),
-      state('true', style({ opacity: 1 })),
-      transition('false => true', animate('1000ms ease-in')),
-      transition('true => false', animate('1000ms ease-out'))
-    ])
+      ]), */
+
+        transition('void => *', [
+           useAnimation(fadeIn, { params: { time: '500ms' } })
+        ]),
+        transition('* => void', [
+           useAnimation(fadeOut, { params: { time: '500ms' } })
+        ]),
+    
+    ]),
+
 ],
 })
 export class SlideComponent implements OnInit, OnChanges {
   @Input() recipe!: RecipeResponse;
   @Output() pauseSlides = new EventEmitter();
   @Output() resumeSlides = new EventEmitter();
-  imgAnimate = true;
+  //imgAnimate = true;
   constructor() {}
 
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
-    this.imgAnimate = false;
+    /* this.imgAnimate = false;
     const chng = changes.recipe;
     const cur  = JSON.stringify(chng.currentValue._id);
     let prev = chng.previousValue !== undefined ? JSON.stringify(chng.previousValue._id) : '';
@@ -50,13 +54,7 @@ export class SlideComponent implements OnInit, OnChanges {
       this.imgAnimate = true;
     }
     console.log(this.imgAnimate)
-    console.log(`prevValue = ${prev}, currentValue = ${cur}`);
-    /* if(chng.previousValue !== undefined){
-      // prev = JSON.stringify(chng.previousValue._id);
-      prev = chng.previousValue._id;
-    } else {
-      prev = ''
-    } */
+    console.log(`prevValue = ${prev}, currentValue = ${cur}`); */
     //console.log(`prevValue = ${prev}, currentValue = ${cur}`);
     //console.log(changes.recipe)
   }

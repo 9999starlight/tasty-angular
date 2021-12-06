@@ -22,6 +22,7 @@
       *ngFor="let recipe of savedRecipes"
       class="render-recipes sorting-item"
       (updateFavorites)="removeFromFavorites($event)"
+      @scaleAnimation
     ></app-private-recipe>
   </div>
 </div>

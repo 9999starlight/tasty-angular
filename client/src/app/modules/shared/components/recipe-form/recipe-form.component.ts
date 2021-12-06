@@ -7,11 +7,27 @@ import { ImageValidatorService } from '../../sharedServices/image-validator.serv
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { scaleIn, scaleOut } from 'src/app/animations/scale.animations';
 
+import {
+  trigger,
+  transition,
+  useAnimation
+} from '@angular/animations';
 @Component({
   selector: 'app-recipe-form',
   templateUrl: './recipe-form.component.html',
   styleUrls: ['./recipe-form.component.scss'],
+  animations: [
+    trigger('scaleAnimation', [
+      transition('void => *', [
+         useAnimation(scaleIn, { params: { time: '300ms' } })
+      ]),
+      transition('* => void', [
+         useAnimation(scaleOut, { params: { time: '200ms' } })
+      ]),
+    ]),
+  ]
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
   isLoading = false;

@@ -229,6 +229,7 @@
           class="single-ingredient"
           *ngFor="let ingred of ingredientsControls; let i = index"
           [formGroupName]="i"
+          @scaleAnimation
         >
           <label [for]="'ingred' + i"
             ><span class="required">*</span> Ingredient</label
@@ -293,6 +294,7 @@
           class="single-step"
           *ngFor="let st of stepsControl; let i = index"
           [formGroupName]="i"
+          @scaleAnimation
         >
           <label [for]="'st' + i"><span class="required">*</span> Step </label>
           <textarea
