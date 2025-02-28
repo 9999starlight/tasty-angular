@@ -35,7 +35,6 @@
       </div>
     </ng-container>
   </div>
-  <!--<ng-container *ngIf="displayMenu">-->
   <nav class="flex" *ngIf="displayMenu">
     <ul class="links flex">
       <li>
@@ -55,25 +54,25 @@
         >
           <span class="flex flex-center">
             <ng-container
-              *ngIf="currentUser$.value && currentUser$.value.user_image"
+              *ngIf="(currentUser$ | async) && (currentUser$ | async)?.user_image"
             >
               <img
-                [src]="currentUser$.value.user_image"
-                [alt]="currentUser$.value.username"
+                [src]="(currentUser$ | async)?.user_image"
+                [alt]="(currentUser$ | async)?.username"
                 loading="lazy"
               />
             </ng-container>
             <ng-container
-              *ngIf="currentUser$.value && !currentUser$.value.user_image"
+              *ngIf="(currentUser$ | async) && !(currentUser$ | async)?.user_image"
             >
               <img
                 src="../../../assets/images/default_user.png"
-                [alt]="currentUser$.value.username"
+                [alt]="(currentUser$ | async)?.username"
                 loading="lazy"
               />
             </ng-container>
-            <ng-container *ngIf="currentUser$.value">
-              {{ currentUser$.value.username }}
+            <ng-container *ngIf="(currentUser$ | async)">
+              {{ (currentUser$ | async)?.username }}
             </ng-container>
             <fa-icon
               [icon]="['fas', 'chevron-down']"

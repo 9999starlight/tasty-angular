@@ -32,7 +32,7 @@
           placeholder=""
           [(ngModel)]="username"
           required
-          pattern="[a-zA-Z0-9_-]{6,15}"
+          pattern="^[a-zA-Z0-9_-]{6,15}$"
           #usernameControl="ngModel"
         />
         <label for="username">Username</label>
@@ -69,7 +69,7 @@
           required
           placeholder=""
           name="password"
-          pattern="[^\s\n]{6,}"
+          pattern="\S{6,}"
           #passwordControl="ngModel"
         />
         <label for="password">Password</label>
@@ -90,7 +90,7 @@
         <h4 class="block mgb1">Upload profile image</h4>
         <div class="upload flex">
           <div class="buttons flex">
-            <label for="image" class="upload-btn-wrapper hover-effect">
+            <label for="image" class="upload-btn-wrapper hover-effect"> 
               <input type="file" id="image" (change)="uploadFile($event)" />
               Browse image
             </label>

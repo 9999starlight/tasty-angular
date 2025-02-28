@@ -20,7 +20,7 @@
       type="hidden"
       name="author"
       #authorControl="ngModel"
-      [ngModel]="userId"
+      [ngModel]="(currentUser$ | async)?.userId"
     />
     <input
       type="hidden"
@@ -50,7 +50,7 @@
     <button
       type="submit"
       class="btn-action block"
-      [disabled]="userId && commentBodyControl.invalid"
+      [disabled]="(currentUser$ | async)?.userId && commentBodyControl.invalid"
     >
       <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>&nbsp;Add Comment
     </button>

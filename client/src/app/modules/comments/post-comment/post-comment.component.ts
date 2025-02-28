@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { CommentService } from '../comment.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -15,14 +17,17 @@ export class PostCommentComponent implements OnInit, OnDestroy {
   commentBody: string = '';
   postCommentMessage: string = '';
   messageStatus: boolean = false;
-  userId: string | undefined;
+  //userId: string | undefined;
   postSubscription?: Subscription;
+  currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
+  isLogged$: BehaviorSubject<boolean>;
 
   constructor(
     private authService: AuthService,
     private commentService: CommentService
   ) {
-    this.userId = this.authService.user?.userId;
+    this.currentUser$ = this.authService.currentUser$;
+    this.isLogged$ = this.authService.isLogged$;
   }
 
   ngOnInit(): void {}

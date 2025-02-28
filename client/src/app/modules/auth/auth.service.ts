@@ -117,7 +117,7 @@ export class AuthService {
     console.log('user after update in service: ', this.user)
   }
 
-  get user(): CurrentUser | UpdatedUser | null {
+  get user() {
     //console.log('user from service getter: ', this.currentUser$.value)
     return this.currentUser$.value
   }
