@@ -84,12 +84,25 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // console.log(this.singleRecipe)
     this.formSetup();
-    if (!this.uiService.editState) {
+  /*  if (!this.uiService.editState) {
       this.addIngredient();
       this.addStep();
     } else {
       console.log('from form: ', this.singleRecipe);
-    }
+    }*/
+  }
+
+  createIngredient(): FormGroup {
+    return new FormGroup({
+      ingredient: new FormControl('', Validators.required),
+      amount: new FormControl('', [Validators.required])
+    });
+  }
+
+  createStep(): FormGroup {
+    return new FormGroup({
+      step: new FormControl('', Validators.required)
+    })
   }
 
   formSetup() {
@@ -103,8 +116,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     let vegetarian = false;
     let glutenFree = false;
     let image = '';
-    let ingredients = new FormArray([], [Validators.required]);
-    let steps = new FormArray([], [Validators.required]);
+    let ingredients: FormArray = !this.uiService.editState ? new FormArray([this.createIngredient()], Validators.required) : new FormArray<FormGroup>([]);
+    let steps: FormArray = !this.uiService.editState ? new FormArray([this.createStep()], Validators.required) : new FormArray<FormGroup>([]);
 
     if (this.uiService.editState && this.singleRecipe) {
       // console.log(this.singleRecipe)
@@ -219,10 +232,11 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   addIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
-      new FormGroup({
+      this.createIngredient()
+      /*new FormGroup({
         ingredient: new FormControl('', Validators.required),
         amount: new FormControl(''),
-      })
+      })*/
     );
   }
 
@@ -232,9 +246,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   addStep() {
     (<FormArray>this.recipeForm.get('steps')).push(
-      new FormGroup({
+      this.createStep()
+      /*new FormGroup({
         step: new FormControl('', Validators.required),
-      })
+      })*/
     );
   }
 
@@ -244,7 +259,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   uploadFile(value: any): void {
     const file = (value.target as HTMLInputElement)?.files?.[0];
-    console.log(this.imgValidator.typeValidation(file));
+    //console.log(this.imgValidator.typeValidation(file));
     if (!this.imgValidator.typeValidation(file)) {
       this.imgMessage = 'Unsupported file! Please check image format and size';
       this.removeSelectedImage();
@@ -264,7 +279,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     };
     reader.readAsDataURL(file!);
 
-    console.log(this.preview);
+    //console.log(this.preview);
   }
 
   removeSelectedImage() {
@@ -331,7 +346,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     // fd check
     /* for (const [key, value] of fd.entries()) {
       console.log(key, value);
-    }*/ 
+    } */
 
     if (this.uiService.editState) {
       this.updateSubscription = this.recipeService.updateRecipe(this.singleRecipe!._id, fd).subscribe(

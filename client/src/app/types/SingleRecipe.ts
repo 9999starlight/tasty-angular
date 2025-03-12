@@ -31,13 +31,8 @@ export interface SingleRecipe {
   timing: number;
   persons: number;
   rating?: number;
-  steps: {
-    step: string;
-  }[];
-  ingredients: {
-    ingredient: string;
-    amount: number;
-  }[];
+  steps: Step[];
+  ingredients: Ingredient[];
   regional?: string;
   image?: {
     id: string;
@@ -48,4 +43,13 @@ export interface SingleRecipe {
 export interface Rate {
   ratedBy: string;
   rate: number;
+}
+
+export interface Ingredient {
+  ingredient: string;
+  amount?: number | string;
+}
+
+export interface Step {
+  step: string;
 }
