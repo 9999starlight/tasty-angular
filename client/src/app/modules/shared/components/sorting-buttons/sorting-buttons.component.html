@@ -15,12 +15,14 @@
       Date<fa-icon [icon]="['fas', 'arrow-up']" class="arrow"></fa-icon>
     </button>
   </div>
-  <div class="button-pair flex flex-center" *ngIf="isRating">
-    <button class="sort-btn btn-asc" (click)="ratingAsc.emit()">
-      Rating<fa-icon [icon]="['fas', 'arrow-down']" class="arrow"></fa-icon>
-    </button>
-    <button class="sort-btn btn-desc" (click)="ratingDesc.emit()">
-      Rating<fa-icon [icon]="['fas', 'arrow-up']" class="arrow"></fa-icon>
-    </button>
-  </div>
+  @if (isRating) {
+    <div class="button-pair flex flex-center">
+      <button class="sort-btn btn-asc" (click)="ratingAsc.emit()">
+        Rating<fa-icon [icon]="['fas', 'arrow-down']" class="arrow"></fa-icon>
+      </button>
+      <button class="sort-btn btn-desc" (click)="ratingDesc.emit()">
+        Rating<fa-icon [icon]="['fas', 'arrow-up']" class="arrow"></fa-icon>
+      </button>
+    </div>
+  }
 </div>

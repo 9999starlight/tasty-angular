@@ -18,7 +18,7 @@ import { LoaderComponent } from '../loader/loader.component';
 import { TooltipComponent } from '../tooltip/tooltip.component';
 import { InfoMessageComponent } from '../info-message/info-message.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-recipe-form',
     templateUrl: './recipe-form.component.html',
@@ -34,7 +34,7 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
         ]),
     ],
     standalone: true,
-    imports: [NgIf, FormsModule, ReactiveFormsModule, NgClass, NgFor, FontAwesomeModule, InfoMessageComponent, TooltipComponent, LoaderComponent]
+    imports: [FormsModule, ReactiveFormsModule, NgClass, FontAwesomeModule, InfoMessageComponent, TooltipComponent, LoaderComponent]
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
   isLoading = false;

@@ -10,7 +10,7 @@ import { PrivateRecipeComponent } from '../../shared/components/private-recipe/p
 import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
 import { PageErrorComponent } from '../../shared/components/page-error/page-error.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
-import { NgIf, NgFor } from '@angular/common';
+
 @Component({
     selector: 'app-saved-recipes',
     templateUrl: './saved-recipes.component.html',
@@ -26,7 +26,7 @@ import { NgIf, NgFor } from '@angular/common';
         ]),
     ],
     standalone: true,
-    imports: [NgIf, LoaderComponent, PageErrorComponent, SortingButtonsComponent, NgFor, PrivateRecipeComponent]
+    imports: [LoaderComponent, PageErrorComponent, SortingButtonsComponent, PrivateRecipeComponent]
 })
 export class SavedRecipesComponent implements OnInit, OnDestroy {
   @Output() deletedFromFavorites = new EventEmitter();

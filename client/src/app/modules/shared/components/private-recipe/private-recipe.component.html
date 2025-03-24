@@ -1,27 +1,27 @@
 <div class="user-recipe grid mgb1">
   <figure>
-    <ng-container *ngIf="!recipe.image">
+    @if (!recipe.image) {
       <img
         src="../../../../../assets/images/default_recipe.jpg"
         [alt]="recipe.mealName"
         class="img-fit"
         loading="lazy"
-      />
-    </ng-container>
-    <ng-container *ngIf="recipe.image">
+        />
+    }
+    @if (recipe.image) {
       <img
         [src]="recipe.image"
         [alt]="recipe.mealName"
         class="img-fit"
         loading="lazy"
-      />
-    </ng-container>
+        />
+    }
   </figure>
   <h4>{{ recipe.mealName | sentenceCase }}</h4>
   <p class="light-italic date">Published: {{ recipe.createdAt | date }}</p>
   <p class="rating">
     <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon>&nbsp;&nbsp;{{
-      recipe.rating
+    recipe.rating
     }}
     /
     <span class="light-italic">{{
@@ -30,64 +30,66 @@
   </p>
   <a [routerLink]="['/recipe', recipe._id]" class="details">Details</a>
   <div class="edit-delete flex">
-    <button
-      *ngIf="isUsersRecipes"
-      class="tooltip-container"
-      aria-label="edit recipe"
-      (click)="editRecipe(recipe._id)"
-    >
-      <!-- @click="$emit('editing', recipe._id)" -->
-
-      <fa-icon [icon]="['fas', 'edit']" class="edit"></fa-icon>
-
-      <app-tooltip tooltipText="Edit recipe"></app-tooltip>
-    </button>
+    @if (isUsersRecipes) {
+      <button
+        class="tooltip-container"
+        aria-label="edit recipe"
+        (click)="editRecipe(recipe._id)"
+        >
+        <!-- @click="$emit('editing', recipe._id)" -->
+        <fa-icon [icon]="['fas', 'edit']" class="edit"></fa-icon>
+        <app-tooltip tooltipText="Edit recipe"></app-tooltip>
+      </button>
+    }
     <!-- user info conditonal render -->
-    <a
-      *ngIf="!isUsersRecipes"
-      [routerLink]="['/results']"
-      [queryParams]="{ author: recipe.author._id }"
-      class="user-info flex flex-center tooltip-container"
-    >
-      <ng-container *ngIf="recipe.image">
-        <img
-          [src]="recipe.author.image"
-          alt="user image"
-          class="author-image"
-          loading="lazy"
-        />
-      </ng-container>
-      <ng-container *ngIf="!recipe.image">
-        <img
-          src="../../../../../assets/images/default_recipe.jpg"
-          alt="user image"
-          class="author-image"
-          loading="lazy"
-        />
-      </ng-container>
-      <span class="author-username">{{ recipe.author.username }}</span>
-      <app-tooltip tooltipText="See user's recipes"></app-tooltip>
-    </a>
+    @if (!isUsersRecipes) {
+      <a
+        [routerLink]="['/results']"
+        [queryParams]="{ author: recipe.author._id }"
+        class="user-info flex flex-center tooltip-container"
+        >
+        @if (recipe.image) {
+          <img
+            [src]="recipe.author.image"
+            alt="user image"
+            class="author-image"
+            loading="lazy"
+            />
+        }
+        @if (!recipe.image) {
+          <img
+            src="../../../../../assets/images/default_recipe.jpg"
+            alt="user image"
+            class="author-image"
+            loading="lazy"
+            />
+        }
+        <span class="author-username">{{ recipe.author.username }}</span>
+        <app-tooltip tooltipText="See user's recipes"></app-tooltip>
+      </a>
+    }
     <!-- end user info -->
-    <button
-      *ngIf="isUsersRecipes"
-      (click)="delete(recipe._id)"
-      class="tooltip-container"
-      aria-label="delete recipe"
-    >
-      <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
-      <app-tooltip tooltipText="Delete this recipe"></app-tooltip>
-    </button>
+    @if (isUsersRecipes) {
+      <button
+        (click)="delete(recipe._id)"
+        class="tooltip-container"
+        aria-label="delete recipe"
+        >
+        <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
+        <app-tooltip tooltipText="Delete this recipe"></app-tooltip>
+      </button>
+    }
     <!-- remove from saved recipes button conditonal render -->
-    <button
-      *ngIf="!isUsersRecipes"
-      (click)="deleteFav(recipe._id)"
-      class="tooltip-container"
-      aria-label="remove from saved recipes"
-    >
-      <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
-      <app-tooltip tooltipText="Remove from the list"></app-tooltip>
-    </button>
+    @if (!isUsersRecipes) {
+      <button
+        (click)="deleteFav(recipe._id)"
+        class="tooltip-container"
+        aria-label="remove from saved recipes"
+        >
+        <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
+        <app-tooltip tooltipText="Remove from the list"></app-tooltip>
+      </button>
+    }
     <!-- end remove from saved -->
   </div>
 </div>

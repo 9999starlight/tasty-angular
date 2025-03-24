@@ -1,97 +1,103 @@
-<div class="admin-comments mgt4" *ngIf="comments.length">
-  <h1 class="slim" id="commentsHeading">Comments</h1>
-  <p class="slim mgb2">Number of comments: {{ comments.length }}</p>
-  <section>
-    <app-sorting-buttons
-      [isRating]="false"
-      (titleAsc)="sortByAuthorAscending()"
-      (titleDesc)="sortByAuthorDescending()"
-      (dateAsc)="sortingService.sortDateAscending(filteredComments)"
-      (dateDesc)="sortingService.sortDateDescending(filteredComments)"
-    ></app-sorting-buttons>
-    <div class="comments-container">
-      <header class="flex flex-center">
-        <div class="select-box">
-          <select
-            name="selectedOption"
-            class="admin-comment-search"
-            [(ngModel)]="selectedOption"
-          >
-            <option
-              *ngFor="let option of commentsOptions"
-              [value]="option.toLowerCase()"
-              (change)="onChangeSelect($event)"
-            >
-              {{ option }}
-            </option>
-          </select>
+@if (comments.length) {
+  <div class="admin-comments mgt4">
+    <h1 class="slim" id="commentsHeading">Comments</h1>
+    <p class="slim mgb2">Number of comments: {{ comments.length }}</p>
+    <section>
+      <app-sorting-buttons
+        [isRating]="false"
+        (titleAsc)="sortByAuthorAscending()"
+        (titleDesc)="sortByAuthorDescending()"
+        (dateAsc)="sortingService.sortDateAscending(filteredComments)"
+        (dateDesc)="sortingService.sortDateDescending(filteredComments)"
+      ></app-sorting-buttons>
+      <div class="comments-container">
+        <header class="flex flex-center">
+          <div class="select-box">
+            <select
+              name="selectedOption"
+              class="admin-comment-search"
+              [(ngModel)]="selectedOption"
+              >
+              @for (option of commentsOptions; track option) {
+                <option
+                  [value]="option.toLowerCase()"
+                  (change)="onChangeSelect($event)"
+                  >
+                  {{ option }}
+                </option>
+              }
+            </select>
+          </div>
+          <input
+            type="text"
+            [(ngModel)]="searchValue"
+            placeholder="Search..."
+            (input)="filterComments()"
+            />
+        </header>
+        <div class="comments-list-wrapper flex">
+          @for (comment of filteredComments; track comment) {
+            <div
+              class="single-comment mgb1 grid"
+              >
+              <div class="basic-info">
+                <p class="comment-id">
+                  <strong>Comment ID:</strong> {{ comment._id }}
+                </p>
+                <p><strong>Recipe ID: </strong>{{ comment.commentedRecipeId }}</p>
+              </div>
+              <div class="authorInfo">
+                <p class="username flex">
+                  <span><strong>Posted by: </strong></span>
+                  @if (comment.author.user_image) {
+                    <img
+                      [src]="comment.author.user_image.url"
+                      [alt]="comment.author.username"
+                      class="img-fit"
+                      loading="lazy"
+                      />
+                  }
+                  @if (!comment.author.user_image) {
+                    <img
+                      src="../../../../assets/images/default_user.png"
+                      [alt]="comment.author.username"
+                      class="img-fit"
+                      loading="lazy"
+                      />
+                  }
+                  <span class="username light-italic">
+                    {{ comment.author.username }}
+                  </span>
+                </p>
+                <p><strong>User ID: </strong>{{ comment.author._id }}</p>
+              </div>
+              <div class="comment-body">
+                <p class="comment-created light-italic block">
+                  {{ comment.createdAt | date }}
+                </p>
+                <p class="comment-text">{{ comment.commentBody }}</p>
+              </div>
+              <div class="buttons-comments flex flex-center">
+                <a
+                  [routerLink]="['/recipe', comment.commentedRecipeId]"
+                  class="details"
+                  >View Recipe</a
+                  >
+                  <button
+                    (click)="deleteComment(comment._id)"
+                    class="tooltip-container"
+                    >
+                    <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
+                    <app-tooltip tooltipText="Delete comment"></app-tooltip>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
         </div>
-        <input
-          type="text"
-          [(ngModel)]="searchValue"
-          placeholder="Search..."
-          (input)="filterComments()"
-        />
-      </header>
-      <div class="comments-list-wrapper flex">
-        <div
-          class="single-comment mgb1 grid"
-          *ngFor="let comment of filteredComments"
-        >
-          <div class="basic-info">
-            <p class="comment-id">
-              <strong>Comment ID:</strong> {{ comment._id }}
-            </p>
-            <p><strong>Recipe ID: </strong>{{ comment.commentedRecipeId }}</p>
-          </div>
-          <div class="authorInfo">
-            <p class="username flex">
-              <span><strong>Posted by: </strong></span>
-              <ng-container *ngIf="comment.author.user_image">
-                <img
-                  [src]="comment.author.user_image.url"
-                  [alt]="comment.author.username"
-                  class="img-fit"
-                  loading="lazy"
-                />
-              </ng-container>
-              <ng-container *ngIf="!comment.author.user_image">
-                <img
-                  src="../../../../assets/images/default_user.png"
-                  [alt]="comment.author.username"
-                  class="img-fit"
-                  loading="lazy"
-                />
-              </ng-container>
-              <span class="username light-italic">
-                {{ comment.author.username }}
-              </span>
-            </p>
-            <p><strong>User ID: </strong>{{ comment.author._id }}</p>
-          </div>
-          <div class="comment-body">
-            <p class="comment-created light-italic block">
-              {{ comment.createdAt | date }}
-            </p>
-            <p class="comment-text">{{ comment.commentBody }}</p>
-          </div>
-          <div class="buttons-comments flex flex-center">
-            <a
-              [routerLink]="['/recipe', comment.commentedRecipeId]"
-              class="details"
-              >View Recipe</a
-            >
-            <button
-              (click)="deleteComment(comment._id)"
-              class="tooltip-container"
-            >
-              <fa-icon [icon]="['fas', 'trash-alt']" class="delete"></fa-icon>
-              <app-tooltip tooltipText="Delete comment"></app-tooltip>
-            </button>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
-  </section>
-</div>
-<app-loader *ngIf="!comments.length" [bigLoader]="true"></app-loader>
+  }
+  @if (!comments.length) {
+    <app-loader [bigLoader]="true"></app-loader>
+  }

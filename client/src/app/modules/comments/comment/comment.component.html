@@ -1,19 +1,19 @@
 <div class="single-comment-wrapper flex mgb1">
   <p class="comment-author flex flex-center">
-    <ng-container *ngIf="!singleComment.author.user_image">
+    @if (!singleComment.author.user_image) {
       <img
         src="../../../../assets/images/default_user.png"
         [alt]="singleComment.author.username"
         loading="lazy"
-      />
-    </ng-container>
-    <ng-container *ngIf="singleComment.author.user_image">
+        />
+    }
+    @if (singleComment.author.user_image) {
       <img
         [src]="singleComment.author.user_image.url"
         [alt]="singleComment.author.username"
         loading="lazy"
-      />
-    </ng-container>
+        />
+    }
     <span class="slim">{{ singleComment.author.username }}</span>
   </p>
   <p class="comment-body slim mgt1">{{ singleComment.commentBody }}</p>

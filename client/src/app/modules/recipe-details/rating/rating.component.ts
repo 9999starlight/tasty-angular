@@ -7,7 +7,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-rating',
@@ -15,10 +15,8 @@ import { NgIf, NgClass, NgFor } from '@angular/common';
     styleUrls: ['./rating.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgClass,
-        NgFor,
-    ],
+    NgClass
+],
 })
 export class RatingComponent implements OnInit {
   // props & Output

@@ -1,10 +1,12 @@
 <div class="rating-container">
-  <div *ngIf="ratingDropdown" class="overlay" (click)="toggleRating()"></div>
+  @if (ratingDropdown) {
+    <div class="overlay" (click)="toggleRating()"></div>
+  }
   <div
     [ngClass]="
       ratingDropdown ? 'rating-wrapper open-rating-width' : 'rating-wrapper'
     "
-  >
+    >
     <div
       (click)="toggleRating()"
       [ngClass]="
@@ -12,30 +14,33 @@
           ? 'add-rate flex flex-center open-border-radius'
           : 'add-rate flex flex-center'
       "
-    >
+      >
       <p class="flex flex-center">
         Rate recipe &nbsp;<span class="star-entity">&#x2605;</span>
       </p>
     </div>
-    <div *ngIf="ratingDropdown" class="star-rating-dropdown flex flex-center">
-      <div ref="stars" class="stars flex">
-        <label
-          *ngFor="let num of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-          [for]="'star' + num"
-        >
-          <input type="radio" name="star" [id]="'star' + num" [value]="num" />
-          <span
-            tabindex="0"
-            [id]="num"
-            class="sp"
-            (mouseover)="fillTheStars($event)"
-            (click)="rateThisRecipe($event)"
-          ></span>
-        </label>
+    @if (ratingDropdown) {
+      <div class="star-rating-dropdown flex flex-center">
+        <div ref="stars" class="stars flex">
+          @for (num of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track num) {
+            <label
+              [for]="'star' + num"
+              >
+              <input type="radio" name="star" [id]="'star' + num" [value]="num" />
+              <span
+                tabindex="0"
+                [id]="num"
+                class="sp"
+                (mouseover)="fillTheStars($event)"
+                (click)="rateThisRecipe($event)"
+              ></span>
+            </label>
+          }
+        </div>
+        <div class="rate-counter-wrapper flex flex-center">
+          <span class="rate-counter">{{ counter }}/10</span>
+        </div>
       </div>
-      <div class="rate-counter-wrapper flex flex-center">
-        <span class="rate-counter">{{ counter }}/10</span>
-      </div>
-    </div>
+    }
   </div>
 </div>

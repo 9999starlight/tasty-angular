@@ -10,7 +10,7 @@ import {
 } from '@angular/animations';
 import { SlideComponent } from './slide/slide.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 //import { fadeIn, fadeOut } from 'src/app/animations/fade.animations';
 @Component({
     selector: 'app-slider',
@@ -33,7 +33,7 @@ import { NgIf, NgFor, NgClass } from '@angular/common';
     ]) */
     ],
     standalone: true,
-    imports: [NgIf, FontAwesomeModule, SlideComponent, NgFor, NgClass]
+    imports: [FontAwesomeModule, SlideComponent, NgClass]
 })
 
 /* trigger('fade', [

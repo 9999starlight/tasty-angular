@@ -11,7 +11,7 @@ import { SortingButtonsComponent } from '../../shared/components/sorting-buttons
 import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OverlayComponent } from '../../shared/components/overlay/overlay.component';
-import { NgIf, NgClass, NgFor, DatePipe } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-users',
@@ -19,18 +19,16 @@ import { NgIf, NgClass, NgFor, DatePipe } from '@angular/common';
     styleUrls: ['./users.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        OverlayComponent,
-        FontAwesomeModule,
-        TooltipComponent,
-        NgClass,
-        SortingButtonsComponent,
-        FormsModule,
-        NgFor,
-        RouterLink,
-        LoaderComponent,
-        DatePipe,
-    ],
+    OverlayComponent,
+    FontAwesomeModule,
+    TooltipComponent,
+    NgClass,
+    SortingButtonsComponent,
+    FormsModule,
+    RouterLink,
+    LoaderComponent,
+    DatePipe
+],
 })
 export class UsersComponent implements OnInit, OnDestroy {
   searchValue = '';

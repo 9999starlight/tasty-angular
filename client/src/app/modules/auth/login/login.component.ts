@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { InfoMessageComponent } from '../../shared/components/info-message/info-message.component';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -16,14 +16,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     styleUrls: ['./login.component.scss'],
     standalone: true,
     imports: [
-        FormsModule,
-        FontAwesomeModule,
-        TooltipComponent,
-        NgIf,
-        NgClass,
-        InfoMessageComponent,
-        LoaderComponent,
-    ],
+    FormsModule,
+    FontAwesomeModule,
+    TooltipComponent,
+    NgClass,
+    InfoMessageComponent,
+    LoaderComponent
+],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   username: string = '';

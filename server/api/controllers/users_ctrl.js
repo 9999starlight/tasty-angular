@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const Recipe = require('../models/recipe')
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
 require('../middlewares/cloudinary')
 
 const { returnUserImage } = require('../helpers/imageFunction')
@@ -22,7 +22,7 @@ exports.registerUser = async (req, res, next) => {
     const hashPassword = await bcrypt.hash(req.body.password, salt)
     let imageresult = ''
     if (req.file) {
-      imageresult = await cloudinary.v2.uploader.upload(
+      imageresult = await cloudinary.uploader.upload(
         req.file.path,
         {
           folder: 'users'
@@ -230,7 +230,7 @@ exports.updateUserImage = async (req, res, next) => {
     const user = await User.findById(id)
     let imageresult = ''
     if (!user.user_image) {
-      imageresult = await cloudinary.v2.uploader.upload(
+      imageresult = await cloudinary.uploader.upload(
         req.file.path,
         {
           folder: 'users'
@@ -240,13 +240,13 @@ exports.updateUserImage = async (req, res, next) => {
         }
       )
     } else {
-      await cloudinary.v2.uploader.destroy(
+      await cloudinary.uploader.destroy(
         user.user_image.id,
         (error, result) => {
           console.log(result, error)
         }
       )
-      imageresult = await cloudinary.v2.uploader.upload(
+      imageresult = await cloudinary.uploader.upload(
         req.file.path,
         {
           folder: 'users'

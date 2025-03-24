@@ -1,37 +1,41 @@
 <div class="user-recipes flex">
   <!-- form modal -->
-  <app-overlay
-    *ngIf="uiService.editState"
-    (closeModal)="closeEditForm()"
-    [editModal]="true"
-  >
-    <ng-container>
-      <header class="flex flex-center">
-        <h2>Edit Recipe</h2>
-        <button
-          type="button"
-          (click)="closeEditForm()"
-          class="del tooltip-container"
-        >
-          <fa-icon [icon]="['fas', 'times']"></fa-icon>
-          <app-tooltip tooltipText="Cancel and close form"></app-tooltip>
-        </button>
-      </header>
-      <div class="edit-inner">
-        <app-recipe-form [singleRecipe]="singleRecipe"></app-recipe-form>
-      </div>
-    </ng-container>
-  </app-overlay>
+  @if (uiService.editState) {
+    <app-overlay
+      (closeModal)="closeEditForm()"
+      [editModal]="true"
+      >
+      <ng-container>
+        <header class="flex flex-center">
+          <h2>Edit Recipe</h2>
+          <button
+            type="button"
+            (click)="closeEditForm()"
+            class="del tooltip-container"
+            >
+            <fa-icon [icon]="['fas', 'times']"></fa-icon>
+            <app-tooltip tooltipText="Cancel and close form"></app-tooltip>
+          </button>
+        </header>
+        <div class="edit-inner">
+          <app-recipe-form [singleRecipe]="singleRecipe"></app-recipe-form>
+        </div>
+      </ng-container>
+    </app-overlay>
+  }
   <!-- end modal -->
 
   <h1 class="mg2">Created Recipes</h1>
 
-  <app-loader [bigLoader]="true" *ngIf="isLoading"></app-loader>
-  <app-page-error
-    *ngIf="!userRecipes.length"
-    message="You have not created any recipes yet"
-  ></app-page-error>
-  <ng-container *ngIf="userRecipes.length">
+  @if (isLoading) {
+    <app-loader [bigLoader]="true"></app-loader>
+  }
+  @if (!userRecipes.length) {
+    <app-page-error
+      message="You have not created any recipes yet"
+    ></app-page-error>
+  }
+  @if (userRecipes.length) {
     <div class="list-container flex flex-center">
       <app-sorting-buttons
         (titleAsc)="sortingService.sortTitleAscending(userRecipes)"
@@ -41,14 +45,15 @@
         (dateAsc)="sortingService.sortDateAscending(userRecipes)"
         (dateDesc)="sortingService.sortDateDescending(userRecipes)"
       ></app-sorting-buttons>
-      <app-private-recipe
-        [recipe]="recipe"
-        [isUsersRecipes]="true"
-        *ngFor="let recipe of userRecipes"
-        class="render-recipes sorting-item"
-        (del)="deleteUserRecipe($event)"
-        (editing)="editingStateSettings($event)"
-      ></app-private-recipe>
+      @for (recipe of userRecipes; track recipe) {
+        <app-private-recipe
+          [recipe]="recipe"
+          [isUsersRecipes]="true"
+          class="render-recipes sorting-item"
+          (del)="deleteUserRecipe($event)"
+          (editing)="editingStateSettings($event)"
+        ></app-private-recipe>
+      }
     </div>
-  </ng-container>
+  }
 </div>

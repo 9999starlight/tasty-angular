@@ -5,7 +5,7 @@ import { SentenceCasePipe } from '../../pipes/sentence-case.pipe';
 import { TooltipComponent } from '../tooltip/tooltip.component';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgIf, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-private-recipe',
@@ -13,13 +13,12 @@ import { NgIf, DatePipe } from '@angular/common';
     styleUrls: ['./private-recipe.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        FontAwesomeModule,
-        RouterLink,
-        TooltipComponent,
-        DatePipe,
-        SentenceCasePipe,
-    ],
+    FontAwesomeModule,
+    RouterLink,
+    TooltipComponent,
+    DatePipe,
+    SentenceCasePipe
+],
 })
 export class PrivateRecipeComponent implements OnInit {
   @Input() recipe!: RecipeResponse;

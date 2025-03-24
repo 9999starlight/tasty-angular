@@ -1,8 +1,9 @@
 <div class="container render-results">
-  <app-search
-    (changeParams)="getNewResults($event)"
-    *ngIf="uiService.searchForm"
-  ></app-search>
+  @if (uiService.searchForm) {
+    <app-search
+      (changeParams)="getNewResults($event)"
+    ></app-search>
+  }
   <div class="results-wrapper flex flex-center">
     <h1 class="pd1">Search Results</h1>
     <h4>Recipes found: {{ queryResults.length }}</h4>
@@ -16,10 +17,11 @@
         (dateDesc)="sortingService.sortDateDescending(queryResults)"
       ></app-sorting-buttons>
       <div class="successful flex">
-        <app-query-recipe
-          *ngFor="let result of queryResults"
-          [singleResult]="result"
-        ></app-query-recipe>
+        @for (result of queryResults; track result) {
+          <app-query-recipe
+            [singleResult]="result"
+          ></app-query-recipe>
+        }
       </div>
     </div>
   </div>

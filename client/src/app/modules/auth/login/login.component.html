@@ -4,14 +4,14 @@
     (ngSubmit)="onSubmit(authForm)"
     class="flex pd1"
     enctype="multipart/form-data"
-  >
+    >
     <div class="form-header flex mgb1">
       <h1 class="mgb1">{{ !isRegisterState ? "Login" : "Sign Up" }}</h1>
       <p>
         {{
-          isRegisterState
-            ? "Already have an account?"
-            : "Don't have an account?"
+        isRegisterState
+        ? "Already have an account?"
+        : "Don't have an account?"
         }}
         &nbsp;
         <input
@@ -19,7 +19,7 @@
           [value]="isRegisterState ? 'Login' : 'Sign Up'"
           (click)="toggleRegisterState()"
           class="signup-link"
-        />
+          />
       </p>
     </div>
     <div class="form-group flex flex-center mgb1">
@@ -34,7 +34,7 @@
           required
           pattern="^[a-zA-Z0-9_-]{6,15}$"
           #usernameControl="ngModel"
-        />
+          />
         <label for="username">Username</label>
         <span class="tooltip-container">
           <fa-icon
@@ -46,18 +46,22 @@
           ></app-tooltip>
         </span>
       </div>
-      <ng-container *ngIf="usernameControl.invalid && usernameControl.touched">
-        <p class="error input-error" *ngIf="usernameControl.errors?.required">
-          Username is required
-        </p>
-        <p class="error input-error" *ngIf="usernameControl.errors?.pattern">
-          Please enter valid username, check
-          <span class="tooltip-container"
-            ><fa-icon [icon]="['fas', 'info-circle']" class="infoIcon"></fa-icon
-          ></span>
-          for details
-        </p>
-      </ng-container>
+      @if (usernameControl.invalid && usernameControl.touched) {
+        @if (usernameControl.errors?.required) {
+          <p class="error input-error">
+            Username is required
+          </p>
+        }
+        @if (usernameControl.errors?.pattern) {
+          <p class="error input-error">
+            Please enter valid username, check
+            <span class="tooltip-container"
+              ><fa-icon [icon]="['fas', 'info-circle']" class="infoIcon"></fa-icon
+            ></span>
+            for details
+          </p>
+        }
+      }
     </div>
     <div class="form-group flex flex-center mgb1">
       <div class="label-wrapper">
@@ -71,7 +75,7 @@
           name="password"
           pattern="\S{6,}"
           #passwordControl="ngModel"
-        />
+          />
         <label for="password">Password</label>
         <span class="tooltip-container">
           <fa-icon [icon]="['fas', 'info-circle']" class="infoIcon"></fa-icon>
@@ -80,69 +84,72 @@
           ></app-tooltip>
         </span>
       </div>
-      <ng-container *ngIf="passwordControl.invalid && passwordControl.touched">
+      @if (passwordControl.invalid && passwordControl.touched) {
         <p class="error input-error">Please enter minimum 6 characters</p>
-      </ng-container>
+      }
     </div>
 
-    <!-- signup options --><ng-container *ngIf="isRegisterState">
-      <div class="form-group flex flex-center upload-section">
-        <h4 class="block mgb1">Upload profile image</h4>
-        <div class="upload flex">
-          <div class="buttons flex">
-            <label for="image" class="upload-btn-wrapper hover-effect"> 
-              <input type="file" id="image" (change)="uploadFile($event)" />
-              Browse image
-            </label>
+    <!-- signup options -->@if (isRegisterState) {
+    <div class="form-group flex flex-center upload-section">
+      <h4 class="block mgb1">Upload profile image</h4>
+      <div class="upload flex">
+        <div class="buttons flex">
+          <label for="image" class="upload-btn-wrapper hover-effect">
+            <input type="file" id="image" (change)="uploadFile($event)" />
+            Browse image
+          </label>
+          @if (preview) {
             <button
               type="button"
-              *ngIf="preview"
               class="btn-cancel hover-effect"
               (click)="removeSelectedImage()"
-            >
+              >
               Cancel image
             </button>
-          </div>
-          <figure class="flex" *ngIf="preview">
+          }
+        </div>
+        @if (preview) {
+          <figure class="flex">
             <img
               [src]="preview"
               [alt]="filename"
               class="img-fit"
-            />
+              />
           </figure>
-        </div>
-        <div class="small">
-          <small class="selected block">{{ filename }}</small>
-          <small class="block">File formats accepted: jpg/jpeg/png/gif</small>
-          <small>Maximum upload file size 2Mb</small>
-        </div>
+        }
       </div>
-    </ng-container>
-    <!-- end signup options -->
+      <div class="small">
+        <small class="selected block">{{ filename }}</small>
+        <small class="block">File formats accepted: jpg/jpeg/png/gif</small>
+        <small>Maximum upload file size 2Mb</small>
+      </div>
+    </div>
+  }
+  <!-- end signup options -->
 
-    <div
+  <div
       [ngClass]="
         errorMessage
           ? 'message-wrapper flex flex-center message-background'
           : 'message-wrapper center'
       "
     >
-      <ng-container *ngIf="errorMessage">
-        <app-info-message
-          [message]="errorMessage"
-          (clear)="onClear('')"
-        ></app-info-message>
-      </ng-container>
-    </div>
-    <ng-container *ngIf="isLoading">
-      <app-loader [bigLoader]="false"></app-loader>
-    </ng-container>
-    <button
-      type="submit"
-      class="btn-action login-btn"
-      [disabled]="authForm.invalid"
+    @if (errorMessage) {
+      <app-info-message
+        [message]="errorMessage"
+        (clear)="onClear('')"
+      ></app-info-message>
+    }
+  </div>
+  @if (isLoading) {
+    <app-loader [bigLoader]="false"></app-loader>
+  }
+  <button
+    type="submit"
+    class="btn-action login-btn"
+    [disabled]="authForm.invalid"
     >
-      {{ isRegisterState ? "Create Account" : "Login" }}
-    </button>
-  </form>
+    {{ isRegisterState ? "Create Account" : "Login" }}
+  </button>
+</form>
 </div>

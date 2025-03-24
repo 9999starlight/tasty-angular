@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Recipe = require('../models/recipe')
 const Comment = require('../models/comment')
 const User = require('../models/user')
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
 require('../middlewares/cloudinary')
 const { returnUserImage } = require('../helpers/imageFunction')
 const { options } = require('mongoose')
@@ -110,7 +110,7 @@ exports.addNewRecipe = async (req, res, next) => {
   try {
     let imageresult = ''
     if (req.file)
-      imageresult = await cloudinary.v2.uploader.upload(
+      imageresult = await cloudinary.uploader.upload(
         req.file.path,
         {
           folder: 'recipes'
@@ -193,7 +193,7 @@ exports.updateRecipe = async (req, res, next) => {
     let imageresult = ''
     if (req.file) {
       if (!recipeForUpdate.image.id) {
-        imageresult = await cloudinary.v2.uploader.upload(
+        imageresult = await cloudinary.uploader.upload(
           req.file.path,
           {
             folder: 'recipes'
@@ -203,13 +203,13 @@ exports.updateRecipe = async (req, res, next) => {
           }
         )
       } else {
-        await cloudinary.v2.uploader.destroy(
+        await cloudinary.uploader.destroy(
           recipeForUpdate.image.id,
           (error, result) => {
             console.log(error)
           }
         )
-        imageresult = await cloudinary.v2.uploader.upload(
+        imageresult = await cloudinary.uploader.upload(
           req.file.path,
           {
             folder: 'recipes'
@@ -354,14 +354,17 @@ exports.deleteRecipe = async (req, res) => {
     if (recipe.image.id) {
       console.log ('recipe in server od nelete: ', recipe.image.id)
       const imgID = recipe.image.id
-      await cloudinary.v2.uploader.destroy(recipe.image.id, (error, result) => {
+      await cloudinary.uploader.destroy(recipe.image.id, {
+        folder: 'recipes'
+      },(error, result) => {
         console.log('result from cloudinary delete: ', result, error)
       })
     }
     await Comment.deleteMany({
       commentedRecipeId: recipe._id
     })
-    await User.updateMany({
+    await User.updateMany(
+      {
       $pull: {
         favorites: recipe._id
       }

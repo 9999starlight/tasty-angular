@@ -1,10 +1,11 @@
 <header class="flex">
-  <div
+  @if (mobileMenu && displayMenu) {
+    <div
     [ngClass]="
       mobileMenu && displayMenu ? 'dropdown-overlay  mobile-overlay' : 'dropdown-overlay'
     "
-    *ngIf="mobileMenu && displayMenu"
-  ></div>
+    ></div>
+  }
   <div class="menu-wrapper flex">
     <a routerLink="" class="flex flex-center">
       <figure class="logo-wrapper">
@@ -13,153 +14,154 @@
           alt="flowery pot"
           loading="lazy"
           class="img-fit"
-        />
+          />
       </figure>
       Tasty</a
-    >
-    <button
-      *ngIf="showSearchBtn"
-      class="header-search"
-      aria-label="search for recipes"
-      (click)="toggleSearch()"
-    >
-      <span class="search">
-        <fa-icon [icon]="['fas', 'search']"></fa-icon>
-      </span>
-    </button>
-    <ng-container *ngIf="mobileMenu">
-      <div class="menu flex flex-center" (click)="toggleMobileMenu()">
-        <div [ngClass]="!displayMenu ? 'line' : 'line transformMenu'"></div>
-        <div [ngClass]="!displayMenu ? 'line' : 'line transformMenu'"></div>
-        <div [ngClass]="!displayMenu ? 'line' : 'line transformMenu'"></div>
-      </div>
-    </ng-container>
-  </div>
-  <nav class="flex" *ngIf="displayMenu">
-    <ul class="links flex">
-      <li>
-        <a
-          routerLink=""
-          routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: true }"
-          >Home</a
-        >
-      </li>
-      <!-- dropdown user menu if logged in-->
-      <ng-container *ngIf="isLogged$ | async">
-        <li
-          class="userpanel-menu"
-          (mouseover)="showUserDropdown = true"
-          (mouseleave)="showUserDropdown = false"
-        >
-          <span class="flex flex-center">
-            <ng-container
-              *ngIf="(currentUser$ | async) && (currentUser$ | async)?.user_image"
-            >
-              <img
-                [src]="(currentUser$ | async)?.user_image"
-                [alt]="(currentUser$ | async)?.username"
-                loading="lazy"
-              />
-            </ng-container>
-            <ng-container
-              *ngIf="(currentUser$ | async) && !(currentUser$ | async)?.user_image"
-            >
-              <img
-                src="../../../assets/images/default_user.png"
-                [alt]="(currentUser$ | async)?.username"
-                loading="lazy"
-              />
-            </ng-container>
-            <ng-container *ngIf="(currentUser$ | async)">
-              {{ (currentUser$ | async)?.username }}
-            </ng-container>
-            <fa-icon
-              [icon]="['fas', 'chevron-down']"
-              [ngClass]="!showUserDropdown ? 'arrow-down' : 'arrow-down rotate'"
-            ></fa-icon>
+      >
+      @if (showSearchBtn) {
+        <button
+          class="header-search"
+          aria-label="search for recipes"
+          (click)="toggleSearch()"
+          >
+          <span class="search">
+            <fa-icon [icon]="['fas', 'search']"></fa-icon>
           </span>
-          <ul class="userDropdown" *ngIf="showUserDropdown">
-            <li>
-              <a
-                routerLink="user"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                <fa-icon [icon]="['fas', 'user']" class="user-icon"></fa-icon>
-                &nbsp;Profile
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="user/user-recipes"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                <fa-icon [icon]="['fas', 'book']" class="user-icon"></fa-icon>
-                &nbsp;My recipes
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="user/create-recipe"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                <fa-icon [icon]="['fas', 'edit']" class="user-icon"></fa-icon>
-                &nbsp;Create recipe
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="user/saved-recipes"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                <fa-icon [icon]="['fas', 'heart']" class="user-icon"></fa-icon>
-                &nbsp;Saved recipes
-              </a>
-            </li>
-          </ul>
-        </li>
-        <!-- admin -->
-        <ng-container *ngIf="currentUser$.value && currentUser$.value.isAdmin">
+        </button>
+      }
+      @if (mobileMenu) {
+        <div class="menu flex flex-center" (click)="toggleMobileMenu()">
+          <div [ngClass]="!displayMenu ? 'line' : 'line transformMenu'"></div>
+          <div [ngClass]="!displayMenu ? 'line' : 'line transformMenu'"></div>
+          <div [ngClass]="!displayMenu ? 'line' : 'line transformMenu'"></div>
+        </div>
+      }
+    </div>
+    @if (displayMenu) {
+      <nav class="flex">
+        <ul class="links flex">
           <li>
             <a
-              routerLink="admin"
+              routerLink=""
               routerLinkActive="active-link"
               [routerLinkActiveOptions]="{ exact: true }"
-            >
-              &nbsp;
-              <fa-icon [icon]="['fas', 'user-shield']" class="user-icon">
-              </fa-icon
-              >Admin Panel
-            </a>
-          </li>
-        </ng-container>
-        <li class="flex">
-          <button (click)="logout()">
-            <fa-icon [icon]="faSignOutAlt" class="user-icon"> </fa-icon>
-            Logout
-          </button>
-        </li>
-      </ng-container>
-      <!-- end logged in -->
-      <!-- if !loggedIn -->
-      <ng-container *ngIf="!(isLogged$ | async)">
-        <li>
-          <a
-            routerLink="login"
-            routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;
-            Login | Register
-          </a>
-        </li>
-        <li>
-        </li>
-      </ng-container>
-    </ul>
-  </nav>
-</header>
+              >Home</a
+              >
+            </li>
+            <!-- dropdown user menu if logged in-->
+            @if (isLogged$ | async) {
+              <li
+                class="userpanel-menu"
+                (mouseover)="showUserDropdown = true"
+                (mouseleave)="showUserDropdown = false"
+                >
+                <span class="flex flex-center">
+                  @if ((currentUser$ | async) && (currentUser$ | async)?.user_image) {
+                    <img
+                      [src]="(currentUser$ | async)?.user_image"
+                      [alt]="(currentUser$ | async)?.username"
+                      loading="lazy"
+                      />
+                  }
+                  @if ((currentUser$ | async) && !(currentUser$ | async)?.user_image) {
+                    <img
+                      src="../../../assets/images/default_user.png"
+                      [alt]="(currentUser$ | async)?.username"
+                      loading="lazy"
+                      />
+                  }
+                  @if ((currentUser$ | async)) {
+                    {{ (currentUser$ | async)?.username }}
+                  }
+                  <fa-icon
+                    [icon]="['fas', 'chevron-down']"
+                    [ngClass]="!showUserDropdown ? 'arrow-down' : 'arrow-down rotate'"
+                  ></fa-icon>
+                </span>
+                @if (showUserDropdown) {
+                  <ul class="userDropdown">
+                    <li>
+                      <a
+                        routerLink="user"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="['fas', 'user']" class="user-icon"></fa-icon>
+                        &nbsp;Profile
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        routerLink="user/user-recipes"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="['fas', 'book']" class="user-icon"></fa-icon>
+                        &nbsp;My recipes
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        routerLink="user/create-recipe"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="['fas', 'edit']" class="user-icon"></fa-icon>
+                        &nbsp;Create recipe
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        routerLink="user/saved-recipes"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="['fas', 'heart']" class="user-icon"></fa-icon>
+                        &nbsp;Saved recipes
+                      </a>
+                    </li>
+                  </ul>
+                }
+              </li>
+              <!-- admin -->
+              @if (currentUser$.value && currentUser$.value.isAdmin) {
+                <li>
+                  <a
+                    routerLink="admin"
+                    routerLinkActive="active-link"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >
+                    &nbsp;
+                    <fa-icon [icon]="['fas', 'user-shield']" class="user-icon">
+                      </fa-icon
+                      >Admin Panel
+                    </a>
+                  </li>
+                }
+                <li class="flex">
+                  <button (click)="logout()">
+                    <fa-icon [icon]="faSignOutAlt" class="user-icon"> </fa-icon>
+                    Logout
+                  </button>
+                </li>
+              }
+              <!-- end logged in -->
+              <!-- if !loggedIn -->
+              @if (!(isLogged$ | async)) {
+                <li>
+                  <a
+                    routerLink="login"
+                    routerLinkActive="active-link"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >
+                    <fa-icon [icon]="faSignInAlt" class="user-icon"> </fa-icon>&nbsp;
+                    Login | Register
+                  </a>
+                </li>
+                <li>
+                </li>
+              }
+            </ul>
+          </nav>
+        }
+      </header>

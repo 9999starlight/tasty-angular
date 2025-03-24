@@ -14,7 +14,7 @@ import { RecipeFormComponent } from '../../shared/components/recipe-form/recipe-
 import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OverlayComponent } from '../../shared/components/overlay/overlay.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-user-recipes',
@@ -22,17 +22,15 @@ import { NgIf, NgFor } from '@angular/common';
     styleUrls: ['./user-recipes.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        OverlayComponent,
-        FontAwesomeModule,
-        TooltipComponent,
-        RecipeFormComponent,
-        LoaderComponent,
-        PageErrorComponent,
-        SortingButtonsComponent,
-        NgFor,
-        PrivateRecipeComponent,
-    ],
+    OverlayComponent,
+    FontAwesomeModule,
+    TooltipComponent,
+    RecipeFormComponent,
+    LoaderComponent,
+    PageErrorComponent,
+    SortingButtonsComponent,
+    PrivateRecipeComponent
+],
 })
 export class UserRecipesComponent implements OnInit, OnDestroy {
   isLoading = true;

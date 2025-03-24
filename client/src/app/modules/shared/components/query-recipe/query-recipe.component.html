@@ -1,21 +1,21 @@
 <a [routerLink]="['/recipe', singleResult._id]" class="recipe-link grid">
   <figure>
-    <ng-container *ngIf="!singleResult.image">
+    @if (!singleResult.image) {
       <img
         src="../../../../assets/images/default_recipe.jpg"
         [alt]="singleResult.mealName"
         class="img-fit"
         loading="lazy"
-      />
-    </ng-container>
-    <ng-container *ngIf="singleResult.image">
+        />
+    }
+    @if (singleResult.image) {
       <img
         [src]="singleResult.image"
         [alt]="singleResult.mealName"
         class="img-fit"
         loading="lazy"
-      />
-    </ng-container>
+        />
+    }
     <figcaption>{{ singleResult.mealName | sentenceCase }}</figcaption>
   </figure>
   <p class="rating flex flex-center">
@@ -23,28 +23,28 @@
     &nbsp;{{ singleResult.rating }}
     /
     {{
-      singleResult.rates.length
-        ? singleResult.rates.length + " votes"
-        : "not rated"
+    singleResult.rates.length
+    ? singleResult.rates.length + " votes"
+    : "not rated"
     }}
   </p>
   <div class="author flex flex-center">
-    <ng-container *ngIf="singleResult.author.image">
+    @if (singleResult.author.image) {
       <img
         [src]="singleResult.author.image"
         [alt]="singleResult.author.username"
         class="block"
         loading="lazy"
-      />
-    </ng-container>
-    <ng-container *ngIf="!singleResult.author.image">
+        />
+    }
+    @if (!singleResult.author.image) {
       <img
         src="../../../../assets/images/default_user.png"
         alt="singleResult.author.username"
         class="block"
         loading="lazy"
-      />
-    </ng-container>
+        />
+    }
     <span>{{ singleResult.author.username }}</span>
   </div>
   <p class="intro light-italic pd1">

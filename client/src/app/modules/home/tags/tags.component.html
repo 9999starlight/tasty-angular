@@ -1,11 +1,12 @@
 <div class="tags-wrapper">
   <h2>Popular Tags</h2>
   <div class="tags-inner flex">
-    <div
-      class="tags flex flex-center mg1"
-      *ngFor="let tag of tagData; let i = index"
-    >
-      <app-tag [tag]="tag"></app-tag>
-    </div>
+    @for (tag of tagData; track tag; let i = $index) {
+      <div
+        class="tags flex flex-center mg1"
+        >
+        <app-tag [tag]="tag"></app-tag>
+      </div>
+    }
   </div>
 </div>

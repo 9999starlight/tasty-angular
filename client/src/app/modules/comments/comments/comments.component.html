@@ -1,10 +1,14 @@
 <h2 class="mgb2">Comments:</h2>
-<h4 *ngIf="!comments.length" class="light-italic mg1">Not Commented Yet</h4>
-<ng-container *ngIf="comments.length">
-  <div *ngFor="let singleComment of comments" class="flex flex-center">
-    <app-comment [singleComment]="singleComment"></app-comment>
-  </div>
-</ng-container>
+@if (!comments.length) {
+  <h4 class="light-italic mg1">Not Commented Yet</h4>
+}
+@if (comments.length) {
+  @for (singleComment of comments; track singleComment) {
+    <div class="flex flex-center">
+      <app-comment [singleComment]="singleComment"></app-comment>
+    </div>
+  }
+}
 <app-post-comment
   [recipeId]="recipeId"
   (commentAdded)="updateComments()"

@@ -9,7 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-comments',
@@ -17,16 +17,14 @@ import { NgIf, NgFor, DatePipe } from '@angular/common';
     styleUrls: ['./comments.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        SortingButtonsComponent,
-        FormsModule,
-        NgFor,
-        RouterLink,
-        FontAwesomeModule,
-        TooltipComponent,
-        LoaderComponent,
-        DatePipe,
-    ],
+    SortingButtonsComponent,
+    FormsModule,
+    RouterLink,
+    FontAwesomeModule,
+    TooltipComponent,
+    LoaderComponent,
+    DatePipe
+],
 })
 export class CommentsComponent implements OnInit, OnDestroy {
   comments: Comment[] = [];

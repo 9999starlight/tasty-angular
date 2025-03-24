@@ -3,7 +3,7 @@
     class="mgt1"
     #postCommentForm="ngForm"
     (ngSubmit)="postUserComment(postCommentForm)"
-  >
+    >
     <!-- [ngModel]="commentText" -->
     <textarea
       [(ngModel)]="commentBody"
@@ -21,37 +21,35 @@
       name="author"
       #authorControl="ngModel"
       [ngModel]="(currentUser$ | async)?.userId"
-    />
+      />
     <input
       type="hidden"
       name="commentedRecipeId"
       #recipeIdControl="ngModel"
       [ngModel]="recipeId"
-    />
-    <ng-container
-      *ngIf="
-        commentBodyControl.invalid &&
-        commentBodyControl.touched &&
-        !postCommentForm.submitted
-      "
-    >
+      />
+    @if (
+      commentBodyControl.invalid &&
+      commentBodyControl.touched &&
+      !postCommentForm.submitted
+      ) {
       <p class="error input-error mgt1">Please enter minimum 4 characters</p>
-    </ng-container>
+    }
     <div class="message-wrapper flex flex-center">
-      <ng-container *ngIf="postCommentMessage">
+      @if (postCommentMessage) {
         <app-info-message
           [message]="postCommentMessage"
           [messageStatus]="messageStatus"
           (clear)="updateMessage('')"
         ></app-info-message>
-      </ng-container>
+      }
     </div>
 
     <button
       type="submit"
       class="btn-action block"
       [disabled]="(currentUser$ | async)?.userId && commentBodyControl.invalid"
-    >
+      >
       <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>&nbsp;Add Comment
     </button>
   </form>

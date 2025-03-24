@@ -8,7 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { QueryRecipeComponent } from '../../shared/components/query-recipe/query-recipe.component';
 import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
 import { SearchComponent } from '../../shared/components/search/search.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-results-home',
@@ -16,12 +16,10 @@ import { NgIf, NgFor } from '@angular/common';
     styleUrls: ['./results-home.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        SearchComponent,
-        SortingButtonsComponent,
-        NgFor,
-        QueryRecipeComponent,
-    ],
+    SearchComponent,
+    SortingButtonsComponent,
+    QueryRecipeComponent
+],
 })
 export class ResultsHomeComponent implements OnInit, OnDestroy {
   queryResults = [];

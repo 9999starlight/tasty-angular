@@ -9,7 +9,7 @@ import { SentenceCasePipe } from '../../shared/pipes/sentence-case.pipe';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { StatisticBoxComponent } from '../statistic-box/statistic-box.component';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-overview',
@@ -17,14 +17,12 @@ import { NgIf, NgFor, DatePipe } from '@angular/common';
     styleUrls: ['./overview.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        StatisticBoxComponent,
-        LoaderComponent,
-        DatePipe,
-        SentenceCasePipe,
-    ],
+    RouterLink,
+    StatisticBoxComponent,
+    LoaderComponent,
+    DatePipe,
+    SentenceCasePipe
+],
 })
 export class OverviewComponent implements OnInit, OnDestroy {
   latestRecipes: RecipeResponse[] = [];

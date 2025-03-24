@@ -13,7 +13,7 @@ import {
 } from '@angular/animations';
 import { SentenceCasePipe } from '../../../shared/pipes/sentence-case.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgIf } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-slide',
@@ -37,11 +37,10 @@ import { RouterLink } from '@angular/router';
     ],
     standalone: true,
     imports: [
-        RouterLink,
-        NgIf,
-        FontAwesomeModule,
-        SentenceCasePipe,
-    ],
+    RouterLink,
+    FontAwesomeModule,
+    SentenceCasePipe
+],
 })
 export class SlideComponent implements OnInit, OnChanges {
   @Input() recipe!: RecipeResponse;

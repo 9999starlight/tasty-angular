@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StatisticBarsComponent } from './statistic-bars/statistic-bars.component';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-statistic-box',
@@ -8,10 +8,9 @@ import { NgClass, NgFor } from '@angular/common';
     styleUrls: ['./statistic-box.component.scss'],
     standalone: true,
     imports: [
-        NgClass,
-        NgFor,
-        StatisticBarsComponent,
-    ],
+    NgClass,
+    StatisticBarsComponent
+],
 })
 export class StatisticBoxComponent implements OnInit {
   @Input() title: string = '';

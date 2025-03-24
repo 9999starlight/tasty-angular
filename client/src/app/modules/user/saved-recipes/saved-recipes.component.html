@@ -1,28 +1,33 @@
 <div class="saved-recipes flex">
   <h1 class="mg2">Saved recipes</h1>
-  <app-loader [bigLoader]="true" *ngIf="isLoading"></app-loader>
+  @if (isLoading) {
+    <app-loader [bigLoader]="true"></app-loader>
+  }
 
-  <app-page-error
-    *ngIf="!authService.user!.favorites.length"
-    message="You haven't saved any recipes yet"
-  ></app-page-error>
-  <div class="list-container flex flex-center" *ngIf="savedRecipes.length">
-    <app-sorting-buttons
-      (titleAsc)="sortingService.sortTitleAscending(savedRecipes)"
-      (titleDesc)="sortingService.sortTitleDescending(savedRecipes)"
-      (ratingAsc)="sortingService.sortRatingAscending(savedRecipes)"
-      (ratingDesc)="sortingService.sortRatingDescending(savedRecipes)"
-      (dateAsc)="sortingService.sortDateAscending(savedRecipes)"
-      (dateDesc)="sortingService.sortDateDescending(savedRecipes)"
-    ></app-sorting-buttons>
-
-    <app-private-recipe
-      [recipe]="recipe"
-      [isUsersRecipes]="false"
-      *ngFor="let recipe of savedRecipes"
-      class="render-recipes sorting-item"
-      (updateFavorites)="removeFromFavorites($event)"
-      @scaleAnimation
-    ></app-private-recipe>
-  </div>
+  @if (!authService.user!.favorites.length) {
+    <app-page-error
+      message="You haven't saved any recipes yet"
+    ></app-page-error>
+  }
+  @if (savedRecipes.length) {
+    <div class="list-container flex flex-center">
+      <app-sorting-buttons
+        (titleAsc)="sortingService.sortTitleAscending(savedRecipes)"
+        (titleDesc)="sortingService.sortTitleDescending(savedRecipes)"
+        (ratingAsc)="sortingService.sortRatingAscending(savedRecipes)"
+        (ratingDesc)="sortingService.sortRatingDescending(savedRecipes)"
+        (dateAsc)="sortingService.sortDateAscending(savedRecipes)"
+        (dateDesc)="sortingService.sortDateDescending(savedRecipes)"
+      ></app-sorting-buttons>
+      @for (recipe of savedRecipes; track recipe) {
+        <app-private-recipe
+          [recipe]="recipe"
+          [isUsersRecipes]="false"
+          class="render-recipes sorting-item"
+          (updateFavorites)="removeFromFavorites($event)"
+          @scaleAnimation
+        ></app-private-recipe>
+      }
+    </div>
+  }
 </div>

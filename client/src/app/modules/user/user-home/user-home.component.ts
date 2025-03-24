@@ -6,19 +6,18 @@ import { Subscription } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { InfoMessageComponent } from '../../shared/components/info-message/info-message.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 @Component({
     selector: 'app-user-home',
     templateUrl: './user-home.component.html',
     styleUrls: ['./user-home.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        LoaderComponent,
-        InfoMessageComponent,
-        AsyncPipe,
-        DatePipe,
-    ],
+    LoaderComponent,
+    InfoMessageComponent,
+    AsyncPipe,
+    DatePipe
+],
 })
 export class UserHomeComponent implements OnInit, OnDestroy {
   currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;

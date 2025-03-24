@@ -2,7 +2,7 @@
   [ngClass]="!showFullMenu ? 'icons-width' : 'menu-width'"
   (mouseenter)="showFullMenu = true"
   (mouseleave)="showFullMenu = false"
->
+  >
   <ul class="flex">
     <li>
       <a
@@ -10,9 +10,11 @@
         routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }"
         class="block full-width"
-      >
+        >
         <fa-icon [icon]="['fas', 'chart-bar']" class="user-icon"></fa-icon>
-        <span *ngIf="showFullMenu">Overview</span>
+        @if (showFullMenu) {
+          <span>Overview</span>
+        }
       </a>
     </li>
 
@@ -22,9 +24,11 @@
         routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }"
         class="block full-width"
-      >
+        >
         <fa-icon [icon]="['fas', 'users']" class="user-icon"></fa-icon>
-        <span *ngIf="showFullMenu">Users</span>
+        @if (showFullMenu) {
+          <span>Users</span>
+        }
       </a>
     </li>
 
@@ -34,9 +38,11 @@
         routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }"
         class="block full-width"
-      >
+        >
         <fa-icon [icon]="['fas', 'book']" class="user-icon"></fa-icon>
-        <span *ngIf="showFullMenu">Recipes</span>
+        @if (showFullMenu) {
+          <span>Recipes</span>
+        }
       </a>
     </li>
     <li>
@@ -45,9 +51,11 @@
         routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }"
         class="block full-width"
-      >
+        >
         <fa-icon [icon]="['fas', 'comments']" class="user-icon"></fa-icon>
-        <span *ngIf="showFullMenu">Comments</span>
+        @if (showFullMenu) {
+          <span>Comments</span>
+        }
       </a>
     </li>
   </ul>

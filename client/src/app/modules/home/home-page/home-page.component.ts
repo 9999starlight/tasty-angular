@@ -11,23 +11,21 @@ import { QueryRecipeComponent } from '../../shared/components/query-recipe/query
 import { TagsComponent } from '../tags/tags.component';
 import { SliderComponent } from '../slider/slider.component';
 import { SearchComponent } from '../../shared/components/search/search.component';
-import { NgIf, NgFor, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
     styleUrls: ['./home-page.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        SearchComponent,
-        SliderComponent,
-        TagsComponent,
-        NgFor,
-        QueryRecipeComponent,
-        PageErrorComponent,
-        LoaderComponent,
-        SlicePipe,
-    ],
+    SearchComponent,
+    SliderComponent,
+    TagsComponent,
+    QueryRecipeComponent,
+    PageErrorComponent,
+    LoaderComponent,
+    SlicePipe
+],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   recipes: RecipeResponse[] = [];

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RecipeResponse } from '../../../../types/RecipeResponse'
 import { faStar} from '@fortawesome/free-solid-svg-icons';
 import { SentenceCasePipe } from '../../pipes/sentence-case.pipe';
-import { NgIf } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
     templateUrl: './query-recipe.component.html',
     styleUrls: ['./query-recipe.component.scss'],
     standalone: true,
-    imports: [RouterLink, NgIf, SentenceCasePipe]
+    imports: [RouterLink, SentenceCasePipe]
 })
 export class QueryRecipeComponent implements OnInit {
   @Input() singleResult!: RecipeResponse;

@@ -15,7 +15,7 @@ import { RecipeFormComponent } from '../../shared/components/recipe-form/recipe-
 import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OverlayComponent } from '../../shared/components/overlay/overlay.component';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-recipes',
@@ -23,20 +23,18 @@ import { NgIf, NgFor, DatePipe } from '@angular/common';
     styleUrls: ['./recipes.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        OverlayComponent,
-        FontAwesomeModule,
-        TooltipComponent,
-        RecipeFormComponent,
-        StatisticBoxComponent,
-        SortingButtonsComponent,
-        FormsModule,
-        NgFor,
-        RouterLink,
-        LoaderComponent,
-        DatePipe,
-        SentenceCasePipe,
-    ],
+    OverlayComponent,
+    FontAwesomeModule,
+    TooltipComponent,
+    RecipeFormComponent,
+    StatisticBoxComponent,
+    SortingButtonsComponent,
+    FormsModule,
+    RouterLink,
+    LoaderComponent,
+    DatePipe,
+    SentenceCasePipe
+],
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   constructor(

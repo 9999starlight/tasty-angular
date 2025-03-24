@@ -1,52 +1,58 @@
 <div class="single-result-container container">
-  <app-search
-    (changeParams)="getNewResults($event)"
-    *ngIf="uiService.searchForm"
-  ></app-search>
+  @if (uiService.searchForm) {
+    <app-search
+      (changeParams)="getNewResults($event)"
+    ></app-search>
+  }
 
   <div class="single-result-wrapper">
     <h1>{{ recipe.mealName | sentenceCase }}</h1>
     <section class="favorites flex">
       <div class="message-wrapper center">
         <!-- Info message -->
-        <ng-container *ngIf="infoMessage">
+        @if (infoMessage) {
           <app-info-message
             [message]="infoMessage"
             [messageStatus]="msgStatus"
             (clear)="onClear('')"
           ></app-info-message>
-        </ng-container>
+        }
       </div>
       <!-- Favorites button -->
-      <button
-        class="add-favorites"
-        *ngIf="isSavingEnabled"
-        (click)="saveRecipe()"
-      >
-        Add to favorites &nbsp;
-        <span>
-          <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>
-        </span>
-      </button>
+      @if (isSavingEnabled) {
+        <button
+          class="add-favorites"
+          (click)="saveRecipe()"
+          >
+          Add to favorites &nbsp;
+          <span>
+            <fa-icon [icon]="['fas', 'plus']" class="plus"></fa-icon>
+          </span>
+        </button>
+      }
 
       <div
         [ngClass]="isSavingEnabled ? 'changable-save' : 'changable-save heart'"
-      >
-        <span *ngIf="!isSavingEnabled">Recipe saved</span>
+        >
+        @if (!isSavingEnabled) {
+          <span>Recipe saved</span>
+        }
       </div>
       <!-- Rating -->
-      <ng-container *ngIf="isRatingEnabled">
+      @if (isRatingEnabled) {
         <app-rating
           [recipeId]="recipe._id"
           (updateMsgStatus)="updateMsgStatusHandler($event)"
           (updateMsg)="updateMsgHandler($event)"
           (updateRecipe)="updateRatingHandler($event)"
         ></app-rating>
-      </ng-container>
-      <p class="user-rating flex flex-center" *ngIf="userRate()">
-        Your rate:<span>{{ userRate() }}</span>
-        <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon>
-      </p>
+      }
+      @if (userRate()) {
+        <p class="user-rating flex flex-center">
+          Your rate:<span>{{ userRate() }}</span>
+          <fa-icon [icon]="['fas', 'star']" class="star-icon"></fa-icon>
+        </p>
+      }
     </section>
     <section class="basic-info flex mgb1">
       <span class="info tooltip-container">
@@ -66,16 +72,16 @@
       </span>
     </section>
     <figure class="mgb1">
-      <ng-container *ngIf="recipe.image === undefined">
+      @if (recipe.image === undefined) {
         <img
           src="../../../../assets/images/default_recipe.jpg"
           [alt]="recipe.mealName"
           loading="lazy"
-        />
-      </ng-container>
-      <ng-container *ngIf="recipe.image">
+          />
+      }
+      @if (recipe.image) {
         <img [src]="recipe.image.url" [alt]="recipe.mealName" loading="lazy" />
-      </ng-container>
+      }
     </figure>
     <!-- Under image - author info & recipe rating/created -->
     <section class="under-image flex mgb1">
@@ -84,24 +90,24 @@
           [routerLink]="['/results']"
           [queryParams]="{ author: recipe.author._id }"
           class="user-info tooltip-container"
-        >
+          >
           <p class="flex flex-center">
-            <ng-container *ngIf="recipe.author.user_image === undefined">
+            @if (recipe.author.user_image === undefined) {
               <img
                 src="../../../../assets/images/default_user.png"
                 alt="user image"
                 class="author-image"
                 loading="lazy"
-              />
-            </ng-container>
-            <ng-container *ngIf="recipe.author.user_image">
+                />
+            }
+            @if (recipe.author.user_image) {
               <img
                 [src]="recipe.author.user_image.url"
                 alt="user image"
                 class="author-image"
                 loading="lazy"
-              />
-            </ng-container>
+                />
+            }
             <span class="author-username">{{ recipe.author.username }}</span>
           </p>
           <app-tooltip tooltipText="See user s recipes"></app-tooltip>
@@ -111,7 +117,7 @@
           &nbsp;&nbsp;{{ recipe.rating }} /
           <span class="light-italic"
             >{{
-              recipe.rates.length ? recipe.rates.length + " votes" : "not rated"
+            recipe.rates.length ? recipe.rates.length + " votes" : "not rated"
             }}
           </span>
         </p>
@@ -143,49 +149,56 @@
           "
         ></fa-icon>
       </p>
-      <p *ngIf="recipe.regional" class="mgb1">
-        <span class="slim">Regional: </span>{{ recipe.regional | sentenceCase }}
-      </p>
+      @if (recipe.regional) {
+        <p class="mgb1">
+          <span class="slim">Regional: </span>{{ recipe.regional | sentenceCase }}
+        </p>
+      }
       <p class="mgb1">
         <span class="slim">Dish Type: </span
-        >{{ recipe.dishType | sentenceCase }}
-      </p>
-    </section>
-    <!-- Ingredients -->
-    <section class="ingredients flex mgb1">
-      <h3 class="mgb1">Ingredients:</h3>
-      <ul class="flex">
-        <li *ngFor="let ing of recipe.ingredients" class="mgb1">
-          <span>{{ ing.ingredient }}</span
-          ><span *ngIf="ing.amount"> - </span>
-          <span> {{ ing.amount }}</span>
-        </li>
-      </ul>
-    </section>
-    <!-- Directions -->
-    <section class="directions flex mgb1">
-      <h3 class="mgb1">Directions:</h3>
-      <ol class="flex">
-        <li
-          *ngFor="let st of recipe.steps; let i = index"
-          [attr.data-number]="i + 1"
-          class="mgb1"
-        >
-          <p>{{ st.step }}</p>
-        </li>
-      </ol>
-    </section>
-    <!-- Comments -->
-    <section class="comments">
-      <app-comments
-        [comments]="recipe.comments"
-        [recipeId]="recipe._id"
-        (updateRec)="getNewData($event)"
-      ></app-comments>
-    </section>
+          >{{ recipe.dishType | sentenceCase }}
+        </p>
+      </section>
+      <!-- Ingredients -->
+      <section class="ingredients flex mgb1">
+        <h3 class="mgb1">Ingredients:</h3>
+        <ul class="flex">
+          @for (ing of recipe.ingredients; track ing) {
+            <li class="mgb1">
+              <span>{{ ing.ingredient }}</span
+                >@if (ing.amount) {
+                <span> - </span>
+              }
+              <span> {{ ing.amount }}</span>
+            </li>
+          }
+        </ul>
+      </section>
+      <!-- Directions -->
+      <section class="directions flex mgb1">
+        <h3 class="mgb1">Directions:</h3>
+        <ol class="flex">
+          @for (st of recipe.steps; track st; let i = $index) {
+            <li
+              [attr.data-number]="i + 1"
+              class="mgb1"
+              >
+              <p>{{ st.step }}</p>
+            </li>
+          }
+        </ol>
+      </section>
+      <!-- Comments -->
+      <section class="comments">
+        <app-comments
+          [comments]="recipe.comments"
+          [recipeId]="recipe._id"
+          (updateRec)="getNewData($event)"
+        ></app-comments>
+      </section>
+    </div>
+    <!-- Loader -->
+    @if (isLoading) {
+      <app-loader [bigLoader]="true"></app-loader>
+    }
   </div>
-  <!-- Loader -->
-  <ng-container *ngIf="isLoading">
-    <app-loader [bigLoader]="true"></app-loader>
-  </ng-container>
-</div>

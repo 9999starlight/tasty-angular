@@ -10,10 +10,7 @@ const mongoUrl = process.env.MONGO_URL
 //mongoose.set('useFindAndModify', false)
 
 mongoose
-  .connect(mongoUrl/*, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }*/)
+  .connect(mongoUrl)
   .then(() => console.log('MongoDB connected!'))
   .catch((err) => {
     console.log(`MongoDB connection Error: ${err.message}`)

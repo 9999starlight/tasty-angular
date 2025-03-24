@@ -8,20 +8,19 @@ import { BehaviorSubject } from 'rxjs';
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { debounceTime } from 'rxjs/operators';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { NgClass, AsyncPipe } from '@angular/common';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgClass,
-        RouterLink,
-        FontAwesomeModule,
-        RouterLinkActive,
-        AsyncPipe,
-    ],
+    NgClass,
+    RouterLink,
+    FontAwesomeModule,
+    RouterLinkActive,
+    AsyncPipe
+],
 })
 export class HeaderComponent implements OnInit {
   // user state

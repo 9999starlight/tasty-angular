@@ -15,27 +15,25 @@ import { RatingComponent } from '../rating/rating.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfoMessageComponent } from '../../shared/components/info-message/info-message.component';
 import { SearchComponent } from '../../shared/components/search/search.component';
-import { NgIf, NgClass, NgFor, DatePipe } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 @Component({
     selector: 'app-recipe',
     templateUrl: './recipe.component.html',
     styleUrls: ['./recipe.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        SearchComponent,
-        InfoMessageComponent,
-        FontAwesomeModule,
-        NgClass,
-        RatingComponent,
-        TooltipComponent,
-        RouterLink,
-        NgFor,
-        CommentsComponent,
-        LoaderComponent,
-        DatePipe,
-        SentenceCasePipe,
-    ],
+    SearchComponent,
+    InfoMessageComponent,
+    FontAwesomeModule,
+    NgClass,
+    RatingComponent,
+    TooltipComponent,
+    RouterLink,
+    CommentsComponent,
+    LoaderComponent,
+    DatePipe,
+    SentenceCasePipe
+],
 })
 export class RecipeComponent implements OnInit, OnDestroy {
   recipe!: SingleRecipe;
