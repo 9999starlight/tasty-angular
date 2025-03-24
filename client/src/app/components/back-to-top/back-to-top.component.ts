@@ -1,10 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
+import { ViewportScroller, NgClass } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-back-to-top',
-  templateUrl: './back-to-top.component.html',
-  styleUrls: ['./back-to-top.component.scss']
+    selector: 'app-back-to-top',
+    templateUrl: './back-to-top.component.html',
+    styleUrls: ['./back-to-top.component.scss'],
+    standalone: true,
+    imports: [NgClass, FontAwesomeModule]
 })
 export class BackToTopComponent implements OnInit {
   isLongPage = false;

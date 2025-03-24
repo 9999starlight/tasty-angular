@@ -6,11 +6,33 @@ import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { Subscription } from 'rxjs';
+import { PrivateRecipeComponent } from '../../shared/components/private-recipe/private-recipe.component';
+import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
+import { PageErrorComponent } from '../../shared/components/page-error/page-error.component';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { RecipeFormComponent } from '../../shared/components/recipe-form/recipe-form.component';
+import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OverlayComponent } from '../../shared/components/overlay/overlay.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-user-recipes',
-  templateUrl: './user-recipes.component.html',
-  styleUrls: ['./user-recipes.component.scss'],
+    selector: 'app-user-recipes',
+    templateUrl: './user-recipes.component.html',
+    styleUrls: ['./user-recipes.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        OverlayComponent,
+        FontAwesomeModule,
+        TooltipComponent,
+        RecipeFormComponent,
+        LoaderComponent,
+        PageErrorComponent,
+        SortingButtonsComponent,
+        NgFor,
+        PrivateRecipeComponent,
+    ],
 })
 export class UserRecipesComponent implements OnInit, OnDestroy {
   isLoading = true;

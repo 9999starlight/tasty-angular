@@ -347,9 +347,15 @@ exports.deleteRecipe = async (req, res) => {
         message: `Unauthorized - access denied!`
       })
     }
+
+    /* cloudinary.uploader
+  .destroy('docs/vegetables')
+  .then(result => console.log(result)); */
     if (recipe.image.id) {
+      console.log ('recipe in server od nelete: ', recipe.image.id)
+      const imgID = recipe.image.id
       await cloudinary.v2.uploader.destroy(recipe.image.id, (error, result) => {
-        console.log(result, error)
+        console.log('result from cloudinary delete: ', result, error)
       })
     }
     await Comment.deleteMany({

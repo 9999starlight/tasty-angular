@@ -9,16 +9,14 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 //FaIconLibrary
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    FontAwesomeModule,
-    AuthRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        FontAwesomeModule,
+        AuthRoutingModule,
+        SharedModule,
+        LoginComponent
+    ]
 })
 export class AuthModule {
   constructor(library: FaIconLibrary){

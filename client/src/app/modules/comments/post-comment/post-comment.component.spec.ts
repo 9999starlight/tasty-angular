@@ -8,8 +8,8 @@ describe('PostCommentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PostCommentComponent ]
-    })
+    imports: [PostCommentComponent]
+})
     .compileComponents();
   });
 

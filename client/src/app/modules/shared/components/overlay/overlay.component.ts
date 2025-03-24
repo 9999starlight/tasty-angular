@@ -7,11 +7,14 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-overlay',
-  templateUrl: './overlay.component.html',
-  styleUrls: ['./overlay.component.scss'],
+    selector: 'app-overlay',
+    templateUrl: './overlay.component.html',
+    styleUrls: ['./overlay.component.scss'],
+    standalone: true,
+    imports: [NgClass],
 })
 export class OverlayComponent implements OnInit, OnDestroy {
   @Output() closeModal = new EventEmitter();

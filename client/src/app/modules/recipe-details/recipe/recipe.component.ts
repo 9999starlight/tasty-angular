@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
@@ -7,10 +7,35 @@ import { UIService } from '../../shared/sharedServices/ui.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
+import { SentenceCasePipe } from '../../shared/pipes/sentence-case.pipe';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { CommentsComponent } from '../../comments/comments/comments.component';
+import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
+import { RatingComponent } from '../rating/rating.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { InfoMessageComponent } from '../../shared/components/info-message/info-message.component';
+import { SearchComponent } from '../../shared/components/search/search.component';
+import { NgIf, NgClass, NgFor, DatePipe } from '@angular/common';
 @Component({
-  selector: 'app-recipe',
-  templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.scss'],
+    selector: 'app-recipe',
+    templateUrl: './recipe.component.html',
+    styleUrls: ['./recipe.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        SearchComponent,
+        InfoMessageComponent,
+        FontAwesomeModule,
+        NgClass,
+        RatingComponent,
+        TooltipComponent,
+        RouterLink,
+        NgFor,
+        CommentsComponent,
+        LoaderComponent,
+        DatePipe,
+        SentenceCasePipe,
+    ],
 })
 export class RecipeComponent implements OnInit, OnDestroy {
   recipe!: SingleRecipe;

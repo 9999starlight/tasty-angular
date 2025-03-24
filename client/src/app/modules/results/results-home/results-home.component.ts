@@ -5,11 +5,23 @@ import { UIService } from '../../shared/sharedServices/ui.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { QueryRecipeComponent } from '../../shared/components/query-recipe/query-recipe.component';
+import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
+import { SearchComponent } from '../../shared/components/search/search.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-results-home',
-  templateUrl: './results-home.component.html',
-  styleUrls: ['./results-home.component.scss'],
+    selector: 'app-results-home',
+    templateUrl: './results-home.component.html',
+    styleUrls: ['./results-home.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        SearchComponent,
+        SortingButtonsComponent,
+        NgFor,
+        QueryRecipeComponent,
+    ],
 })
 export class ResultsHomeComponent implements OnInit, OnDestroy {
   queryResults = [];

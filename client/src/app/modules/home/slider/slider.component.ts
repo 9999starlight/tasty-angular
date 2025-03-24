@@ -8,12 +8,15 @@ import {
   useAnimation,
   state
 } from '@angular/animations';
+import { SlideComponent } from './slide/slide.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 //import { fadeIn, fadeOut } from 'src/app/animations/fade.animations';
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss'],
-  animations: [
+    selector: 'app-slider',
+    templateUrl: './slider.component.html',
+    styleUrls: ['./slider.component.scss'],
+    animations: [
     /* trigger('carouselAnimation', [
       transition(':enter', [
         useAnimation(fadeIn, { params: { time: '1000ms' } }),
@@ -28,7 +31,9 @@ import {
       transition('false => true', animate('1000ms ease-in')),
       transition('true => false', animate('1000ms ease-out'))
     ]) */
-  ]
+    ],
+    standalone: true,
+    imports: [NgIf, FontAwesomeModule, SlideComponent, NgFor, NgClass]
 })
 
 /* trigger('fade', [

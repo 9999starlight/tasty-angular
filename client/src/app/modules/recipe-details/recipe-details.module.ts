@@ -11,20 +11,18 @@ import { CommentComponent } from '../comments/comment/comment.component';
 import { PostCommentComponent } from '../comments/post-comment/post-comment.component';
 import { FormsModule } from '@angular/forms';
 @NgModule({
-  declarations: [
-    RecipeComponent,
-    RatingComponent,
-    CommentsComponent,
-    CommentComponent,
-    PostCommentComponent
-  ],
-  imports: [
-    CommonModule,
-    RecipeDetailsRoutingModule,
-    SharedModule,
-    FontAwesomeModule,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        RecipeDetailsRoutingModule,
+        SharedModule,
+        FontAwesomeModule,
+        FormsModule,
+        RecipeComponent,
+        RatingComponent,
+        CommentsComponent,
+        CommentComponent,
+        PostCommentComponent
+    ],
 })
 export class RecipeDetailsModule { 
   constructor(library: FaIconLibrary){

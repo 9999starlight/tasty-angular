@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIService } from '../../sharedServices/ui.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { RecipesService } from '../../sharedServices/recipes.service';
@@ -14,20 +14,27 @@ import {
   transition,
   useAnimation
 } from '@angular/animations';
+import { LoaderComponent } from '../loader/loader.component';
+import { TooltipComponent } from '../tooltip/tooltip.component';
+import { InfoMessageComponent } from '../info-message/info-message.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgIf, NgClass, NgFor } from '@angular/common';
 @Component({
-  selector: 'app-recipe-form',
-  templateUrl: './recipe-form.component.html',
-  styleUrls: ['./recipe-form.component.scss'],
-  animations: [
-    trigger('scaleAnimation', [
-      transition('void => *', [
-         useAnimation(scaleIn, { params: { time: '300ms' } })
-      ]),
-      transition('* => void', [
-         useAnimation(scaleOut, { params: { time: '200ms' } })
-      ]),
-    ]),
-  ]
+    selector: 'app-recipe-form',
+    templateUrl: './recipe-form.component.html',
+    styleUrls: ['./recipe-form.component.scss'],
+    animations: [
+        trigger('scaleAnimation', [
+            transition('void => *', [
+                useAnimation(scaleIn, { params: { time: '300ms' } })
+            ]),
+            transition('* => void', [
+                useAnimation(scaleOut, { params: { time: '200ms' } })
+            ]),
+        ]),
+    ],
+    standalone: true,
+    imports: [NgIf, FormsModule, ReactiveFormsModule, NgClass, NgFor, FontAwesomeModule, InfoMessageComponent, TooltipComponent, LoaderComponent]
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
   isLoading = false;

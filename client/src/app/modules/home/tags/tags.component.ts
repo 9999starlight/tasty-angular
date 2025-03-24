@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { TagComponent } from '../tag/tag.component';
+import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-tags',
-  templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.scss']
+    selector: 'app-tags',
+    templateUrl: './tags.component.html',
+    styleUrls: ['./tags.component.scss'],
+    standalone: true,
+    imports: [NgFor, TagComponent]
 })
 export class TagsComponent implements OnInit {
   tagData = [

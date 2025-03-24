@@ -8,8 +8,8 @@ describe('StatisticBarsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatisticBarsComponent ]
-    })
+    imports: [StatisticBarsComponent]
+})
     .compileComponents();
   });
 

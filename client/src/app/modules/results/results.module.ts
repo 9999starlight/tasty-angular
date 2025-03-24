@@ -6,13 +6,11 @@ import { ResultsHomeComponent } from './results-home/results-home.component';
 
 
 @NgModule({
-  declarations: [
-    ResultsHomeComponent
-  ],
-  imports: [
-    CommonModule,
-    ResultsRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        ResultsRoutingModule,
+        SharedModule,
+        ResultsHomeComponent
+    ]
 })
 export class ResultsModule { }

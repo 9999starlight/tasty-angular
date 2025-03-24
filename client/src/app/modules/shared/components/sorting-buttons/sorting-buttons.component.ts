@@ -1,9 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-sorting-buttons',
-  templateUrl: './sorting-buttons.component.html',
-  styleUrls: ['./sorting-buttons.component.scss'],
+    selector: 'app-sorting-buttons',
+    templateUrl: './sorting-buttons.component.html',
+    styleUrls: ['./sorting-buttons.component.scss'],
+    standalone: true,
+    imports: [FontAwesomeModule, NgIf],
 })
 export class SortingButtonsComponent implements OnInit {
   @Input() isRating: boolean = true;

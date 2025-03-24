@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { SingleRecipe } from 'src/app/types/SingleRecipe';
 import { RecipesService } from '../shared/sharedServices/recipes.service';
@@ -9,7 +9,7 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeResolverService implements Resolve<SingleRecipe> {
+export class RecipeResolverService  {
 
   constructor(private recipesService: RecipesService, private router: Router) {}
 

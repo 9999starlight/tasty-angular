@@ -1,9 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { NgFor } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        FontAwesomeModule,
+        NgFor,
+    ],
 })
 export class SearchComponent implements OnInit {
   searchValue = '';

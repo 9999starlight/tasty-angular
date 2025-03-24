@@ -16,24 +16,22 @@ import { StatisticBarsComponent } from './statistic-box/statistic-bars/statistic
 
 
 @NgModule({
-  declarations: [
-    AdminHomeComponent,
-    OverviewComponent,
-    UsersComponent,
-    RecipesComponent,
-    CommentsComponent,
-    NavigationComponent,
-    StatisticBoxComponent,
-    StatisticBarsComponent
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    FontAwesomeModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        FontAwesomeModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AdminHomeComponent,
+        OverviewComponent,
+        UsersComponent,
+        RecipesComponent,
+        CommentsComponent,
+        NavigationComponent,
+        StatisticBoxComponent,
+        StatisticBarsComponent
+    ]
 })
 export class AdminModule {
   constructor(library: FaIconLibrary) {

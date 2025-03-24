@@ -3,13 +3,24 @@ import { AuthService } from '../../auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { CommentService } from '../comment.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { InfoMessageComponent } from '../../shared/components/info-message/info-message.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-post-comment',
-  templateUrl: './post-comment.component.html',
-  styleUrls: ['./post-comment.component.scss'],
+    selector: 'app-post-comment',
+    templateUrl: './post-comment.component.html',
+    styleUrls: ['./post-comment.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        NgIf,
+        InfoMessageComponent,
+        FontAwesomeModule,
+        AsyncPipe,
+    ],
 })
 export class PostCommentComponent implements OnInit, OnDestroy {
   @Input() recipeId: string = '';

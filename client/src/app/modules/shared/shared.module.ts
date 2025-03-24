@@ -21,43 +21,41 @@ import { SearchComponent } from './components/search/search.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { OverlayComponent } from './components/overlay/overlay.component';
 @NgModule({
-  declarations: [
-    SentenceCasePipe,
-    InfoMessageComponent,
-    TooltipComponent,
-    LoaderComponent,
-    QueryRecipeComponent,
-    PageErrorComponent,
-    PrivateRecipeComponent,
-    SortingButtonsComponent,
-    SearchComponent,
-    RecipeFormComponent,
-    OverlayComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FontAwesomeModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  exports: [
-    SentenceCasePipe,
-    InfoMessageComponent,
-    TooltipComponent,
-    LoaderComponent,
-    QueryRecipeComponent,
-    PrivateRecipeComponent,
-    HttpClientModule,
-    PageErrorComponent,
-    SortingButtonsComponent,
-    SearchComponent,
-    RecipeFormComponent,
-    OverlayComponent
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FontAwesomeModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SentenceCasePipe,
+        InfoMessageComponent,
+        TooltipComponent,
+        LoaderComponent,
+        QueryRecipeComponent,
+        PageErrorComponent,
+        PrivateRecipeComponent,
+        SortingButtonsComponent,
+        SearchComponent,
+        RecipeFormComponent,
+        OverlayComponent
+    ],
+    exports: [
+        SentenceCasePipe,
+        InfoMessageComponent,
+        TooltipComponent,
+        LoaderComponent,
+        QueryRecipeComponent,
+        PrivateRecipeComponent,
+        HttpClientModule,
+        PageErrorComponent,
+        SortingButtonsComponent,
+        SearchComponent,
+        RecipeFormComponent,
+        OverlayComponent
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ],
 })
 export class SharedModule {
   constructor(library: FaIconLibrary){

@@ -8,8 +8,8 @@ describe('SortingButtonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SortingButtonsComponent ]
-    })
+    imports: [SortingButtonsComponent]
+})
     .compileComponents();
   });
 

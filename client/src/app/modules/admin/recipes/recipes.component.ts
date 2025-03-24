@@ -5,11 +5,38 @@ import { SingleRecipe } from '../../../types/SingleRecipe';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { Subscription } from 'rxjs';
+import { SentenceCasePipe } from '../../shared/pipes/sentence-case.pipe';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
+import { StatisticBoxComponent } from '../statistic-box/statistic-box.component';
+import { RecipeFormComponent } from '../../shared/components/recipe-form/recipe-form.component';
+import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OverlayComponent } from '../../shared/components/overlay/overlay.component';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-recipes',
-  templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.scss'],
+    selector: 'app-recipes',
+    templateUrl: './recipes.component.html',
+    styleUrls: ['./recipes.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        OverlayComponent,
+        FontAwesomeModule,
+        TooltipComponent,
+        RecipeFormComponent,
+        StatisticBoxComponent,
+        SortingButtonsComponent,
+        FormsModule,
+        NgFor,
+        RouterLink,
+        LoaderComponent,
+        DatePipe,
+        SentenceCasePipe,
+    ],
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   constructor(
@@ -96,11 +123,13 @@ export class RecipesComponent implements OnInit, OnDestroy {
   }
 
   deleteRecipe(id: string) {
+    console.log('id to be deleted: ', id)
     this.deleteSubscription = this.recipesService
       .deleteRecipe(id)
       .subscribe((res) => {
+        console.log('res on delete: ',res);
         if (res) {
-          // console.log(res);
+          console.log(res);
           this.recipes = [];
           this.fetchRecipes();
         }

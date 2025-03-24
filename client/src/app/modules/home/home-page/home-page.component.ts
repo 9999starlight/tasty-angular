@@ -5,10 +5,29 @@ import { UIService } from '../../shared/sharedServices/ui.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { PageErrorComponent } from '../../shared/components/page-error/page-error.component';
+import { QueryRecipeComponent } from '../../shared/components/query-recipe/query-recipe.component';
+import { TagsComponent } from '../tags/tags.component';
+import { SliderComponent } from '../slider/slider.component';
+import { SearchComponent } from '../../shared/components/search/search.component';
+import { NgIf, NgFor, SlicePipe } from '@angular/common';
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
+    selector: 'app-home-page',
+    templateUrl: './home-page.component.html',
+    styleUrls: ['./home-page.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        SearchComponent,
+        SliderComponent,
+        TagsComponent,
+        NgFor,
+        QueryRecipeComponent,
+        PageErrorComponent,
+        LoaderComponent,
+        SlicePipe,
+    ],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   recipes: RecipeResponse[] = [];

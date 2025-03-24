@@ -10,21 +10,17 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { TagsComponent } from './tags/tags.component';
 import { TagComponent } from './tag/tag.component';
 @NgModule({
-  declarations: [
-    HomePageComponent,
-    SliderComponent,
-    SlideComponent,
-    TagsComponent,
-    TagComponent,
-
-  ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    FontAwesomeModule,
-    SharedModule
-  ]
-
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        FontAwesomeModule,
+        SharedModule,
+        HomePageComponent,
+        SliderComponent,
+        SlideComponent,
+        TagsComponent,
+        TagComponent
+    ]
 })
 export class HomeModule {
   constructor(library: FaIconLibrary){

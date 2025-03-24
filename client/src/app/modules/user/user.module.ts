@@ -9,18 +9,16 @@ import { SharedModule } from '../shared/shared.module';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 @NgModule({
-  declarations: [
-    UserHomeComponent,
-    UserRecipesComponent,
-    CreateRecipeComponent,
-    SavedRecipesComponent
-  ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    SharedModule,
-    FontAwesomeModule
-  ]
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        SharedModule,
+        FontAwesomeModule,
+        UserHomeComponent,
+        UserRecipesComponent,
+        CreateRecipeComponent,
+        SavedRecipesComponent
+    ]
 })
 export class UserModule { 
   constructor(library: FaIconLibrary){

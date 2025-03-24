@@ -11,29 +11,37 @@ import {
   state,
   query
 } from '@angular/animations';
+import { SentenceCasePipe } from '../../../shared/pipes/sentence-case.pipe';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 @Component({
-  selector: 'app-slide',
-  templateUrl: './slide.component.html',
-  styleUrls: ['./slide.component.scss'],
-   animations: [
-    trigger('fadeAnimation', [
-      /* transition(':enter', [
-        useAnimation(fadeIn, { params: { time: '1000ms' } }),
-      ]),
-      transition(':leave', [
-        useAnimation(fadeOut, { params: { time: '1000ms' } }),
-      ]), */
-
-        transition('void => *', [
-           useAnimation(fadeIn, { params: { time: '500ms' } })
+    selector: 'app-slide',
+    templateUrl: './slide.component.html',
+    styleUrls: ['./slide.component.scss'],
+    animations: [
+        trigger('fadeAnimation', [
+            /* transition(':enter', [
+              useAnimation(fadeIn, { params: { time: '1000ms' } }),
+            ]),
+            transition(':leave', [
+              useAnimation(fadeOut, { params: { time: '1000ms' } }),
+            ]), */
+            transition('void => *', [
+                useAnimation(fadeIn, { params: { time: '500ms' } })
+            ]),
+            transition('* => void', [
+                useAnimation(fadeOut, { params: { time: '500ms' } })
+            ]),
         ]),
-        transition('* => void', [
-           useAnimation(fadeOut, { params: { time: '500ms' } })
-        ]),
-    
-    ]),
-
-],
+    ],
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf,
+        FontAwesomeModule,
+        SentenceCasePipe,
+    ],
 })
 export class SlideComponent implements OnInit, OnChanges {
   @Input() recipe!: RecipeResponse;

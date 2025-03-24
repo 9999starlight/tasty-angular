@@ -1,14 +1,29 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { ImageValidatorService } from '../../shared/sharedServices/image-validator.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { InfoMessageComponent } from '../../shared/components/info-message/info-message.component';
+import { NgIf, NgClass } from '@angular/common';
+import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        FontAwesomeModule,
+        TooltipComponent,
+        NgIf,
+        NgClass,
+        InfoMessageComponent,
+        LoaderComponent,
+    ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   username: string = '';

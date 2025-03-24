@@ -4,11 +4,33 @@ import { UpdatedUser } from 'src/app/types/userTypes';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { Subscription } from 'rxjs';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { SortingButtonsComponent } from '../../shared/components/sorting-buttons/sorting-buttons.component';
+import { TooltipComponent } from '../../shared/components/tooltip/tooltip.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OverlayComponent } from '../../shared/components/overlay/overlay.component';
+import { NgIf, NgClass, NgFor, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        OverlayComponent,
+        FontAwesomeModule,
+        TooltipComponent,
+        NgClass,
+        SortingButtonsComponent,
+        FormsModule,
+        NgFor,
+        RouterLink,
+        LoaderComponent,
+        DatePipe,
+    ],
 })
 export class UsersComponent implements OnInit, OnDestroy {
   searchValue = '';

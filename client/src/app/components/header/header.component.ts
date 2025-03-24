@@ -1,16 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { Router, Event, NavigationEnd, ActivationEnd } from '@angular/router';
+import { Router, Event, NavigationEnd, ActivationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { UIService } from 'src/app/modules/shared/sharedServices/ui.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { BehaviorSubject } from 'rxjs';
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { debounceTime } from 'rxjs/operators';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        RouterLink,
+        FontAwesomeModule,
+        RouterLinkActive,
+        AsyncPipe,
+    ],
 })
 export class HeaderComponent implements OnInit {
   // user state
