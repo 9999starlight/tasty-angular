@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
-import { SavedRecipesComponent } from './saved-recipes/saved-recipes.component';
-import { UserHomeComponent} from './user-home/user-home.component';
-import { UserRecipesComponent } from './user-recipes/user-recipes.component';
+
+
+
+
 
 const routes: Routes = [
     {
       path: '',
-      component: UserHomeComponent
+      loadComponent: () => import('./user-home/user-home.component').then(m => m.UserHomeComponent)
     },
     {
       path: 'user-recipes',
-      component: UserRecipesComponent
+      loadComponent: () => import('./user-recipes/user-recipes.component').then(m => m.UserRecipesComponent)
     },
     {
       path: 'create-recipe',
-      component: CreateRecipeComponent
+      loadComponent: () => import('./create-recipe/create-recipe.component').then(m => m.CreateRecipeComponent)
     },
     {
       path: 'saved-recipes',
-      component: SavedRecipesComponent
+      loadComponent: () => import('./saved-recipes/saved-recipes.component').then(m => m.SavedRecipesComponent)
     }
 ];
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
@@ -33,6 +33,11 @@ import { OverlayComponent } from '../../shared/components/overlay/overlay.compon
 ],
 })
 export class UserRecipesComponent implements OnInit, OnDestroy {
+  authService = inject(AuthService);
+  private recipesService = inject(RecipesService);
+  sortingService = inject(SortingService);
+  uiService = inject(UIService);
+
   isLoading = true;
   userRecipes: RecipeResponse[] = [];
   singleRecipe!: SingleRecipe;
@@ -40,13 +45,6 @@ export class UserRecipesComponent implements OnInit, OnDestroy {
   singleRecipeSubscription?: Subscription;
   deleteSubscription?: Subscription;
   subscriptions: (Subscription | undefined)[] = [];
-
-  constructor(
-    public authService: AuthService,
-    private recipesService: RecipesService,
-    public sortingService: SortingService,
-    public uiService: UIService
-  ) {}
 
   ngOnInit(): void {
     this.fetchUserRecipes();

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../auth/auth-interceptor';
 // pipes
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
@@ -46,7 +46,7 @@ import { OverlayComponent } from './components/overlay/overlay.component';
         LoaderComponent,
         QueryRecipeComponent,
         PrivateRecipeComponent,
-        HttpClientModule,
+        //HttpClientModule,
         PageErrorComponent,
         SortingButtonsComponent,
         SearchComponent,
@@ -58,7 +58,9 @@ import { OverlayComponent } from './components/overlay/overlay.component';
     ],
 })
 export class SharedModule {
-  constructor(library: FaIconLibrary){
+  constructor(){
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faEdit, faTrashAlt, faStar, faArrowUp, faArrowDown, faSearch, faMinus, faPlus, faInfoCircle, faAngleDoubleLeft, faAngleDoubleRight);
   }
 }

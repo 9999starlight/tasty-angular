@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { ImageValidatorService } from '../../shared/sharedServices/image-validator.service';
@@ -25,6 +25,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private imgValidator = inject(ImageValidatorService);
+  private el = inject(ElementRef);
+
   username: string = '';
   password: string = '';
   errorMessage: string | null = null;
@@ -34,8 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   preview: string | null = '';
   filename = '';
   image: any = '';
-
-  constructor(private authService: AuthService, private router: Router, private imgValidator: ImageValidatorService, private el: ElementRef) {}
 
   ngOnInit() {}
 

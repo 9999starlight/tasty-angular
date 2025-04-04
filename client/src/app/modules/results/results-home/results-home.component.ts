@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { UIService } from '../../shared/sharedServices/ui.service';
@@ -22,19 +22,19 @@ import { SearchComponent } from '../../shared/components/search/search.component
 ],
 })
 export class ResultsHomeComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  sortingService = inject(SortingService);
+  private recipesService = inject(RecipesService);
+  uiService = inject(UIService);
+  private router = inject(Router);
+
   queryResults = [];
   params: any;
   newResultsSubscription?: Subscription;
   //recipesList$: BehaviorSubject<any>;
 
 
-  constructor(
-    private route: ActivatedRoute,
-    public sortingService: SortingService,
-    private recipesService: RecipesService,
-    public uiService: UIService,
-    private router: Router
-  ) {
+  constructor() {
     this.route.data.subscribe((res) => {
       this.queryResults = res.recipes.slice();
     });

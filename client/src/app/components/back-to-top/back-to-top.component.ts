@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, inject } from '@angular/core';
 import { ViewportScroller, NgClass } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -10,6 +10,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     imports: [NgClass, FontAwesomeModule]
 })
 export class BackToTopComponent implements OnInit {
+  private scroller = inject(ViewportScroller);
+
   isLongPage = false;
 
   @HostListener('window:scroll', ['$event']) onScroll(event: any) {
@@ -19,8 +21,6 @@ export class BackToTopComponent implements OnInit {
       this.isLongPage = false;
     }
   }
-
-  constructor(private scroller: ViewportScroller) { }
   ngOnInit(): void { }
 
   scrollToTop() {

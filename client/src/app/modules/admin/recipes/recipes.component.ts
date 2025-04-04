@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { SingleRecipe } from '../../../types/SingleRecipe';
@@ -37,11 +37,10 @@ import { DatePipe } from '@angular/common';
 ],
 })
 export class RecipesComponent implements OnInit, OnDestroy {
-  constructor(
-    public uiService: UIService,
-    private recipesService: RecipesService,
-    public sortingService: SortingService
-  ) {}
+  uiService = inject(UIService);
+  private recipesService = inject(RecipesService);
+  sortingService = inject(SortingService);
+
   recipes: RecipeResponse[] = [];
   filteredRecipes: RecipeResponse[] = [];
   levelArray: any = [];

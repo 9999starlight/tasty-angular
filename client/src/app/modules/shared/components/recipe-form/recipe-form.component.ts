@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIService } from '../../sharedServices/ui.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
@@ -37,6 +37,13 @@ import { NgClass } from '@angular/common';
     imports: [FormsModule, ReactiveFormsModule, NgClass, FontAwesomeModule, InfoMessageComponent, TooltipComponent, LoaderComponent]
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  uiService = inject(UIService);
+  recipeService = inject(RecipesService);
+  private el = inject(ElementRef);
+  imgValidator = inject(ImageValidatorService);
+  private router = inject(Router);
+
   isLoading = false;
   message = '';
   messageStatus = false;
@@ -69,14 +76,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   updateSubscription?: Subscription;
   createSubscription?: Subscription;
 
-  constructor(
-    private authService: AuthService,
-    public uiService: UIService,
-    public recipeService: RecipesService,
-    private el: ElementRef,
-    public imgValidator: ImageValidatorService,
-    private router: Router
-  ) {
+  constructor() {
     this.userId = this.authService.user?.userId;
   }
 

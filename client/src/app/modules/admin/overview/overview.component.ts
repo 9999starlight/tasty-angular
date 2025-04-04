@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Comment } from 'src/app/types/Comment';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
@@ -25,6 +25,10 @@ import { DatePipe } from '@angular/common';
 ],
 })
 export class OverviewComponent implements OnInit, OnDestroy {
+  private recipesService = inject(RecipesService);
+  private adminService = inject(AdminService);
+  private sortingService = inject(SortingService);
+
   latestRecipes: RecipeResponse[] = [];
   latestComments: Comment[] = [];
   mostCommented: {
@@ -43,12 +47,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
   recipeSubscription?: Subscription;
   userSubscription?: Subscription;
   subscriptions: (Subscription | undefined)[]  = [];
-
-  constructor(
-    private recipesService: RecipesService,
-    private adminService: AdminService,
-    private sortingService: SortingService
-  ) {}
 
   ngOnInit(): void {
     this.fetchRecipes();

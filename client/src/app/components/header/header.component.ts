@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { Router, Event, NavigationEnd, ActivationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
@@ -23,6 +23,10 @@ import { NgClass, AsyncPipe } from '@angular/common';
 ],
 })
 export class HeaderComponent implements OnInit {
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private uiService = inject(UIService);
+
   // user state
   isLogged$: BehaviorSubject<boolean | null>;
   currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
@@ -39,11 +43,7 @@ export class HeaderComponent implements OnInit {
   faSignOutAlt = faSignOutAlt;
   faSignInAlt = faSignInAlt;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private uiService: UIService
-  ) {
+  constructor() {
 
     this.router.events.subscribe((event: Event) => {
       // close mobile menu on route change:

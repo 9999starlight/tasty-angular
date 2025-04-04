@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeComponent } from './recipe/recipe.component';
 import { RecipeDetailsRoutingModule } from './recipe-details-routing.module';
@@ -25,7 +25,9 @@ import { FormsModule } from '@angular/forms';
     ],
 })
 export class RecipeDetailsModule { 
-  constructor(library: FaIconLibrary){
+  constructor(){
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faPlus, faStar, faWeight, faClock, faCheck, faTimes, faUsers);
   }
  }

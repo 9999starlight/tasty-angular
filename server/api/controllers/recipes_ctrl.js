@@ -348,27 +348,21 @@ exports.deleteRecipe = async (req, res) => {
       })
     }
 
-    /* cloudinary.uploader
-  .destroy('docs/vegetables')
-  .then(result => console.log(result)); */
     if (recipe.image.id) {
-      console.log ('recipe in server od nelete: ', recipe.image.id)
       const imgID = recipe.image.id
       await cloudinary.uploader.destroy(recipe.image.id, {
         folder: 'recipes'
       },(error, result) => {
-        console.log('result from cloudinary delete: ', result, error)
+        console.log('cloudinary error: ', result, error)
       })
     }
     await Comment.deleteMany({
       commentedRecipeId: recipe._id
     })
     await User.updateMany(
-      {
-      $pull: {
-        favorites: recipe._id
-      }
-    })
+      { favorites: recipe._id }, // Filter: Find users who have this favorite
+      { $pull: { favorites: recipe._id } } // Update: Remove it from their favorites
+    )
     const updatedUser = await User.findByIdAndUpdate(
       {
         _id: recipe.author
@@ -381,7 +375,7 @@ exports.deleteRecipe = async (req, res) => {
       { new: true }
     )
 
-    await recipe.remove()
+    await recipe.deleteOne()
     res.status(200).json({
       message: recipe.mealName + ' deleted!',
       userUpdate: {

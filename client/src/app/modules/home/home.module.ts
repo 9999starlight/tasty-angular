@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -23,7 +23,9 @@ import { TagComponent } from './tag/tag.component';
     ]
 })
 export class HomeModule {
-  constructor(library: FaIconLibrary){
+  constructor(){
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faChevronCircleUp, faChevronCircleLeft, faChevronCircleRight, faStar, faAngleDoubleLeft, faAngleDoubleRight);
   }
  }

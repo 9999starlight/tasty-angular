@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { UIService } from '../../shared/sharedServices/ui.service';
@@ -28,6 +28,11 @@ import { SlicePipe } from '@angular/common';
 ],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
+  private recipesService = inject(RecipesService);
+  private sortingService = inject(SortingService);
+  uiService = inject(UIService);
+  private router = inject(Router);
+
   recipes: RecipeResponse[] = [];
   displayedRecipes: number = 6;
   highestRatedRecipes: RecipeResponse[] = [];
@@ -37,13 +42,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   isLoading = true;
   getSubscription?: Subscription;
   querySubscription?: Subscription;
-
-  constructor(
-    private recipesService: RecipesService,
-    private sortingService: SortingService,
-    public uiService: UIService,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     this.uiService.toggleSearchForm(false);

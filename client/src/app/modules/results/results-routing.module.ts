@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ResultsHomeComponent } from './results-home/results-home.component';
+
 import { ResultsResolver } from './results.resolver';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: ResultsHomeComponent,
+    loadComponent: () => import('./results-home/results-home.component').then(m => m.ResultsHomeComponent),
     resolve: {
       recipes: ResultsResolver
     }

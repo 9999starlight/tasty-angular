@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Rate } from 'src/app/types/SingleRecipe';
 import { AuthService } from '../../auth/auth.service';
@@ -36,6 +36,12 @@ import { NgClass, DatePipe } from '@angular/common';
 ],
 })
 export class RecipeComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  private recipesService = inject(RecipesService);
+  uiService = inject(UIService);
+  private router = inject(Router);
+
   recipe!: SingleRecipe;
   ratedByUser: Rate[] | [] = [];
   isSavingEnabled = false;
@@ -49,13 +55,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   newResultSubscription?: Subscription;
   subscriptions: (Subscription | undefined)[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private recipesService: RecipesService,
-    public uiService: UIService,
-    private router: Router
-  ) {
+  constructor() {
     // resolver
     this.route.data.subscribe(({ recipe }) => {
       this.recipe = recipe;

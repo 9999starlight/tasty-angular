@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
@@ -22,6 +22,9 @@ import { AsyncPipe } from '@angular/common';
 ],
 })
 export class PostCommentComponent implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  private commentService = inject(CommentService);
+
   @Input() recipeId: string = '';
   @Output() commentAdded = new EventEmitter();
   commentBody: string = '';
@@ -32,10 +35,7 @@ export class PostCommentComponent implements OnInit, OnDestroy {
   currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
   isLogged$: BehaviorSubject<boolean>;
 
-  constructor(
-    private authService: AuthService,
-    private commentService: CommentService
-  ) {
+  constructor() {
     this.currentUser$ = this.authService.currentUser$;
     this.isLogged$ = this.authService.isLogged$;
   }

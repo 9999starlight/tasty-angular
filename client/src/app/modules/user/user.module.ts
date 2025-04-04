@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { UserHomeComponent } from './user-home/user-home.component';
@@ -21,7 +21,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
     ]
 })
 export class UserModule { 
-  constructor(library: FaIconLibrary){
+  constructor(){
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faTimes);
   }
 }

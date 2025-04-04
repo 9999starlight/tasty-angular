@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RecipeResolverService } from './recipe-resolver.service';
-import { RecipeComponent } from './recipe/recipe.component';
+
 
 const routes: Routes = [
     {
         path: '',
-        component: RecipeComponent,
+        loadComponent: () => import('./recipe/recipe.component').then(m => m.RecipeComponent),
         resolve: {
             recipe: RecipeResolverService
         }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module' ;
@@ -19,7 +19,9 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
     ]
 })
 export class AuthModule {
-  constructor(library: FaIconLibrary){
+  constructor(){
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faLock, faInfoCircle);
   }
 }

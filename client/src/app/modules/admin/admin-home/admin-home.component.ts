@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UIService } from '../../shared/sharedServices/ui.service';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -10,8 +10,8 @@ import { NavigationComponent } from '../navigation/navigation.component';
     imports: [NavigationComponent, RouterOutlet]
 })
 export class AdminHomeComponent implements OnInit {
+  uiService = inject(UIService);
 
-  constructor(public uiService: UIService) { }
 
   ngOnInit(): void {
   }

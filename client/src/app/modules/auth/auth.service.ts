@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
@@ -18,10 +18,13 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
   isLogged$ = new BehaviorSubject<any | null>(null);
   currentUser$ = new BehaviorSubject<CurrentUser | UpdatedUser | null>(null);
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor() {
     const token = localStorage.getItem('token');
     const decodedToken: CurrentUser | null = !token ? null : jwt_decode(token);
     this.isLogged$.next(!!token);

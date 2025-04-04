@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
 import { ImageValidatorService } from '../../shared/sharedServices/image-validator.service';
@@ -20,6 +20,10 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 ],
 })
 export class UserHomeComponent implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  private imgValidator = inject(ImageValidatorService);
+  private el = inject(ElementRef);
+
   currentUser$: BehaviorSubject<CurrentUser | UpdatedUser | null>;
   preview: string | null = null;
   filename = '';
@@ -28,7 +32,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   messageStatus = false;
   imgSubscription?: Subscription;
 
-  constructor(private authService: AuthService, private imgValidator: ImageValidatorService, private el: ElementRef) {
+  constructor() {
     this.currentUser$ = this.authService.currentUser$;
   }
 

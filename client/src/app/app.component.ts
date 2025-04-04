@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { fadeIn } from 'src/app/animations/fade.animations';
 import {
   trigger,
@@ -35,7 +35,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
     ],
 })
 export class AppComponent {
-  constructor(library: FaIconLibrary){
+  constructor(){
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faSearch, faChevronDown, faChevronUp, faUser, faBook, faEdit, faHeart, faUserShield, faHeartBroken);
   }
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { NotFoundComponent } from './components/not-found/not-found.component';
+
 import { AuthGuard } from './modules/auth/auth.guard';
 import { AuthAdminGuard } from './modules/admin/auth-admin.guard';
 
@@ -41,7 +41,7 @@ const routes: Routes = [
 
   {
     path: 'not-found',
-    component: NotFoundComponent,
+    loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent),
   },
 
   {

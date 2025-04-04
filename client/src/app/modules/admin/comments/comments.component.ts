@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Comment } from 'src/app/types/Comment';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
 import { AdminService } from '../admin.service';
@@ -27,6 +27,9 @@ import { DatePipe } from '@angular/common';
 ],
 })
 export class CommentsComponent implements OnInit, OnDestroy {
+  sortingService = inject(SortingService);
+  private adminService = inject(AdminService);
+
   comments: Comment[] = [];
   commentsOptions = ['Author', 'Comment ID', 'Recipe ID'];
   selectedOption = 'author';
@@ -34,11 +37,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
   filteredComments: Comment[] = [];
   fetchSubscription?: Subscription;
   deleteSubscription?: Subscription;
-
-  constructor(
-    public sortingService: SortingService,
-    private adminService: AdminService
-  ) {}
 
   ngOnInit(): void {
     this.fetchComments();

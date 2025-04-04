@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { RecipesService } from '../shared/sharedServices/recipes.service';
@@ -11,7 +11,9 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ResultsResolver  {
-  constructor(private recipesService: RecipesService, private router: Router) { }
+  private recipesService = inject(RecipesService);
+  private router = inject(Router);
+
 
   resolve(route: ActivatedRouteSnapshot) {
     const params = route.queryParams;

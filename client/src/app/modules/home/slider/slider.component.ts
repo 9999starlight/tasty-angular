@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ElementRef, inject } from '@angular/core';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import {
   trigger,
@@ -43,6 +43,8 @@ import { NgClass } from '@angular/common';
       transition('true => false', animate('2000ms ease-out'))
     ]), */
 export class SliderComponent implements OnInit, OnDestroy {
+  private el = inject(ElementRef);
+
   @Input() sliderRecipes: RecipeResponse[] = [];
   numberOfRecipes: number[] = [];
 
@@ -50,7 +52,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   timing!: ReturnType<typeof setInterval>;
   sliderImages: any = null;
 
-  constructor(private el: ElementRef) {
+  constructor() {
     this.sliderImages = this.el.nativeElement.querySelectorAll('.sliderImage');
   }
 

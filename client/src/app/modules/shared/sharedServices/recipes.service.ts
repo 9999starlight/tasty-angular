@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -13,9 +13,10 @@ import { UpdatedUser } from 'src/app/types/userTypes';
   providedIn: 'root',
 })
 export class RecipesService {
+  private http = inject(HttpClient);
+
   recipesList$ = new BehaviorSubject<any>(null);
   singleRecipe$ = new BehaviorSubject<any>(null);
-  constructor(private http: HttpClient) {}
 
   // GET requests
 

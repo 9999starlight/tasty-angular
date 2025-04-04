@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -10,7 +10,8 @@ import { Comment } from 'src/app/types/Comment';
   providedIn: 'root',
 })
 export class AdminService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   // GET
   getUsers() {

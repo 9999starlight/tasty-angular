@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -34,7 +34,9 @@ import { StatisticBarsComponent } from './statistic-box/statistic-bars/statistic
     ]
 })
 export class AdminModule {
-  constructor(library: FaIconLibrary) {
+  constructor() {
+    const library = inject(FaIconLibrary);
+
     library.addIcons(faUsers, faComments, faChartBar, faBook, faUserShield, faUserSlash, faHeart, faUserSlash, faUser, faStar);
   }
 }

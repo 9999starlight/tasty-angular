@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommentPost, Comment } from 'src/app/types/Comment';
 import { environment } from 'src/environments/environment';
@@ -9,8 +9,8 @@ import { throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class CommentService {
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) { }
 
   postComment(comment: CommentPost) {
     console.log('Request body service: ', comment)

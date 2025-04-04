@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { UpdatedUser } from 'src/app/types/userTypes';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
@@ -31,6 +31,10 @@ import { NgClass, DatePipe } from '@angular/common';
 ],
 })
 export class UsersComponent implements OnInit, OnDestroy {
+  private adminService = inject(AdminService);
+  sortingService = inject(SortingService);
+  uiService = inject(UIService);
+
   searchValue = '';
   editModal = false;
   isLoading = false;
@@ -54,12 +58,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   disableSubscription?: Subscription;
   adminSubscription?: Subscription;
   subscriptions: (Subscription | undefined)[] = [];
-
-  constructor(
-    private adminService: AdminService,
-    public sortingService: SortingService,
-    public uiService: UIService
-  ) {}
 
   ngOnInit(): void {
     this.fetchUsers();

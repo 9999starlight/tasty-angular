@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
-import { OverviewComponent } from './overview/overview.component';
-import { UsersComponent } from './users/users.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { CommentsComponent } from './comments/comments.component';
+
+
+
+
+
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminHomeComponent,
+    loadComponent: () => import('./admin-home/admin-home.component').then(m => m.AdminHomeComponent),
     children: [
         {
           path: 'users',
-          component: UsersComponent
+          loadComponent: () => import('./users/users.component').then(m => m.UsersComponent)
         },
         {
           path: 'recipes',
-          component: RecipesComponent
+          loadComponent: () => import('./recipes/recipes.component').then(m => m.RecipesComponent)
         },
         {
           path: 'comments',
-          component: CommentsComponent
+          loadComponent: () => import('./comments/comments.component').then(m => m.CommentsComponent)
         },
         {
           path: '',
-          component: OverviewComponent
+          loadComponent: () => import('./overview/overview.component').then(m => m.OverviewComponent)
         }
     ]
   }
