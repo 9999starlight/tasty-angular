@@ -1,7 +1,7 @@
-@import "../../../../styles/abstracts/variables",
-  "../../../../styles/abstracts/mixins",
-  "../../../../styles/abstracts/functions";
-
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 .slider-wrapper {
   @include box-size($width: 100%);
   @include alignment($direction: column, $text-align: center);

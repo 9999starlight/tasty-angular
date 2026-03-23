@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables",
-  "../../../../styles/abstracts/mixins",
-  "../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .add-comment {
   @include alignment($direction: column, $align: center);

@@ -1,6 +1,7 @@
-@import "../../../../../styles/abstracts/variables",
-  "../../../../../styles/abstracts/mixins.scss",
-  "../../../../../styles/abstracts/functions.scss";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .recipe-link {
   @include box-size($width: 100%, $height: 430px);
@@ -32,7 +33,7 @@
   }
   .author {
     grid-area: author;
-    color: darken($golden, 5%);
+    color: color.adjust($golden, $lightness: -5%);
     img {
       @include box-size($width: 20px, $height: 20px);
       border-radius: 50%;

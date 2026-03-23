@@ -1,8 +1,16 @@
 /* IMPORTS */
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
+
+@use "base/reset";
+@use "base/typography";
+@use "base/utilities";
+@use "base/keyframes";
+
+@use "components/buttons";
 @import url("https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat&display=swap");
-@import "./abstracts/variables", "./abstracts/mixins", "./abstracts/functions",
-  "./base/reset", "./base/typography", "./base/utilities", "./base/keyframes",
-  "./components/buttons";
 
 .star-icon {
   @include fonts($color: $star-color, $size: 0.9rem);
@@ -41,7 +49,7 @@
       left: 0;
       height: 1.6rem;
       width: 1.6rem;
-      background-color: lighten($graphite, 40%);
+      background-color:color.adjust($graphite, $lightness: 40%);
       border-radius: 5px;
 
       &:after {
@@ -96,8 +104,8 @@
   padding: 0.4rem;
   width: 110px;
   background-color: $light;
-  @include fonts($color: darken($golden, 20%), $size: 0.8rem);
-  border: 1px solid darken($golden, 20%);
+  @include fonts($color: color.adjust($golden, $lightness: -20%), $size: 0.8rem);
+  border: 1px solid color.adjust($golden, $lightness: -20%);
 
   text-align: center;
   cursor: pointer;
@@ -117,7 +125,7 @@
 .btn-cancel {
   padding: 0.4rem;
   width: 110px;
-  background-color: lighten($graphite, 30%);
+  background-color: color.adjust($graphite, $lightness: 30%);
   @include fonts($color: $light, $size: 0.8rem);
   box-shadow: $shadowSmall;
 }
@@ -189,7 +197,7 @@ small {
 
   header {
     @include box-size($height: 60px);
-    background-color: lighten($graphite, 20%);
+    background-color: color.adjust($graphite, $lightness: 20%);
     @include fonts($color: $light);
     position: relative;
 

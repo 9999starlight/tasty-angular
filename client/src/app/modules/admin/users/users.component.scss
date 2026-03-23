@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables",
-  "../../../../styles/abstracts/mixins",
-  "../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 /* .admin-users {
   margin-top: 0;
@@ -91,7 +92,7 @@ align-self: flex-end;
   header {
     @include alignment($direction: column, $justify: space-evenly);
     @include box-size($height: 80px);
-    background-color: lighten($graphite, 20%);
+    background-color: color.adjust($graphite, $lightness: 20%);
     @include fonts($color: $light);
     input {
       @include box-size($width: 260px);

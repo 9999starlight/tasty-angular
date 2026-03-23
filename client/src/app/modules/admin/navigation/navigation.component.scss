@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables",
-  "../../../../styles/abstracts/mixins",
-  "../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 :host {
   width: 100%;
@@ -28,12 +29,12 @@ nav {
         background-color: rgba(250, 128, 114, 0.123);
       }
       a {
-        @include fonts($size: 1rem, $color: lighten($graphite, 70%));
+        @include fonts($size: 1rem, $color: color.adjust($graphite, $lightness: 70%));
         padding: 0.7rem 0;
         position: relative;
         text-align: center;
         .user-icon {
-          @include fonts($color: lighten($graphite, 70%));
+          @include fonts($color: color.adjust($graphite, $lightness: 70%));
           @include box-size($width: 1.5rem);
           margin: 0 0.75rem;
         }
@@ -71,7 +72,7 @@ nav {
           text-align: left;
           padding: 1rem 0;
           &:hover {
-            background-color: lighten($graphite, 8%);
+            background-color: color.adjust($graphite, $lightness: 8%);
           }
           span {
             position: absolute;

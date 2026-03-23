@@ -1,6 +1,7 @@
-@import "../../../../../styles/abstracts/variables",
-  "../../../../../styles/abstracts/mixins",
-  "../../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 form {
   @include alignment(
@@ -12,7 +13,7 @@ form {
   @include box-size($width: 100%);
   background: #ada996;
   background: $zinc;
-  color: lighten($graphite, 10%);
+  color: color.adjust($graphite, $lightness: 10%);
   padding: 1rem 0;
   input,
   label,
@@ -25,7 +26,7 @@ form {
     padding: 0.5rem 0.3rem;
     @include fonts($color: $graphite);
     @include box-size($width: 100%);
-    border: 1px solid lighten($graphite, 55%);
+    border: 1px solid color.adjust($graphite, $lightness: 55%);
     border-radius: 6px;
   }
   input::-webkit-outer-spin-button,
@@ -109,7 +110,7 @@ form {
   }
   .number-wrapper {
     width: max-content;
-    border: 1px solid lighten(gray, 30%);
+    border: 1px solid color.adjust(gray, $lightness: 30%);
   }
   .warn-wrapper {
     @include box-size($width: 100%, $min-height: 1rem);

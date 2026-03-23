@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables.scss",
-  "../../../../styles/abstracts/mixins.scss",
-  "../../../../styles/abstracts/functions.scss";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .home-results-container {
   @include box-size($width: 100%);
@@ -13,14 +14,14 @@
   }
   h1 {
     padding: 1rem 2rem 2rem;
-    color: darken($golden, 15%);
+    color: color.adjust($golden, $lightness: -15%);
   }
 
   .load-more-btn {
     background-color: transparent;
     padding: 0.8rem 1.6rem;
     @include fonts($size: 1.1rem, $color: $golden, $weight: 700);
-    border: 1px solid darken($golden, 5%);
+    border: 1px solid color.adjust($golden, $lightness: -5%);
     margin-top: 1rem;
     transition: 150ms ease-in-out;
     border-radius: 6px;

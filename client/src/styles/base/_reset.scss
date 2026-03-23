@@ -1,3 +1,5 @@
+@use "sass:color";
+@use "abstracts/variables" as *;
 :root {
   font-size: 15px;
 }
@@ -28,7 +30,7 @@ input:focus,
 textarea:focus,
 input:checked ~ span:focus,
 .selectBox:focus {
-  outline: 1px dotted lighten($golden, 10%);
+  outline: 1px dotted color.adjust($golden, $lightness: 10%);
 }
 
 a,

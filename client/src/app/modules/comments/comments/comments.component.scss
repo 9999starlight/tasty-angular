@@ -1,5 +1,6 @@
-@import '../../../../styles/abstracts/variables';
+@use "sass:color";
+@use "abstracts/variables" as *;
 
 h2 {
-  color: darken($golden, 5%);
+  color: color.adjust($golden, $lightness: -10%);
 }

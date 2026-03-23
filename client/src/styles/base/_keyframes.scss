@@ -1,3 +1,5 @@
+@use "sass:color";
+@use "abstracts/variables" as *;
 // keyframes
 
 @keyframes spinning {
@@ -140,8 +142,8 @@
 
 @keyframes pulse {
   50% {
-    color: lighten($graphite, 90%);
-    text-shadow: 0 0 15px lighten($graphite, 90%);
+    color: color.adjust($graphite, $lightness: 90%);
+    text-shadow: 0 0 15px color.adjust($graphite, $lightness: 90%);
   }
 }
 

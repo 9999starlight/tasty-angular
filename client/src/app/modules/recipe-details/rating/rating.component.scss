@@ -1,6 +1,7 @@
-@import "./../../../../styles/abstracts/variables";
-@import "./../../../../styles/abstracts/mixins";
-@import "./../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .rating-container {
   margin-top: 1rem;
@@ -26,7 +27,7 @@
       rgb(72, 85, 99) 8.8%,
       rgb(127, 146, 166) 95.1%
     );
-    border-bottom: 1px solid lighten($graphite, 50%);
+    border-bottom: 1px solid color.adjust($graphite, $lightness: 50%);
     border-radius: 6px;
     cursor: pointer;
     &.open-border-radius {
@@ -87,8 +88,8 @@
           transition: all 0.4s ease-out;
         }
         &:hover:after {
-          color: lighten($graphite, 80%);
-          text-shadow: 0 0 15px lighten($graphite, 90%);
+          color: color.adjust($graphite, $lightness: 80%);
+          text-shadow: 0 0 15px color.adjust($graphite, $lightness: 90%);
         }
         // adding class for coloring previous stars mouseover
         &.coloring:after {

@@ -1,6 +1,7 @@
-@import "../../../styles/abstracts/variables.scss",
-  "../../../styles/abstracts/mixins.scss",
-  "../../../styles/abstracts/functions.scss";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 :host {
   grid-area: head;
@@ -39,7 +40,7 @@ header {
   bottom: 20%;
   font-size: 1.7rem;
   background-color: transparent;
-  color: darken($lightgray, 20%);
+  color: color.adjust($lightgray, $lightness: -20%);
   display: inline-block;
   outline: none;
 }
@@ -57,7 +58,7 @@ header {
 }
 
 .menu-wrapper a {
-  @include fonts($size: 2rem, $color: lighten($graphite, 10%));
+  @include fonts($size: 2rem, $color: color.adjust($graphite, $lightness: 10%));
   font-family: "Lobster", cursive;
   letter-spacing: 1.5px;
   padding-left: 0.8rem;
@@ -218,7 +219,7 @@ nav {
         display: flex;
 
         .user-icon {
-          color: lighten($graphite, 20%);
+          color: color.adjust($graphite, $lightness: 20%);
         }
 
         .active-link {
@@ -242,7 +243,7 @@ nav {
 
         a,
         button {
-          color: lighten($graphite, 5%);
+          color: color.adjust($graphite, $lightness: 5%);
           margin: 0;
         }
 
@@ -264,16 +265,16 @@ nav {
         min-width: 170px;
         li a {
           background-color: $light;
-          color: darken($golden, 10%);
+          color: color.adjust($golden, $lightness: -10%);
           border-bottom: 1px solid $lightgray;
         }
 
         li a svg {
-          color: darken($golden, 10%);
+          color: color.adjust($golden, $lightness: -10%);
         }
 
         li:hover a {
-          background-color: lighten($golden, 10%);
+          background-color: color.adjust($golden, $lightness: -10%);
           color: $light;
         }
 

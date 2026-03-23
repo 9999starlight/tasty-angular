@@ -1,11 +1,12 @@
-@import "../../../../../styles/abstracts/variables",
-  "../../../../../styles/abstracts/mixins",
-  "../../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .progress {
   span {
     display: inline-block;
-    @include fonts($color: lighten($graphite, 5%), $size: 0.8rem);
+    @include fonts($color: color.adjust($graphite, $lightness: 5%), $size: 0.8rem);
     width: 100%;
     text-align: left;
   }

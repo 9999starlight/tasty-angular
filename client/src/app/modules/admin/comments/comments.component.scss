@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables",
-  "../../../../styles/abstracts/mixins",
-  "../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .admin-comments {
   margin: 0 auto;
@@ -16,7 +17,7 @@
   header {
     @include alignment($direction: column, $justify: space-evenly);
     @include box-size($height: 80px);
-    background-color: lighten($graphite, 20%);
+    background-color: color.adjust($graphite, $lightness: 20%);
     @include fonts($color: $light);
     input {
       @include box-size($width: 260px);
@@ -50,11 +51,11 @@
       @include fonts($size: 0.8rem);
     }
     .comment-body {
-      background-color: lighten($graphite, 20%);
+      background-color: color.adjust($graphite, $lightness: 20%);
       @include fonts($color: $light);
       margin: 0.5rem;
       p:first-of-type {
-        @include fonts($color: lighten($graphite, 55%));
+        @include fonts($color: color.adjust($graphite, $lightness: 55%));
       }
       .comment-text {
         @include fonts($size: 1rem);

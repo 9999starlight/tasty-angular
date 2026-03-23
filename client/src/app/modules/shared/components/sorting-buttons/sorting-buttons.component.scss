@@ -1,6 +1,7 @@
-@import "../../../../../styles/abstracts/variables",
-  "../../../../../styles/abstracts/mixins",
-  "../../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 :host {
   width: 100%;
@@ -20,7 +21,7 @@
       box-shadow: $shadowSmall;
 
       &.btn-asc {
-        background-color: lighten($graphite, 20%);
+        background-color: color.adjust($graphite, $lightness: 20%);
         @include fonts($color: $light);
         border: 2px inset $light;
         margin-bottom: 0.1rem;
@@ -28,13 +29,13 @@
 
       &.btn-desc {
         background-color: $light;
-        @include fonts($color: lighten($graphite, 20%));
-        border: 2px inset lighten($graphite, 20%);
+        @include fonts($color: color.adjust($graphite, $lightness: 20%));
+        border: 2px inset color.adjust($graphite, $lightness: 20%);
       }
 
       &:focus {
-        outline: 2px solid saturate($golden, 40%);
-        color: saturate($golden, 40%);
+        outline: 2px solid color.adjust($golden, $saturation: 40%);
+        color: color.adjust($golden, $saturation: 40%);
       }
 
       .arrow {

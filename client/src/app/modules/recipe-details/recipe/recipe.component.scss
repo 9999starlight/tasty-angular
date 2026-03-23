@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables.scss",
-  "../../../../styles/abstracts/mixins.scss",
-  "../../../../styles/abstracts/functions.scss";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .single-result-wrapper {
   @include alignment($display: flex, $justify: center, $align: center);
@@ -22,12 +23,12 @@
     object-fit: cover;
   }
   h1 {
-    @include fonts($color: darken($golden, 5%), $weight: 800);
+    @include fonts($color: color.adjust($golden, $lightness: -5%), $weight: 800);
     text-shadow: 0px 3px 3px rgba(255, 255, 255, 0.5);
     margin: 2rem auto;
   }
   h3 {
-    color: darken($golden, 5%);
+    color: color.adjust($golden, $lightness: -5%);
   }
   .favorites {
     @include alignment($align: center);
@@ -78,19 +79,19 @@
       span {
         position: absolute;
         text-align: left;
-        @include fonts($size: 0.9rem, $color: lighten($graphite, 20%));
+        @include fonts($size: 0.9rem, $color: color.adjust($graphite, $lightness: 20%));
       }
     }
     // end save
     .user-rating {
       @include box-size($height: 40px);
-      @include fonts($size: 0.9rem, $color: lighten($graphite, 20%));
+      @include fonts($size: 0.9rem, $color: color.adjust($graphite, $lightness: 20%));
       span,
       .star-icon {
         margin-left: 0.3rem;
       }
       span {
-        @include fonts($color: lighten($graphite, 15%));
+        @include fonts($color: color.adjust($graphite, $lightness: 15%));
         text-shadow: #706f6f 1px 1px 0;
       }
     }
@@ -158,7 +159,7 @@
   }
   .ingredients {
     h3 {
-      $color: darken($golden, 5%);
+      $color: color.adjust($golden, $lightness: -5%);
     }
     ul {
       @include alignment($direction: column, $align: flex-start);

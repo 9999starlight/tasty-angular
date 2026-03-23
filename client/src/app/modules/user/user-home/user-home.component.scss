@@ -1,6 +1,7 @@
-@import "../../../../styles/abstracts/variables",
-  "../../../../styles/abstracts/mixins",
-  "../../../../styles/abstracts/functions";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 .profile-container {
   background-color: rgb(238, 236, 236);
@@ -23,7 +24,7 @@ form {
   @include alignment($display: flex, $direction: column, $align: center);
   @include box-size($width: 100%, $max-width: 400px);
   box-shadow: $shadowSmall;
-  background-color: lighten($graphite, 20%);
+  background-color: color.adjust($graphite, $lightness: 20%);
   color: $light;
   border-radius: 10px;
   border: 2px solid lightgray;

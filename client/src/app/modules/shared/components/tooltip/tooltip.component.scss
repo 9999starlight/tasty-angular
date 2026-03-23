@@ -1,12 +1,14 @@
-@import "../../../../../styles/abstracts/variables.scss",
-  "../../../../../styles/abstracts/mixins.scss",
-  "../../../../../styles/abstracts/functions.scss";
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
+
 .tooltip-box {
   display: none;
   position: absolute;
   bottom: 100%;
   transform: translateX(-50%);
-  background-color: lighten($graphite, 10%);
+  background-color: color.adjust($graphite, $lightness: 20%);
   @include box-size($min-width: 200px, $max-width: 200px);
   border-radius: 8px;
   padding: 0.8rem;
@@ -19,6 +21,6 @@
     right: 50%;
     transform: translateX(-50%);
     border: 0.5rem solid transparent;
-    border-top-color: lighten($graphite, 10%);
+    border-top-color: color.adjust($graphite, $lightness: 20%);
   }
 }
