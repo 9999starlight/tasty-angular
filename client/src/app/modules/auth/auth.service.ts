@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 // import interface
 import {
   LoginCredentials,
@@ -26,7 +26,7 @@ export class AuthService {
 
   constructor() {
     const token = localStorage.getItem('token');
-    const decodedToken: CurrentUser | null = !token ? null : jwt_decode(token);
+    const decodedToken: CurrentUser | null = !token ? null : jwtDecode(token);
     this.isLogged$.next(!!token);
     this.currentUser$.next(decodedToken);
   }
@@ -68,9 +68,9 @@ export class AuthService {
   authHelper(authToken: string) {
     localStorage.setItem('token', authToken);
     this.isLogged$.next(true);
-    const decodedToken: CurrentUser | null = jwt_decode(authToken);
+    const decodedToken: CurrentUser | null = jwtDecode(authToken);
     this.currentUser$.next(decodedToken);
-    //console.log('log from login service: ', jwt_decode(authToken))
+    //console.log('log from login service: ', jwtDecode(authToken))
   }
 
   updateFavorites(id: {}) {
