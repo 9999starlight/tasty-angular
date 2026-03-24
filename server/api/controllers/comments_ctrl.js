@@ -91,7 +91,7 @@ exports.addComment = async (req, res, next) => {
     }
     // if recipe id exists create new comment
     const comment = new Comment({
-      _id: mongoose.Types.ObjectId(),
+      _id: new mongoose.Types.ObjectId(),
       commentedRecipeId: req.body.commentedRecipeId,
       author: req.userData.userId,
       createdAt: new Date(),
@@ -125,7 +125,7 @@ exports.addComment = async (req, res, next) => {
       }
     })
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
     res.status(500).json({
       error,
       message: error.message

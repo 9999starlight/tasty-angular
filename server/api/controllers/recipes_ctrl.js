@@ -77,7 +77,6 @@ exports.getRecipes = async (req, res, next) => {
 exports.getSingleRecipe = async (req, res, next) => {
   let id = req.params.recipeId
   try {
-    //console.log(new mongoose.Types.ObjectId(id))
     const doc = await Recipe.findById(id)
       .populate({
         // Get comment's author info
