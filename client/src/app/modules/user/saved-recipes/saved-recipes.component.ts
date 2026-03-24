@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, output } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { RecipesService } from '../../shared/sharedServices/recipes.service';
 import { SortingService } from '../../shared/sharedServices/sorting.service';
@@ -33,7 +33,7 @@ export class SavedRecipesComponent implements OnInit, OnDestroy {
   private recipesService = inject(RecipesService);
   sortingService = inject(SortingService);
 
-  @Output() deletedFromFavorites = new EventEmitter();
+  readonly deletedFromFavorites = output();
   isLoading = true;
   savedRecipes = [];
   recipeSubscription?: Subscription;

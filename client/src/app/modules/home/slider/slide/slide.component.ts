@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, output } from '@angular/core';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { SimpleChanges } from '@angular/core';
 import { fadeIn, fadeOut } from 'src/app/animations/fade.animations';
@@ -44,8 +44,8 @@ import { RouterLink } from '@angular/router';
 })
 export class SlideComponent implements OnInit, OnChanges {
   @Input() recipe!: RecipeResponse;
-  @Output() pauseSlides = new EventEmitter();
-  @Output() resumeSlides = new EventEmitter();
+  readonly pauseSlides = output();
+  readonly resumeSlides = output();
   //imgAnimate = true;
   constructor() {}
 

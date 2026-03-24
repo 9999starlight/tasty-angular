@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, output } from '@angular/core';
 import { Comment } from 'src/app/types/Comment';
 import { PostCommentComponent } from '../post-comment/post-comment.component';
 import { CommentComponent } from '../comment/comment.component';
@@ -16,7 +16,7 @@ import { CommentComponent } from '../comment/comment.component';
 export class CommentsComponent implements OnInit {
   @Input() comments: Comment[] | [] = [];
   @Input() recipeId: string = '';
-  @Output() updateRec = new EventEmitter<string>();
+  readonly updateRec = output<string>();
   constructor() {}
 
   ngOnInit(): void {}

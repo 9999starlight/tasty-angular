@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, inject, output } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { CurrentUser, UpdatedUser } from 'src/app/types/userTypes';
@@ -26,7 +26,7 @@ export class PostCommentComponent implements OnInit, OnDestroy {
   private commentService = inject(CommentService);
 
   @Input() recipeId: string = '';
-  @Output() commentAdded = new EventEmitter();
+  readonly commentAdded = output();
   commentBody: string = '';
   postCommentMessage: string = '';
   messageStatus: boolean = false;

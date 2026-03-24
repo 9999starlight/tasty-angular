@@ -1,7 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, output } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+export interface SearchParams {
+    mealName?: string | undefined;
+    title?: string | undefined;
+    'ingredients.ingredient'?: string | undefined;
+    dishType?: string | undefined;
+    level?: string | undefined;
+    vegetarian?: boolean | undefined;
+    glutenFree?: boolean | undefined;
+}
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
@@ -40,16 +49,8 @@ export class SearchComponent implements OnInit {
   vegetarian = false;
   glutenFree = false;
   isResultsPage = false;
-  queryParams: {
-    mealName?: string;
-    title?: string;
-    'ingredients.ingredient'?: string;
-    dishType?: string;
-    level?: string;
-    vegetarian?: boolean;
-    glutenFree?: boolean;
-  } = {};
-  @Output() changeParams = new EventEmitter();
+  queryParams: SearchParams = {};
+  readonly changeParams = output<SearchParams>();
   @Input() isResultPage = false;
   constructor() {}
 

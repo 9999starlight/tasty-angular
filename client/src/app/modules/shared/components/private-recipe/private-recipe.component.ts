@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, output } from '@angular/core';
 import { RecipeResponse } from 'src/app/types/RecipeResponse';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { SentenceCasePipe } from '../../pipes/sentence-case.pipe';
@@ -23,9 +23,9 @@ import { DatePipe } from '@angular/common';
 export class PrivateRecipeComponent implements OnInit {
   @Input() recipe!: RecipeResponse;
   @Input() isUsersRecipes!: boolean;
-  @Output() del = new EventEmitter();
-  @Output() editing = new EventEmitter();
-  @Output() updateFavorites = new EventEmitter();
+  readonly del = output<string>();
+  readonly editing = output<string>();
+  readonly updateFavorites = output<string>();
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
 

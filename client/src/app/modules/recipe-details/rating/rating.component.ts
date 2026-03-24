@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef, inject } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, inject, output } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { NgClass } from '@angular/common';
 
@@ -17,9 +17,9 @@ export class RatingComponent implements OnInit {
 
   // props & Output
   @Input() recipeId: string = '';
-  @Output() updateMsgStatus = new EventEmitter<boolean>();
-  @Output() updateMsg = new EventEmitter<string>();
-  @Output() updateRecipe = new EventEmitter<number>();
+  readonly updateMsgStatus = output<boolean>();
+  readonly updateMsg = output<string>();
+  readonly updateRecipe = output<number>();
   ratingDropdown: boolean = false;
   rateValue: number = 1;
   counter: number = 1;

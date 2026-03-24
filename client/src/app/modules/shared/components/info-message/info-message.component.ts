@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 
@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common';
 export class InfoMessageComponent implements OnInit, OnDestroy {
   @Input() messageStatus: boolean = false;
   @Input() message: string = '';
-  @Output() clear = new EventEmitter();
+  readonly clear = output<string>();
   timeSet = 0;
   constructor() {}
 
