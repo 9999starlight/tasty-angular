@@ -1,56 +1,63 @@
 import { Routes } from '@angular/router';
-
-//export const routes: Routes = [];
+import { authGuard } from './core/guards/auth.guard';
+import { authAdminGuard } from './features/admin/guards/auth-admin.guard';
 
 export const routes: Routes = [
-  /*{
+  {
     path: 'login',
     loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
+      import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
 
   {
     path: 'admin',
-    canLoad: [AuthGuard, AuthAdminGuard],
+    canActivate: [authGuard, authAdminGuard],
     loadChildren: () =>
-      import('./modules/admin/admin.module').then((m) => m.AdminModule),
+      import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
 
   {
     path: 'user',
-    canLoad: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
-      import('./modules/user/user.module').then((m) => m.UserModule),
+      import('./features/user/user.routes').then((m) => m.USER_ROUTES),
   },
 
   {
     path: 'recipe/:id',
-    data: { search: true},
+    data: { search: true },
     loadChildren: () =>
-    import('./modules/recipe-details/recipe-details.module').then((m) => m.RecipeDetailsModule)
+      import('./features/recipes/recipe-details.routes').then(
+        (m) => m.RECIPE_DETAILS_ROUTES
+      ),
   },
 
   {
-    path: 'results',
-    data: { search: true},
+    path: 'recipes',
+    data: { search: true },
     loadChildren: () =>
-    import('./modules/results/results.module').then((m) => m.ResultsModule)
+      import('./features/recipes/recipes.routes').then(
+        (m) => m.RECIPES_ROUTES
+      ),
   },
 
   {
     path: 'not-found',
-    loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent),
+    loadComponent: () =>
+      import('./features/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
   },
 
   {
     path: '',
-    data: { search: true},
+    data: { search: true },
     loadChildren: () =>
-      import('./modules/home/home.module').then((m) => m.HomeModule),
+      import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
   },
 
   {
     path: '**',
-    redirectTo: 'not-found'
-  },*/
+    redirectTo: 'not-found',
+  },
 ];
