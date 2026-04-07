@@ -1,25 +1,22 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BackToTopComponent } from "./shared/components/back-to-top/back-to-top.component";
+import { HeaderComponent } from './core/layout/header/header.component';
+import { UserFacade } from './features/user/facade/user.facade';
+import { AuthFacade } from './features/auth/facade/auth.facade';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, BackToTopComponent],
+  imports: [RouterOutlet, BackToTopComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  /*animations: [
-        trigger('fadeAnimation', [
-            transition('* => *', [
-                query(':enter', [
-                    useAnimation(fadeIn, { params: { time: '400ms' } })
-                ], { optional: true }),
-            ]),
-        ]),
-    ],*/
 })
-export class AppComponent {
-  prepareRoute(outlet: RouterOutlet) {
-    if (!outlet.isActivated) return;
-    else return outlet.activatedRoute.snapshot.url;
+export class AppComponent implements OnInit {
+  private authFacade = inject(AuthFacade);
+  private userFacade = inject(UserFacade);
+
+  ngOnInit(): void {
+    this.authFacade.initFromStorage$();
+    this.userFacade.initFromStorage$();
   }
 }

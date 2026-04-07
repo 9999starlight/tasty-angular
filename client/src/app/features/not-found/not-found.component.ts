@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Icons } from '../../shared/ui/icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MISC_TEXT } from '../../core/constants/texts/misc-text';
+import { NOT_FOUND_TEXT } from '../../core/constants/texts/components-text';
 
 @Component({
   selector: 'app-not-found',
@@ -13,5 +13,5 @@ import { MISC_TEXT } from '../../core/constants/texts/misc-text';
 
 export class NotFoundComponent {
   public faHeartBroken = Icons.faHeartBroken;
-  public miscText = MISC_TEXT;
+  public notFoundText = NOT_FOUND_TEXT;
 }

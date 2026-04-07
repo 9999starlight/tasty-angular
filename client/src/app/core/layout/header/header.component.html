@@ -1,1 +1,169 @@
-<p>header works!</p>
+<header class="flex">
+  @if (mobileMenu && displayMenu) {
+    <div
+    [class]="
+      mobileMenu && displayMenu ? 'dropdown-overlay  mobile-overlay' : 'dropdown-overlay'
+    "
+    ></div>
+  }
+  <div class="menu-wrapper flex">
+    <a routerLink="" class="flex flex-center">
+      <figure class="logo-wrapper">
+        <img
+          src="../../assets/images/small_pngs/pot-flowery.png"
+          [alt]="headerText.logo_alt"
+          loading="lazy"
+          class="img-fit"
+          />
+      </figure>
+      {{ headerText.brand_name }}</a
+      >
+      @if (showSearchBtn) {
+        <button
+          class="header-search"
+          [attr.aria-label]="headerText.search_aria_label"
+          (click)="toggleSearch()"
+          >
+          <span class="search">
+            <fa-icon [icon]="icons.faSearch"></fa-icon>
+          </span>
+        </button>
+      }
+      @if (mobileMenu) {
+        {{ mobileMenu | json }}
+        <div class="menu flex flex-center" (click)="toggleMobileMenu()">
+          <div [class]="!displayMenu ? 'line' : 'line transform-menu'"></div>
+          <div [class]="!displayMenu ? 'line' : 'line transform-menu'"></div>
+          <div [class]="!displayMenu ? 'line' : 'line transform-menu'"></div>
+        </div>
+      }
+    </div>
+    @if (displayMenu) {
+      <nav class="flex">
+        <ul class="links flex">
+          <li>
+            <a
+              routerLink=""
+              routerLinkActive="active-link"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >{{ headerText.links.home }}</a
+              >
+            </li>
+            <!-- dropdown user menu if logged in-->
+            @if (isLogged$ | async) {
+              <li
+                class="userpanel-menu"
+                (mouseover)="showUserDropdown = true"
+                (mouseleave)="showUserDropdown = false"
+                >
+                <span class="flex flex-center">
+                  @if ((currentUser$ | async) && (currentUser$ | async)?.user_image) {
+                    <img
+                      [src]="(currentUser$ | async)?.user_image"
+                      [alt]="(currentUser$ | async)?.username"
+                      loading="lazy"
+                      />
+                  }
+                  @if ((currentUser$ | async) && !(currentUser$ | async)?.user_image) {
+                    <img
+                      src="../../../assets/images/default_user.png"
+                      [alt]="(currentUser$ | async)?.username"
+                      loading="lazy"
+                      />
+                  }
+                  @if ((currentUser$ | async)) {
+                    {{ (currentUser$ | async)?.username }}
+                  }
+                  <fa-icon
+                    [icon]="icons.faChevronDown"
+                    [class]="!showUserDropdown ? 'arrow-down' : 'arrow-down rotate'"
+                  ></fa-icon>
+                </span>
+                @if (showUserDropdown) {
+                  <ul class="userDropdown">
+                    <li>
+                      <a
+                        routerLink="user"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="icons.faUser" class="user-icon"></fa-icon>
+                        &nbsp;{{ headerText.links.profile }}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        routerLink="user/user-recipes"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="icons.faBook" class="user-icon"></fa-icon>
+                        &nbsp;{{ headerText.links.my_recipes }}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        routerLink="user/create-recipe"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="icons.faEdit" class="user-icon"></fa-icon>
+                        &nbsp;{{ headerText.links.create_recipe }}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        routerLink="user/saved-recipes"
+                        routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                        <fa-icon [icon]="icons.faHeart" class="user-icon"></fa-icon>
+                        &nbsp;{{ headerText.links.saved_recipes }}
+                      </a>
+                    </li>
+                  </ul>
+                }
+              </li>
+              <!-- admin -->
+              @if ((currentUser$ | async) && (currentUser$ | async)?.isAdmin) {
+                <li>
+                  <a
+                    routerLink="admin"
+                    routerLinkActive="active-link"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >
+                    &nbsp;
+                    <fa-icon [icon]="icons.faUserShield" class="user-icon">
+                      </fa-icon
+                      >{{ headerText.links.admin_panel }}
+                    </a>
+                  </li>
+                }
+                <li class="flex">
+                  <button (click)="logout()">
+                    <fa-icon [icon]="icons.faSignOutAlt" class="user-icon"> </fa-icon>
+                    {{ headerText.links.logout }}
+                  </button>
+                </li>
+              }
+              <!-- end logged in -->
+              <!-- if !loggedIn -->
+              @if (!(isLogged$ | async)) {
+                <li>
+                  <a
+                    routerLink="login"
+                    routerLinkActive="active-link"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >
+                    <fa-icon [icon]="icons.faSignInAlt" class="user-icon"> </fa-icon>&nbsp;
+                    {{ headerText.links.login_register }}
+                  </a>
+                </li>
+                <li>
+                </li>
+              }
+            </ul>
+          </nav>
+        }
+      </header>
+

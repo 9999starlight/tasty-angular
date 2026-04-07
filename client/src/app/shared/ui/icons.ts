@@ -1,4 +1,4 @@
-import { faHeartBroken, faSearch, faChevronDown, faChevronUp, faUser, faBook, faEdit, faHeart, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faHeartBroken, faSearch, faChevronDown, faChevronUp, faUser, faBook, faEdit, faHeart, faUserShield, faSignOutAlt, faSignInAlt, faInfoCircle, faLock } from '@fortawesome/free-solid-svg-icons';
 
 export const Icons = {
 	faSearch,
@@ -9,5 +9,9 @@ export const Icons = {
 	faEdit,
 	faHeart,
 	faUserShield,
-	faHeartBroken
+	faHeartBroken,
+	faSignOutAlt,
+	faSignInAlt,
+	faInfoCircle,
+	faLock
 };

@@ -9,7 +9,7 @@ export interface RegisterCredentials {
     user_image?: File;
 }
 
-export interface UserResponse {
+export interface AuthResponse {
     message: string;
     token: string;
 }

@@ -4,3 +4,4 @@ export const COMMON_TEXT = {
   delete: 'delete',
   edit: 'edit'
 } as const;
+

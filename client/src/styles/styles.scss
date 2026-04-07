@@ -12,6 +12,14 @@
 @use "components/buttons";
 @import url("https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat&display=swap");
 
+::view-transition-old(root) {
+  animation: fade-out 180ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 260ms ease-in both;
+}
+
 .star-icon {
   @include fonts($color: $star-color, $size: 0.9rem);
 }

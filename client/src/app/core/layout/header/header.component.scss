@@ -15,6 +15,7 @@ header {
   background-color: $light;
   z-index: 7;
   box-shadow: $shadowSmall;
+  text-transform: capitalize;
 }
 
 .active-link {
@@ -31,7 +32,7 @@ header {
 }
 
 .mobile-overlay {
-  background: rgba(15, 15, 15, 0.9);
+  background: $overlay;
 }
 
 .header-search {
@@ -72,7 +73,7 @@ header {
   .line {
     width: 40px;
     height: 4px;
-    background-color: black;
+    background-color: $black;
     margin-top: 10px;
     transition: 0.5s;
 
@@ -80,19 +81,19 @@ header {
       margin-top: 5px;
     }
 
-    &.transformMenu {
+    &.transform-menu {
       background-color: $light;
     }
 
-    &.transformMenu:first-of-type {
+    &.transform-menu:first-of-type {
       transform: rotate(45deg) translate(10px, 10px);
     }
 
-    &.transformMenu:nth-of-type(2) {
+    &.transform-menu:nth-of-type(2) {
       transform: rotate(-45deg);
     }
 
-    &.transformMenu:nth-of-type(3) {
+    &.transform-menu:nth-of-type(3) {
       opacity: 0;
     }
   }

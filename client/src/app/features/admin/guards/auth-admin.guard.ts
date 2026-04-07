@@ -1,11 +1,16 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { map, take } from 'rxjs';
+import { UserFacade } from '../../user/facade/user.facade';
 
 export const authAdminGuard: CanActivateFn = (route, state) => {
-  // TODO: inject your AuthService and check if the user has admin role
-  // const authService = inject(AuthService);
-  // if (authService.isAdmin()) return true;
-  // return inject(Router).createUrlTree(['/not-found']);
-  console.log('authAdminGuard called:', route);
-  return true;
+  const userFacade = inject(UserFacade);
+  const router = inject(Router);
+
+  userFacade.initFromStorage$();
+
+  return userFacade.currentUser$.pipe(
+    take(1),
+    map((user) => (user?.isAdmin ? true : router.createUrlTree(['/'])))
+  );
 };
