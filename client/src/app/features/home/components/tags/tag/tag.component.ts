@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tag',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './tag.component.html',
   styleUrl: './tag.component.scss',
 })
-export class TagComponent {}
+export class TagComponent {
+  @Input() tag: any;
+}

@@ -1,0 +1,47 @@
+@if (sliderRecipes) {
+  <div class="slider-wrapper flex mgt2">
+    @if (numberOfRecipes.length) {
+      <div class="carousel-container center">
+        <h3 class="flex flex-center">Highest rated recipes</h3>
+        <button
+          class="carousel-btn btn-left"
+          (click)="previousRecipe()"
+          aria-label="previous recipe"
+        >
+          &nbsp;<fa-icon [icon]="icons.faChevronCircleLeft" class="arrows"></fa-icon>
+        </button>
+        <button class="carousel-btn btn-right" (click)="nextRecipe()" aria-label="next recipe">
+          &nbsp;<fa-icon [icon]="icons.faChevronCircleRight" class="arrows"></fa-icon>
+        </button>
+          <app-slide
+            [recipe]="sliderRecipes[currentRecipe]"
+            (pauseSlides)="stopSlider()"
+            (resumeSlides)="slideInit()"
+          />
+        <!-- ref="slide" -->
+        <div class="carousel-nav mgt1">
+          <!--  ref="dots" -->
+          @for (btn of numberOfRecipes; track btn; let i = $index) {
+            <button
+              (click)="moveToSlide(i)"
+              [class]="
+                i === currentRecipe ? 'carousel-indicator current-slide' : 'carousel-indicator'
+              "
+              :aria-label="'move to slide ' + (i + 1)"
+            ></button>
+          }
+        </div>
+      </div>
+    }
+    @if (!numberOfRecipes.length) {
+      <figure class="alt-image">
+        <img
+          src="../../../../assets/images/default_recipe.jpg"
+          alt="our menu"
+          class="img-fit"
+          loading="lazy"
+        />
+      </figure>
+    }
+  </div>
+}

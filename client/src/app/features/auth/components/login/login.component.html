@@ -50,12 +50,11 @@
           </p>
         }
         @if (authForm.controls.username.errors?.['pattern']) {
-          <p class="error input-error">
-            {{ loginTexts.errors.username.pattern | slice: 0 : 4 | titlecase }}
+          <p class="error input-error capitalize">
+            {{ loginTexts.errors.username.pattern }}
             <span class="tooltip-container"
               ><fa-icon [icon]="icons.faInfoCircle" class="infoIcon"></fa-icon
             ></span>
-            {{ loginTexts.errors.username.pattern | slice: -2 }}
           </p>
         }
       }

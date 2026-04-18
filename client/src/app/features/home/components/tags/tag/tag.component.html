@@ -1,1 +1,12 @@
-<p>tag works!</p>
+<a [routerLink]="['/recipes']" [queryParams]="tag.tagParams" class="block">
+  <figure class="tag flex flex-center">
+    <img
+      [src]="'../../../../../../assets/images/' + tag.tagSrc"
+      [alt]="tag.tagName"
+      class="block img-fit"
+      loading="lazy"
+    />
+    <figcaption>{{ tag.tagName }}</figcaption>
+  </figure>
+</a>
+

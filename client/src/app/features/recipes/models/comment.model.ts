@@ -1,4 +1,6 @@
-export interface Comment {
+import { FormControl } from "@angular/forms"
+
+export interface RecipeComment {
     _id: string,
     author: {
         user_image?: {
@@ -19,6 +21,12 @@ export interface Comment {
 
 export interface CommentPost {
     commentedRecipeId: string,
-    author: string | undefined,
+    author: string,
     commentBody: string
+}
+
+export interface CommentForm {
+    commentedRecipeId: FormControl<string>;
+    author: FormControl<string>;
+    commentBody: FormControl<string>;
 }

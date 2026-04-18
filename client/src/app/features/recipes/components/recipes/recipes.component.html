@@ -1,1 +1,19 @@
-<p>recipes works!</p>
+<div class="container render-results">
+  @if (uiService.isSearchShowed()) {
+    <app-search (changeParams)="getNewResults($event)" />
+  }
+  <div class="results-wrapper flex flex-center">
+    <h1 class="pd1">Search Results</h1>
+    <h4>Recipes found: {{ (recipes$ | async)?.length }}</h4>
+    <div class="inner flex flex-center">
+      <app-sorting-buttons (sortChange)="onSortChange($event)" />
+      <div class="successful flex">
+        @for (recipe of recipes$ | async; track recipe._id) {
+          <app-query-recipe
+            [recipe]="recipe"
+          ></app-query-recipe>
+        }
+      </div>
+    </div>
+  </div>
+</div>

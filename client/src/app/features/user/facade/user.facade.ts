@@ -23,8 +23,8 @@ export class UserFacade {
     this.#store.dispatch(UserActions.initFromStorage());
   }
 
-  updateFavorites$(id: {}, userId: string) {
-    this.#store.dispatch(UserActions.updateFavorites({ id, userId }));
+  updateFavorites$(favoritePayload: { favoriteId: string }, userId: string) {
+    this.#store.dispatch(UserActions.updateFavorites({ favoritePayload, userId }));
   }
 
   updateUserImage$(payload: FormData, userId: string) {
@@ -37,5 +37,9 @@ export class UserFacade {
 
   clearError$(error: string | null = null) {
     this.#store.dispatch(UserActions.clearError({ error }));
+  }
+
+  clearSuccessMessage$() {
+    this.#store.dispatch(UserActions.clearSuccessMessage());
   }
 }

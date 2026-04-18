@@ -1,1 +1,53 @@
-<p>query-recipe works!</p>
+<a [routerLink]="['/recipe', recipe._id]" class="recipe-link grid">
+  <figure>
+    @if (!recipe.image) {
+      <img
+        src="../../../../assets/images/default_recipe.jpg"
+        [alt]="recipe.mealName"
+        class="img-fit"
+        loading="lazy"
+        />
+    }
+    @if (recipe.image) {
+      <img
+        [src]="recipe.image"
+        [alt]="recipe.mealName"
+        class="img-fit"
+        loading="lazy"
+        />
+    }
+    <figcaption class="capitalize">{{ recipe.mealName }}</figcaption>
+  </figure>
+  <p class="rating flex flex-center">
+    <span class="star-entity">&#9733;</span>
+    &nbsp;{{ recipe.rating }}
+    /
+    {{
+    recipe.rates.length
+    ? recipe.rates.length + " votes"
+    : "not rated"
+    }}
+  </p>
+  <div class="author flex flex-center">
+    @if (recipe.author.image) {
+      <img
+        [src]="recipe.author.image"
+        [alt]="recipe.author.username"
+        class="block"
+        loading="lazy"
+        />
+    }
+    @if (!recipe.author.image) {
+      <img
+        src="../../../../assets/images/default_user.png"
+        alt="recipe.author.username"
+        class="block"
+        loading="lazy"
+        />
+    }
+    <span>{{ recipe.author.username }}</span>
+  </div>
+  <p class="intro light-italic pd1">
+    {{ recipe.intro }}
+  </p>
+</a>

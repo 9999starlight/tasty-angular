@@ -2,6 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { CurrentUser, UpdatedUser } from '../models/userTypes';
 import { UserActions } from './user.actions';
 import { getUserFromToken } from './../services/user.service';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 export interface UserState {
 	user: CurrentUser | UpdatedUser | null;
@@ -34,6 +35,7 @@ export const userFeature = createFeature({
 			UserActions.updateFavorites,
 			UserActions.deleteFromFavorites,
 			UserActions.updateUserImage,
+			UserActions.deleteRecipe,
 			(state) => ({
 				...state,
 				loading: true,
@@ -42,23 +44,11 @@ export const userFeature = createFeature({
 			}),
 		),
 
-		on(UserActions.updateFavoritesSuccess, (state, { message, updatedUser }) => ({
-			...state,
-			loading: false,
-			user: updatedUser,
-			successMessage: message,
-			error: null,
-		})),
-
-		on(UserActions.deleteFromFavoritesSuccess, (state, { message, updatedUser }) => ({
-			...state,
-			loading: false,
-			user: updatedUser,
-			successMessage: message,
-			error: null,
-		})),
-
-		on(UserActions.updateUserImageSuccess, (state, { message, updatedUser }) => ({
+		on(UserActions.updateFavoritesSuccess,
+			UserActions.deleteFromFavoritesSuccess,
+			UserActions.updateUserImageSuccess,
+			UserActions.deleteRecipeSuccess,
+			(state, { message, updatedUser }) => ({
 			...state,
 			loading: false,
 			user: updatedUser,
@@ -70,6 +60,7 @@ export const userFeature = createFeature({
 			UserActions.updateFavoritesFailure,
 			UserActions.deleteFromFavoritesFailure,
 			UserActions.updateUserImageFailure,
+			UserActions.deleteRecipeFailure,
 			(state, { error }) => ({
 				...state,
 				loading: false,
@@ -80,6 +71,15 @@ export const userFeature = createFeature({
 		on(UserActions.clearError, (state, { error }) => ({
 			...state,
 			error,
+		})),
+		
+		on(UserActions.clearSuccessMessage, (state) => ({
+			...state,
+			successMessage: '',
+		})),
+
+		on(AuthActions.logout, () => ({
+			...initialState,
 		})),
 	),
 });

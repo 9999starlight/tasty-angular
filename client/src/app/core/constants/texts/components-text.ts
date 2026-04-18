@@ -48,7 +48,7 @@ export const LOGIN_TEXT = {
 	errors: {
 		username: {
 			required: 'username is required',
-			pattern: 'please enter valid username, check for details'
+			pattern: 'please enter valid username, check info for details'
 		},
 		password: {
 			required: 'please enter minimum 6 characters'

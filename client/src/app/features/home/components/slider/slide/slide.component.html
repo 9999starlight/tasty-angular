@@ -1,1 +1,39 @@
-<p>slide works!</p>
+@if (recipe) {
+  <a [routerLink]="['/recipe', recipe._id]" class="block single-recipe-slide">
+    <figure (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+      @for (currentRecipe of [recipe]; track currentRecipe._id) {
+        @if (currentRecipe.image === undefined) {
+          <img
+            animate.enter="slide-fade-in"
+            animate.leave="slide-fade-out"
+            src="../../../../../assets/images/default_recipe.jpg"
+            [alt]="currentRecipe.mealName"
+            class="img-fit"
+            loading="eager"
+          />
+        } @else {
+          <img
+            animate.enter="slide-fade-in"
+            animate.leave="slide-fade-out"
+            [src]="currentRecipe.image"
+            [alt]="currentRecipe.mealName"
+            class="img-fit"
+            loading="eager"
+          />
+        }
+      }
+      <figcaption class="flex flex-center">
+        <span
+          ><strong>{{ recipe.mealName | titlecase }}</strong></span
+        >
+        <span>
+          <fa-icon [icon]="icons.faStar" class="star-icon"></fa-icon>&nbsp;&nbsp;{{
+            recipe.rating
+          }}
+          /
+          {{ recipe.rates.length ? recipe.rates.length + ' votes' : 'not rated' }}
+        </span>
+      </figcaption>
+    </figure>
+  </a>
+}

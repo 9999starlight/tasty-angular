@@ -17,11 +17,11 @@ export class UserEffects {
     ),
   );
 
-    updateFavorites$ = createEffect(() =>
+  updateFavorites$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateFavorites),
-      exhaustMap(({ id, userId }) =>
-        this.userService.updateFavorites(id, userId).pipe(
+      exhaustMap(({ favoritePayload, userId }) =>
+        this.userService.updateFavorites(favoritePayload, userId).pipe(
           map(({ message, updatedUser }) =>
             UserActions.updateFavoritesSuccess({ message, updatedUser }),
           ),
@@ -69,6 +69,26 @@ export class UserEffects {
             of(
               UserActions.updateUserImageFailure({
                 error: err?.error?.message ?? 'Update user image failed',
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  deleteRecipe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.deleteRecipe),
+      exhaustMap(({ recipeId }) =>
+        this.userService.deleteRecipe(recipeId).pipe(
+          map(({ message, updatedUser }) =>
+            UserActions.deleteRecipeSuccess({ message, updatedUser }),
+          ),
+          catchError((err) =>
+            of(
+              UserActions.deleteRecipeFailure({
+                error: err?.error?.message ?? 'Delete recipe failed',
               }),
             ),
           ),

@@ -1,3 +1,69 @@
+
+<div class="container" id="homeContainer">
 @if (uiService.isSearchShowed()) {
-	<app-search />
+	<app-search (changeParams)="getNewResults($event)"/>
 }
+  @if (highestRatedRecipes$ | async; as highestRatedRecipes) {
+  @if (highestRatedRecipes.length) {
+    <app-slider [sliderRecipes]="highestRatedRecipes" />
+  }
+}
+  <!-- Place for tags -->
+  <app-tags />
+  <!-- Latest recipes -->
+  @if (latestRecipes$ | async; as latestRecipes) {
+  @if (latestRecipes.length) {
+    <div
+      class="home-results-container flex flex-center mgt2"
+      >
+      <img
+        src="../../assets/images/small_pngs/recipe-book.png"
+        class="block"
+        alt="recipe-book"
+        loading="lazy"
+        />
+      <h1 class="slim">Latest Recipes</h1>
+      <div class="inner-wrapper flex flex-center">
+        @for (latestRecipe of latestRecipes | slice: 0:displayedRecipes; track latestRecipe._id) {
+          <app-query-recipe
+            [recipe]="latestRecipe"
+          ></app-query-recipe>
+        }
+      </div>
+      @if (displayedRecipes < latestRecipes.length) {
+        <button (click)="loadMore(latestRecipes.length)" class="load-more-btn">Load more</button>
+      }
+    </div>
+  }
+}
+
+  <!-- Recommended Recipes -->
+  @if (recommendedRecipes$ | async; as recommendedRecipes) {
+  @if (recommendedRecipes.length) {
+    <div
+      class="home-results-container flex flex-center mgt2"
+      >
+      <img
+        src="../../assets/images/small_pngs/chubby-pot.png"
+        class="block"
+        alt="pot-flowers"
+        loading="lazy"
+        />
+      <h1 class="slim">What to cook today?</h1>
+      <div class="inner-wrapper flex flex-center">
+        @for (recommendedRecipe of recommendedRecipes; track recommendedRecipe._id) {
+          <app-query-recipe
+            [recipe]="recommendedRecipe"
+          ></app-query-recipe>
+        }
+      </div>
+    </div>
+  }
+}
+  @if (error$ | async; as errorMessage) {
+    <app-page-error [message]="errorMessage" />
+  }
+  @if (isLoading$ | async) {
+    <app-loader [bigLoader]="true" />
+  }
+</div>

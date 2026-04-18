@@ -14,13 +14,13 @@ import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { CurrentUser, UpdatedUser } from '../../../features/user/models/userTypes';
 import { UiService } from '../../../shared/services/ui.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HEADER_TEXT } from '../../constants/texts/components-text';
 import { UserFacade } from '../../../features/user/facade/user.facade';
 
 @Component({
   selector: 'app-header',
-  imports: [FontAwesomeModule, AsyncPipe, RouterLink, RouterLinkActive, JsonPipe],
+  imports: [FontAwesomeModule, AsyncPipe, RouterLink, RouterLinkActive,],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

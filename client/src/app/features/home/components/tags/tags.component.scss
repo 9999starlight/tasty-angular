@@ -1,0 +1,46 @@
+@use "sass:color";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
+
+.tags-wrapper {
+  position: relative;
+  @include box-size($width: 100%, $max-width: 350px);
+
+  h2 {
+    color: $golden;
+  }
+  .tags-inner {
+    @include alignment($justify: space-evenly);
+    margin: 1rem auto;
+    flex-wrap: wrap;
+    width: 100%;
+    transition: 0.8s;
+  }
+  .tags {
+    @include box-size($width: 70px, $height: 50px);
+  }
+}
+
+@media (min-width: 768px) {
+  .tags-wrapper {
+    max-width: 600px;
+    .tags-inner {
+      width: 100%;
+    }
+  }
+}
+@media (min-width: 992px) {
+  .tags-wrapper {
+    text-align: center;
+    @include box-size($min-width: 900px, $max-width: 1000px);
+    .tags {
+      @include box-size($width: 100px, $height: 100px);
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .tags-wrapper {
+    @include box-size($width: 1000px);
+  }
+}

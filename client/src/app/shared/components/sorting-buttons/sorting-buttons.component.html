@@ -1,1 +1,29 @@
-<p>sorting-buttons works!</p>
+<div class="sorting-buttons-wrapper flex flex-center">
+  <div class="button-pair flex flex-center">
+    <button class="sort-btn btn-asc" (click)="sort('title', 'asc')">
+      A-Z<fa-icon [icon]="icons.faArrowDown" class="arrow"></fa-icon>
+    </button>
+    <button class="sort-btn btn-desc" (click)="sort('title', 'desc')">
+      A-Z<fa-icon [icon]="icons.faArrowUp" class="arrow"></fa-icon>
+    </button>
+  </div>
+  <div class="button-pair flex flex-center">
+    <button class="sort-btn btn-asc" (click)="sort('date', 'asc')">
+      Date<fa-icon [icon]="icons.faArrowDown" class="arrow"></fa-icon>
+    </button>
+    <button class="sort-btn btn-desc" (click)="sort('date', 'desc')">
+      Date<fa-icon [icon]="icons.faArrowUp" class="arrow"></fa-icon>
+    </button>
+  </div>
+  @if (isRating) {
+    <div class="button-pair flex flex-center">
+      <button class="sort-btn btn-asc" (click)="sort('rating', 'asc')">
+        Rating<fa-icon [icon]="icons.faArrowDown" class="arrow"></fa-icon>
+      </button>
+      <button class="sort-btn btn-desc" (click)="sort('rating', 'desc')">
+        Rating<fa-icon [icon]="icons.faArrowUp" class="arrow"></fa-icon>
+      </button>
+    </div>
+  }
+</div>
+

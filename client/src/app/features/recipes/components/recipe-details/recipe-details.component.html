@@ -1,0 +1,195 @@
+<div class="single-result-container container">
+  @if (uiService.isSearchShowed()) {
+    <app-search
+      (changeParams)="getNewResults($event)"
+    />
+  }
+  @if (recipe$ | async; as recipe) {
+  <div class="single-result-wrapper">
+    @let user = user$ | async;
+    @let actions = uiActions$ | async;
+    @let userRating = actions?.userRating;
+    @let infoMessage = infoMessage$ | async;
+    <h1>{{ recipe.mealName | titlecase }}</h1>
+    <section class="favorites flex">
+      <div class="message-wrapper center">
+        <!-- Info message -->
+        @if (infoMessage?.message) {
+          <app-info-message
+            [message]="infoMessage?.message ?? ''"
+            [messageStatus]="infoMessage?.status ?? false"
+            (clear)="onClear()"
+          />
+        }
+      </div>
+      <!-- favorites -->
+      @if (actions?.canSave) {
+        <button
+          class="add-favorites"
+          (click)="saveRecipe(user !== null, recipe._id, (user?.userId || ''))"
+          [disabled]="(loading$ | async)"
+          >
+          Add to favorites &nbsp;
+          <span>
+            <fa-icon [icon]="icons.faPlus" class="plus"></fa-icon>
+          </span>
+        </button>
+      }
+
+      <div
+        [class]="actions?.canSave ? 'changable-save' : 'changable-save heart'"
+        >
+        @if (actions && !actions.canSave) {
+          <span>Recipe saved</span>
+        }
+      </div>
+      <!-- rating -->
+      @if (actions?.canRate) {
+        <app-rating
+          [recipeId]="recipe._id"
+          [isLogged]="!user ? false : true"
+          (updateMsg)="setInfoMessage($event)"
+          (updateRecipe)="updateRatingHandler($event)"
+        ></app-rating>
+      }
+      @if (user && recipe.author._id !== user.userId && userRating) {
+        <p class="user-rating flex flex-center">
+          Your rate:<span>{{ userRating.rate }}</span>
+          <fa-icon [icon]="icons.faStar" class="star-icon"></fa-icon>
+        </p>
+      }
+    </section>
+    <!-- recipe info -->
+    <section class="basic-info flex mgb1">
+      <span class="info tooltip-container">
+        <fa-icon [icon]="icons.faWeight" class="meal-icons"></fa-icon>
+        {{ recipe.level }}
+        <app-tooltip tooltipText="Level of difficulty"></app-tooltip>
+      </span>
+      <span class="info tooltip-container">
+        <fa-icon [icon]="icons.faUsers" class="meal-icons"></fa-icon>
+        {{ recipe.persons }}
+        <app-tooltip tooltipText="Number of persons"></app-tooltip>
+      </span>
+      <span class="info tooltip-container">
+        <fa-icon [icon]="icons.faClock" class="meal-icons"></fa-icon>
+        {{ recipe.timing }}
+        <app-tooltip tooltipText="Preparation time"></app-tooltip>
+      </span>
+    </section>
+    <figure class="mgb1">
+      @if (!recipe.image) {
+        <img
+          src="../../../../assets/images/default_recipe.jpg"
+          [alt]="recipe.mealName"
+          loading="lazy"
+          />
+      } @else {
+        <img [src]="recipe.image.url" [alt]="recipe.mealName" loading="lazy" />
+      }
+    </figure>
+    <!-- Under image - author info & recipe rating/created -->
+    <section class="under-image flex mgb1">
+      <div class="user-info-rating flex mgb1">
+        <a
+          [routerLink]="['/recipes']"
+          [queryParams]="{ author: recipe.author._id }"
+          class="user-info tooltip-container"
+          >
+          <p class="flex flex-center">
+            @if (!recipe.author.user_image) {
+              <img
+                src="../../../../assets/images/default_user.png"
+                alt="user image"
+                class="author-image"
+                loading="lazy"
+                />
+            } @else {
+              <img
+                [src]="recipe.author.user_image.url"
+                alt="user image"
+                class="author-image"
+                loading="lazy"
+                />
+            }
+            <span class="author-username">{{ recipe.author.username }}</span>
+          </p>
+          <app-tooltip tooltipText="See user's recipes"></app-tooltip>
+        </a>
+        <p class="rating light-italic">
+          <fa-icon [icon]="icons.faStar" class="star-icon"></fa-icon>
+          &nbsp;&nbsp;{{ recipe.rating }} /
+          <span class="light-italic">
+            {{ recipe.rates.length ? recipe.rates.length + ' votes' : 'not rated' }}
+          </span>
+        </p>
+      </div>
+      <span class="recipe-date">Created at: {{ recipe.createdAt | date }}</span>
+      <p class="intro light-italic">{{ recipe.intro }}</p>
+    </section>
+    <!-- Recipe additional info -->
+    <section class="additional-info flex mgb1">
+      <p class="mgb1">
+        <span class="slim">Vegetarian: </span>
+        <fa-icon
+          [icon]="recipe.vegetarian ? icons.faCheck : icons.faTimes"
+          [class]="recipe.vegetarian ? 'additional-icons check' : 'additional-icons times'"
+        ></fa-icon>
+      </p>
+      <p class="mgb1">
+        <span class="slim">Gluten Free: </span>
+        <fa-icon
+          [icon]="recipe.glutenFree ? icons.faCheck : icons.faTimes"
+          [class]="recipe.glutenFree ? 'additional-icons check' : 'additional-icons times'"
+        ></fa-icon>
+      </p>
+      @if (recipe.regional) {
+        <p class="mgb1">
+          <span class="slim">Regional: </span>{{ recipe.regional | titlecase }}
+        </p>
+      }
+      <p class="mgb1">
+        <span class="slim">Dish Type: </span>{{ recipe.dishType | titlecase }}
+      </p>
+    </section>
+    <!-- Ingredients -->
+    <section class="ingredients flex mgb1">
+      <h3 class="mgb1">Ingredients:</h3>
+      <ul class="flex">
+        @for (ing of recipe.ingredients; track ing) {
+          <li class="mgb1">
+            <span>{{ ing.ingredient }}</span>
+            @if (ing.amount) {
+              <span> - </span>
+            }
+            <span> {{ ing.amount }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+    <!-- Directions -->
+    <section class="directions flex mgb1">
+      <h3 class="mgb1">Directions:</h3>
+      <ol class="flex">
+        @for (st of recipe.steps; track st; let i = $index) {
+          <li [attr.data-number]="i + 1" class="mgb1">
+            <p>{{ st.step }}</p>
+          </li>
+        }
+      </ol>
+    </section>
+    <!-- Comments -->
+    <section class="comments">
+      <app-comments
+        [comments]="recipe.comments"
+        [recipeId]="recipe._id"
+        [user]="user$ | async"
+      ></app-comments>
+    </section>
+  </div>
+  }
+    <!-- Loader -->
+    @if (loading$ | async) {
+      <app-loader [bigLoader]="true"></app-loader>
+    }
+  </div>

@@ -14,7 +14,7 @@ import { InfoMessageComponent } from '../../../../shared/components/info-message
 import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip.component';
 import { LoaderComponent } from "../../../../shared/components/loader/loader.component";
 import { Observable } from 'rxjs';
-import { AsyncPipe, SlicePipe, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { LOGIN_TEXT } from '../../../../core/constants/texts/components-text';
 import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
@@ -22,7 +22,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [ReactiveFormsModule, FontAwesomeModule, InfoMessageComponent, TooltipComponent, LoaderComponent, AsyncPipe, TitleCasePipe, SlicePipe]
+  imports: [ReactiveFormsModule, FontAwesomeModule, InfoMessageComponent, TooltipComponent, LoaderComponent, AsyncPipe, TitleCasePipe]
 })
 export class LoginComponent implements OnDestroy{
   constructor(){

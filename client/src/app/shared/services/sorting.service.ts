@@ -1,44 +1,39 @@
 import { Injectable } from '@angular/core';
+import { Recipe } from '../../features/recipes/models/recipe.entity';
+import {
+  sortDateAscending as sortDateAscendingUtil,
+  sortDateDescending as sortDateDescendingUtil,
+  sortRatingAscending as sortRatingAscendingUtil,
+  sortRatingDescending as sortRatingDescendingUtil,
+  sortTitleAscending as sortTitleAscendingUtil,
+  sortTitleDescending as sortTitleDescendingUtil,
+} from '../utils/sorting.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SortingService {
-  sortTitleAscending(arr: any) {
-    const sortedArr = arr.sort((a: any, b: any) =>
-      a.mealName.toLowerCase().localeCompare(b.mealName.toLowerCase()),
-    );
-    return sortedArr;
+  sortTitleAscending(arr: Recipe[]) {
+    return sortTitleAscendingUtil(arr);
   }
 
-  sortTitleDescending(arr: any) {
-    const sortedArr = arr.sort((a: any, b: any) =>
-      b.mealName.toLowerCase().localeCompare(a.mealName.toLowerCase()),
-    );
-    return sortedArr;
+  sortTitleDescending(arr: Recipe[]) {
+    return sortTitleDescendingUtil(arr);
   }
 
-  sortRatingAscending(arr: any) {
-    const sortedArr = arr.sort((a: any, b: any) => a.rating - b.rating);
-    return sortedArr;
+  sortRatingAscending(arr: Recipe[]) {
+    return sortRatingAscendingUtil(arr);
   }
 
-  sortRatingDescending(arr: any) {
-    const sortedArr = arr.sort((a: any, b: any) => b.rating - a.rating);
-    return sortedArr;
+  sortRatingDescending(arr: Recipe[]) {
+    return sortRatingDescendingUtil(arr);
   }
 
-  sortDateAscending(arr: any) {
-    const sortedArr = arr.sort(
-      (a: any, b: any) => <any>new Date(a.createdAt) - <any>new Date(b.createdAt),
-    );
-    return sortedArr;
-  } //<any>new Date(b.createdAt) - <any>new Date(a.createdAt)
+  sortDateAscending(arr: Recipe[]) {
+    return sortDateAscendingUtil(arr);
+  }
 
-  sortDateDescending(arr: any) {
-    const sortedArr = arr.sort(
-      (a: any, b: any) => <any>new Date(b.createdAt) - <any>new Date(a.createdAt),
-    );
-    return sortedArr;
+  sortDateDescending(arr: Recipe[]) {
+    return sortDateDescendingUtil(arr);
   }
 }

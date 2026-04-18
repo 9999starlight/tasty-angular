@@ -1,1 +1,45 @@
-<p>post-comment works!</p>
+@if (user && recipeId) {
+<section class="add-comment flex flex-center">
+  @let infoMessage = infoMessage$ | async;
+  <form
+    class="mgt1"
+    [formGroup]="postCommentForm"
+    (ngSubmit)="postUserComment()"
+    >
+    <textarea
+      formControlName="commentBody"
+      required
+      name="commentBody"
+      id="commentBody"
+      placeholder="Add your comment here, 4-300 characters"
+      minlength="4"
+      maxlength="300"
+      class="block center"
+    ></textarea>
+    @if (
+      postCommentForm.controls.commentBody.invalid &&
+      postCommentForm.controls.commentBody.touched
+      ) {
+      <p class="error input-error mgt1">Please enter minimum 4 characters</p>
+    }
+    <div class="message-wrapper flex flex-center">
+      @if (infoMessage?.message) {
+        <app-info-message
+          [message]="infoMessage?.message ?? ''"
+          [messageStatus]="infoMessage?.status ?? false"
+          (clear)="onClear()"
+        ></app-info-message>
+      }
+    </div>
+    <button
+      type="submit"
+      class="btn-action block"
+      [disabled]="(user.userId && postCommentForm.controls.commentBody.invalid) || isLoading()"
+      >
+      <fa-icon [icon]="icons.faPlus" class="plus"></fa-icon>&nbsp;Add Comment
+    </button>
+  </form>
+</section>
+}
+
+

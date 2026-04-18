@@ -1,1 +1,17 @@
-<p>comments works!</p>
+<h2 class="mgb2">Comments:</h2>
+@if (!comments.length) {
+  <h4 class="light-italic mg1">Not Commented Yet</h4>
+}
+@if (comments.length) {
+  @for (singleComment of comments; track singleComment) {
+    <div class="flex flex-center">
+      <app-comment [singleComment]="singleComment" />
+    </div>
+  }
+}
+@if(user) {
+  <app-post-comment
+  [recipeId]="recipeId"
+  [user]="user"
+  />
+}

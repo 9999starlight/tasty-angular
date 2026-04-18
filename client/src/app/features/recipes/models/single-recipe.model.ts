@@ -1,4 +1,4 @@
-import { Comment } from './comment.model';
+import { RecipeComment } from './comment.model';
 export interface SingleRecipe {
   _id: string;
   mealName: string;
@@ -12,16 +12,11 @@ export interface SingleRecipe {
     };
     createdRecipes: string[] | [];
   };
-  comments: Comment[] | [];
+  comments: RecipeComment[];
   createdAt: string;
   dishType: string;
   glutenFree?: boolean;
-  rates:
-    | {
-        ratedBy: string;
-        rate: number;
-      }[]
-    | [];
+  rates: Rate[];
   request: {
     type: string;
     url: string;

@@ -30,7 +30,6 @@
         </button>
       }
       @if (mobileMenu) {
-        {{ mobileMenu | json }}
         <div class="menu flex flex-center" (click)="toggleMobileMenu()">
           <div [class]="!displayMenu ? 'line' : 'line transform-menu'"></div>
           <div [class]="!displayMenu ? 'line' : 'line transform-menu'"></div>

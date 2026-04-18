@@ -24,12 +24,12 @@ export class UserService {
   private http = inject(HttpClient);
 
   updateFavorites(
-    id: {},
+    favoritePayload: { favoriteId: string },
     userId: string,
   ): Observable<{ message: string; updatedUser: UpdatedUser }> {
     return this.http.patch<{ message: string; updatedUser: UpdatedUser }>(
       `${baseUrl}${endpoints.users.baseUrl}${endpoints.users.favorites}/${userId}`,
-      id,
+      favoritePayload,
     );
   }
 
@@ -51,5 +51,13 @@ export class UserService {
       `${baseUrl}${endpoints.users.baseUrl}${endpoints.users.removeFavorite}/${userId}`,
       { favoriteId: recipeId },
     );
+  }
+
+    // DELETE
+  deleteRecipe(id: string) {
+    return this.http
+      .delete<{ message: string; updatedUser: UpdatedUser }>(
+        `${baseUrl}${endpoints.recipesUrl}/${id}`
+      )
   }
 }

@@ -7,10 +7,17 @@ export class UiService {
 /*  isSearchShowed$ = new BehaviorSubject(false);
   isEditState$ = new BehaviorSubject(false);*/
 
-  private readonly _isSearchShown = signal(false);
-  readonly isSearchShowed = this._isSearchShown.asReadonly();
-  private readonly _isEditState = signal(false);
-  readonly isEditState = this._isEditState.asReadonly();
+  private _isSearchShown: WritableSignal<boolean>;
+  readonly isSearchShowed: ReturnType<WritableSignal<boolean>['asReadonly']>;
+  private _isEditState: WritableSignal<boolean>;
+  readonly isEditState: ReturnType<WritableSignal<boolean>['asReadonly']>;
+
+  constructor() {
+    this._isSearchShown = signal(false);
+    this.isSearchShowed = this._isSearchShown.asReadonly();
+    this._isEditState = signal(false);
+    this.isEditState = this._isEditState.asReadonly();
+  }
 
   // show/hide Search Forms
   toggleSearchForm(payload: boolean) {
