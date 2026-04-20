@@ -23,6 +23,10 @@ export function getUserFromToken(token: string | null): CurrentUser | null {
 export class UserService {
   private http = inject(HttpClient);
 
+  getUser(id: string): Observable<UpdatedUser> {
+    return this.http.get<UpdatedUser>(`${baseUrl}${endpoints.users.baseUrl}/${id}`);
+  }
+
   updateFavorites(
     favoritePayload: { favoriteId: string },
     userId: string,
@@ -53,11 +57,11 @@ export class UserService {
     );
   }
 
-    // DELETE
+  // DELETE
   deleteRecipe(id: string) {
-    return this.http
-      .delete<{ message: string; updatedUser: UpdatedUser }>(
-        `${baseUrl}${endpoints.recipesUrl}/${id}`
-      )
+    return this.http.delete<{ message: string; userUpdate: UpdatedUser }>(
+      `${baseUrl}${endpoints.recipesUrl}/${id}`,
+    );
   }
+
 }

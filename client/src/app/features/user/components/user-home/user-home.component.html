@@ -1,1 +1,101 @@
-<p>user-home works!</p>
+<div class="container profile-container">
+  @let user = currentUser$ | async;
+  @let infoMessage = infoMessage$ | async;
+  <div class="profile">
+    <h3 class="italic">Profile</h3>
+    <div class="image-username flex">
+      @if (user?.user_image) {
+        <img
+          [src]="user?.user_image"
+          [alt]="user?.username"
+          loading="lazy"
+          />
+      }
+      @if (!user?.user_image) {
+        <img
+          src="../../../../assets/images/default_user.png"
+          [alt]="user?.username"
+          loading="lazy"
+          />
+      }
+      <span>{{ user?.username }}</span>
+    </div>
+    <div class="additional-info">
+      <p>
+        <span class="italic">Member since:</span>
+        <span>{{ user?.createdAt | date }}</span>
+      </p>
+      <p>
+        <span class="italic">Published recipes:</span>
+        <span>{{ user?.createdRecipes?.length }}</span>
+      </p>
+    </div>
+    <form enctype="multipart/form-data" class="flex flex-center pd1" [formGroup]="imageForm" (ngSubmit)="submitImage(user)">
+      <h3 class="center">Change profile image</h3>
+      <div class="upload flex">
+        <div class="buttons flex">
+          <label
+            for="userImageUpload"
+            class="upload-btn-wrapper hover-effect"
+            >
+            <input
+              type="file"
+              id="userImageUpload"
+              accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif"
+              (change)="selectImageFile($event)"
+              />
+            Browse image
+          </label>
+          @if (imageForm.controls.user_image.value) {
+            <button
+              type="button"
+              (click)="removeSelectedImage()"
+              class="btn-cancel hover-effect"
+              >
+              Cancel image
+            </button>
+          }
+        </div>
+        @if (preview && imageForm.controls.user_image.value && imageForm.controls.user_image.valid) {
+          <figure class="flex">
+            <img
+              [src]="preview"
+              alt="filename"
+              class="img-fit"
+              loading="lazy"
+              />
+          </figure>
+        }
+      </div>
+      <div class="small">
+        <small class="selected block">{{ filename }}</small>
+        <small class="block">File formats accepted: jpg/jpeg/png/gif</small>
+        <small>Maximum upload file size 2Mb</small>
+        @if (imageForm.controls.user_image.invalid && imageForm.controls.user_image.touched) {
+          <small class="error block">Unsupported file. Use jpg/jpeg/png/gif up to 2Mb.</small>
+        }
+      </div>
+      @if (loading$ | async) {
+        <app-loader [bigLoader]="false"></app-loader>
+      }
+
+      <div class="message-wrapper center">
+        @if (infoMessage?.message) {
+          <app-info-message
+            [message]="infoMessage?.message ?? ''"
+            [messageStatus]="infoMessage?.status ?? false"
+            (clear)="onClear()"
+          ></app-info-message>
+        }
+      </div>
+      <button
+        type="submit"
+        class="btn-action mg1 hover-effect"
+        [disabled]="imageForm.invalid || (loading$ | async)"
+        >
+        Upload image
+      </button>
+    </form>
+  </div>
+</div>
+

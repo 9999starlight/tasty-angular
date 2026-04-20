@@ -204,7 +204,22 @@ exports.getSingleUser = async (req, res, next) => {
       .populate({
         path: 'favorites'
       })
-    if (doc) res.status(200).json(doc)
+    
+    if (doc) {
+      const response = {
+        userId: doc._id,
+        username: doc.username,
+        isAdmin: doc.isAdmin,
+        isDisabled: doc.isDisabled,
+        createdAt: doc.createdAt,
+        createdRecipes: doc.createdRecipes,
+        favorites: doc.favorites.map((favorite) =>
+          (favorite._id ?? favorite).toString()
+        ),
+        user_image: returnUserImage(doc)
+      }
+      res.status(200).json(response)
+    }
     else
       res.status(404).json({
         message: 'no result for reqested user'

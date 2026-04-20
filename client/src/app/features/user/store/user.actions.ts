@@ -1,10 +1,13 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { UpdatedUser } from '../models/userTypes';
+import { CurrentUser, UpdatedUser } from '../models/userTypes';
 
 export const UserActions = createActionGroup({
 	source: 'User',
 	events: {
 		'Init From Storage': emptyProps(),
+		'Init From Storage Success': props<{ user: CurrentUser | UpdatedUser | null }>(),
+		'Init From Storage Failure': props<{ error: string }>(),
+		'Sync Current User': props<{ updatedUser: UpdatedUser }>(),
 
 		'Update Favorites': props<{ favoritePayload: { favoriteId: string }; userId: string }>(),
 		'Update Favorites Success': props<{ message: string; updatedUser: UpdatedUser }>(),
@@ -14,8 +17,8 @@ export const UserActions = createActionGroup({
 		'Update User Image Success': props<{ message: string; updatedUser: UpdatedUser }>(),
 		'Update User Image Failure': props<{ error: string }>(),
 
-		'Delete From Favorites': props<{ recipeId: string; userId: string }>(),
-		'Delete From Favorites Success': props<{ message: string; updatedUser: UpdatedUser }>(),
+		'Delete From Favorites': props<{ recipeId: string; userId: string; refetchFavoritesRecipes?: boolean }>(),
+		'Delete From Favorites Success': props<{ message: string; updatedUser: UpdatedUser; refetchFavoritesRecipes?: boolean }>(),
 		'Delete From Favorites Failure': props<{ error: string }>(),
 
 		'Delete Recipe': props<{ recipeId: string; }>(),

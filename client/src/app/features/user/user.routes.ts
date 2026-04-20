@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { userRecipesResolver } from './resolvers/user-recipes.resolver';
+import { userFavoritesResolver } from './resolvers/user-favorites.resolver';
 
 export const USER_ROUTES: Routes = [
   {
@@ -8,6 +10,9 @@ export const USER_ROUTES: Routes = [
   },
   {
     path: 'user-recipes',
+    resolve: {
+      userRecipesData: userRecipesResolver,
+    },
     loadComponent: () =>
       import('./components/user-recipes/user-recipes.component').then(
         (m) => m.UserRecipesComponent,
@@ -22,6 +27,9 @@ export const USER_ROUTES: Routes = [
   },
   {
     path: 'saved-recipes',
+    resolve: {
+      favorites: userFavoritesResolver,
+    },
     loadComponent: () =>
       import('./components/saved-recipes/saved-recipes.component').then(
         (m) => m.SavedRecipesComponent,

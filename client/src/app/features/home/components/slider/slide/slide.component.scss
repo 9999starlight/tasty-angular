@@ -9,14 +9,6 @@
   box-shadow: $shadowBox;
   cursor: pointer;
 
-  .slide-fade-in {
-    animation: fade-in 350ms ease-in both;
-  }
-
-  .slide-fade-out {
-    animation: fade-out 300ms ease-out both;
-  }
-
   figure {
     @include box-size($height: 250px, $width: 100%);
     overflow: hidden;

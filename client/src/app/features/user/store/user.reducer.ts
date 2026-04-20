@@ -1,7 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { CurrentUser, UpdatedUser } from '../models/userTypes';
 import { UserActions } from './user.actions';
-import { getUserFromToken } from './../services/user.service';
 import { AuthActions } from '../../auth/store/auth.actions';
 
 export interface UserState {
@@ -22,14 +21,32 @@ export const userFeature = createFeature({
 	name: 'user',
 	reducer: createReducer(
 		initialState,
-		on(UserActions.initFromStorage, (state) => {
-			const token = localStorage.getItem('token');
-			const user = getUserFromToken(token);
-			return {
-				...state,
-				user,
-			};
-		}),
+		on(UserActions.initFromStorage, (state) => ({
+			...state,
+			loading: true,
+			error: null,
+		})),
+
+		on(UserActions.initFromStorageSuccess, (state, { user }) => ({
+			...state,
+			loading: false,
+			user,
+			error: null,
+		})),
+
+		on(UserActions.initFromStorageFailure, (state, { error }) => ({
+			...state,
+			loading: false,
+			user: null,
+			error,
+		})),
+
+		on(UserActions.syncCurrentUser, (state, { updatedUser }) => ({
+			...state,
+			loading: false,
+			user: updatedUser,
+			error: null,
+		})),
 
 		on(
 			UserActions.updateFavorites,

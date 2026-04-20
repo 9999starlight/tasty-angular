@@ -22,6 +22,24 @@ exports.getRecipes = async (req, res, next) => {
       if (q === 'mealName' || q === 'ingredients.ingredient')
         queryObj[q] = { $regex: queryObj[q], $options: 'i' }
     }
+
+    if (queryObj._id) {
+      const rawIds = Array.isArray(queryObj._id)
+        ? queryObj._id
+        : [queryObj._id]
+
+      const normalizedIds = rawIds
+        .flatMap((id) => String(id).split(','))
+        .map((id) => id.trim())
+        .filter(Boolean)
+
+      if (normalizedIds.length === 1) {
+        queryObj._id = normalizedIds[0]
+      } else if (normalizedIds.length > 1) {
+        queryObj._id = { $in: normalizedIds }
+      }
+    }
+
     let query = Recipe.find(queryObj)
 
     // Set sorting

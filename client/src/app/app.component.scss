@@ -1,15 +1,17 @@
 @use 'styles.scss';
+@use "abstracts/variables" as *;
 
 :host {
-	display: grid;
-	grid-template-rows: 50px 1fr;
-	grid-template-areas:
-	"head"
-	"content";
-	min-height: 100vh;
-	width: 100%;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas:
+    'head'
+    'content';
+  min-height: 100vh;
+  width: 100%;
 }
 
 .content-wrapper {
-	grid-area: content;
+  grid-area: content;
+  background-image: $zinc;
 }

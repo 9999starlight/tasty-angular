@@ -4,6 +4,7 @@ import { RecipesResponse } from '../models/recipes.model';
 import { baseUrl, endpoints } from '../../../core/constants/paths/urls';
 import { SingleRecipe } from '../models/single-recipe.model';
 import { SearchParams } from '../../../shared/components/models/search.model';
+import { UpdatedUser } from '../../user/models/userTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -13,16 +14,24 @@ export class RecipesService {
 
   // GET
   getRecipes(options?: SearchParams) {
-    const params = new HttpParams({
-      fromObject: Object.entries(options ?? {}).reduce(
-        (acc, [key, value]) => {
-          if (value !== undefined && value !== null && value !== '') {
-            acc[key] = String(value);
-          }
-          return acc;
-        },
-        {} as Record<string, string>,
-      ),
+    let params = new HttpParams();
+
+    Object.entries(options ?? {}).forEach(([key, value]) => {
+      if (value === undefined || value === null || value === '') {
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value
+          .map((item) => String(item).trim())
+          .filter(Boolean)
+          .forEach((item) => {
+            params = params.append(key, item);
+          });
+        return;
+      }
+
+      params = params.set(key, String(value));
     });
 
     return this.http.get<RecipesResponse>(`${baseUrl}${endpoints.recipesUrl}`, {
@@ -36,7 +45,7 @@ export class RecipesService {
 
   // POST
   createRecipe(recipeData: any) {
-    return this.http.post<{ message: string; createdRecipe: SingleRecipe }>(
+    return this.http.post<{ message: string; createdRecipe: SingleRecipe; updatedUser: UpdatedUser }>(
       `${baseUrl}${endpoints.recipesUrl}`,
       recipeData,
     );

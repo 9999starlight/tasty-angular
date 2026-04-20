@@ -1,17 +1,21 @@
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
 import { CommentService } from '../services/comment.service';
 import { RecipesService } from '../services/recipes.service';
 import { RecipesActions } from './recipes.actions';
 import { RecipesResponse } from '../models/recipes.model';
 import { SingleRecipe } from '../models/single-recipe.model';
+import { UpdatedUser } from '../../user/models/userTypes';
+import { UserActions } from '../../user/store/user.actions';
 
 @Injectable()
 export class RecipesEffects {
   private actions$ = inject(Actions);
   private recipesService = inject(RecipesService);
   private commentService = inject(CommentService);
+  private router = inject(Router);
 
   loadRecipes$ = createEffect(() =>
     this.actions$.pipe(
@@ -59,11 +63,14 @@ export class RecipesEffects {
       ofType(RecipesActions.createRecipe),
       exhaustMap(({ recipeData }) =>
         this.recipesService.createRecipe(recipeData).pipe(
-          map((res: { message: string; createdRecipe: SingleRecipe }) =>
-            RecipesActions.createRecipeSuccess({
-              message: res.message,
-              createdRecipe: res.createdRecipe,
-            }),
+          switchMap((res: { message: string; createdRecipe: SingleRecipe; updatedUser: UpdatedUser }) =>
+            [
+              RecipesActions.createRecipeSuccess({
+                message: res.message,
+                createdRecipe: res.createdRecipe,
+              }),
+              UserActions.syncCurrentUser({ updatedUser: res.updatedUser }),
+            ],
           ),
           catchError((err) =>
             of(
@@ -160,5 +167,27 @@ export class RecipesEffects {
       ofType(RecipesActions.updateRatingSuccess),
       map(({ id }) => RecipesActions.loadSingleRecipe({ id })),
     ),
+  );
+
+  navigateAfterCreateRecipeSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RecipesActions.createRecipeSuccess),
+        tap(({ createdRecipe }) => {
+          this.router.navigate([`recipe/${createdRecipe._id}`]);
+        }),
+      ),
+    { dispatch: false },
+  );
+
+  navigateAfterUpdateRecipeSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RecipesActions.updateRecipeSuccess),
+        tap(({ updatedRecipe }) => {
+          this.router.navigate([`recipe/${updatedRecipe._id}`]);
+        }),
+      ),
+    { dispatch: false },
   );
 }

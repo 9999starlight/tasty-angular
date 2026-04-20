@@ -31,8 +31,12 @@ export class UserFacade {
     this.#store.dispatch(UserActions.updateUserImage({ payload, userId }));
   }
 
-  deleteFromFavorites$(recipeId: string, userId: string) {
-    this.#store.dispatch(UserActions.deleteFromFavorites({ recipeId, userId }));
+  deleteFromFavorites$(recipeId: string, userId: string, refetchFavoritesRecipes = false) {
+    this.#store.dispatch(UserActions.deleteFromFavorites({ recipeId, userId, refetchFavoritesRecipes }));
+  }
+
+  deleteRecipe$(recipeId: string) {
+    this.#store.dispatch(UserActions.deleteRecipe({ recipeId }));
   }
 
   clearError$(error: string | null = null) {

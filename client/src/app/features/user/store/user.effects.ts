@@ -1,14 +1,40 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of } from 'rxjs';
-import { UserService } from './../services/user.service';
+import { catchError, exhaustMap, filter, map, of } from 'rxjs';
+import { getUserFromToken, UserService } from './../services/user.service';
 import { UserActions } from './user.actions';
 import { AuthActions } from '../../auth/store/auth.actions';
+import { RecipesActions } from '../../recipes/store/recipes.actions';
 
 @Injectable()
 export class UserEffects {
   private actions$ = inject(Actions);
   private userService = inject(UserService);
+
+  initFromStorage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.initFromStorage),
+      exhaustMap(() => {
+        const token = localStorage.getItem('token');
+        const tokenUser = getUserFromToken(token);
+
+        if (!tokenUser?.userId) {
+          return of(UserActions.initFromStorageSuccess({ user: null }));
+        }
+
+        return this.userService.getUser(tokenUser.userId).pipe(
+          map((user) => UserActions.initFromStorageSuccess({ user })),
+          catchError((err) =>
+            of(
+              UserActions.initFromStorageFailure({
+                error: err?.error?.message ?? 'Load user failed',
+              }),
+            ),
+          ),
+        );
+      }),
+    ),
+  );
 
   syncUserAfterAuth$ = createEffect(() =>
     this.actions$.pipe(
@@ -40,10 +66,10 @@ export class UserEffects {
   deleteFavorites$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.deleteFromFavorites),
-      exhaustMap(({ recipeId, userId }) =>
+      exhaustMap(({ recipeId, userId, refetchFavoritesRecipes }) =>
         this.userService.deleteFromFavorites(recipeId, userId).pipe(
           map(({ message, updatedUser }) =>
-            UserActions.deleteFromFavoritesSuccess({ message, updatedUser }),
+            UserActions.deleteFromFavoritesSuccess({ message, updatedUser, refetchFavoritesRecipes }),
           ),
           catchError((err) =>
             of(
@@ -82,8 +108,8 @@ export class UserEffects {
       ofType(UserActions.deleteRecipe),
       exhaustMap(({ recipeId }) =>
         this.userService.deleteRecipe(recipeId).pipe(
-          map(({ message, updatedUser }) =>
-            UserActions.deleteRecipeSuccess({ message, updatedUser }),
+          map(({ message, userUpdate }) =>
+            UserActions.deleteRecipeSuccess({ message, updatedUser: userUpdate }),
           ),
           catchError((err) =>
             of(
@@ -94,6 +120,34 @@ export class UserEffects {
           ),
         ),
       ),
+    ),
+  );
+
+  loadUserRecipesAfterDeleteSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.deleteRecipeSuccess),
+      filter(({ updatedUser }) => !!updatedUser?.userId),
+      map(({ updatedUser }) =>
+        RecipesActions.loadRecipes({ options: { author: updatedUser.userId } }),
+      ),
+    ),
+  );
+
+  refreshFavoriteRecipesAfterDeleteFavorites$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.deleteFromFavoritesSuccess),
+      filter(({ refetchFavoritesRecipes }) => !!refetchFavoritesRecipes),
+      map(({ updatedUser }) => {
+        const favoriteIds = (updatedUser.favorites ?? [])
+          .map((id) => String(id).trim())
+          .filter(Boolean);
+
+        if (favoriteIds.length === 0) {
+          return RecipesActions.clearRecipesList();
+        }
+
+        return RecipesActions.loadRecipes({ options: { _id: favoriteIds } });
+      }),
     ),
   );
 }

@@ -1,1 +1,29 @@
-<p>saved-recipes works!</p>
+<div class="saved-recipes flex">
+	@let user = user$ | async;
+  <h1 class="mg2">Saved recipes</h1>
+  @if ((isLoadingRecipe$ | async) || (isLoadingUser$ | async)) {
+    <app-loader [bigLoader]="true" />
+  }
+
+  @if (!user?.favorites?.length) {
+    <app-page-error
+      message="You haven't saved any recipes yet"
+    />
+  }
+  @if ((recipes$ | async)?.length) {
+    <div class="list-container flex flex-center">
+      <app-sorting-buttons (sortChange)="onSortChange($event)" />
+      @for (recipe of recipes$ | async; track recipe._id) {
+        <app-private-recipe
+          [recipe]="recipe"
+          [isUsersRecipes]="false"
+          class="render-recipes sorting-item"
+          (updateFavorites)="removeFromFavorites($event, user?.userId)"
+          animate.enter="scale-in-tl"
+          animate.leave="scale-out-tl"
+        ></app-private-recipe>
+      }
+    </div>
+  }
+</div>
+<!-- scale-in-tl -->

@@ -1,1 +1,44 @@
-<p>user-recipes works!</p>
+<div class="user-recipes flex">
+  <!-- form modal -->
+  @if (editingRecipe$ | async; as editingRecipe) {
+    <app-overlay (closeModal)="closeEditForm()" [editModal]="true">
+      <ng-container>
+        <header class="flex flex-center">
+          <h2>Edit Recipe</h2>
+          <button type="button" (click)="closeEditForm()" class="del tooltip-container">
+            <fa-icon [icon]="icons.faTimes"></fa-icon>
+            <app-tooltip tooltipText="Cancel and close form"></app-tooltip>
+          </button>
+        </header>
+        <div class="edit-inner">
+          <app-recipe-form [singleRecipe]="editingRecipe" [userId]="(user$ | async)?.userId"></app-recipe-form>
+        </div>
+      </ng-container>
+    </app-overlay>
+  }
+  <!-- end modal -->
+
+  <h1 class="mg2">Created Recipes</h1>
+
+  @if ((isLoadingRecipe$ | async) || (isLoadingUser$ | async)) {
+    <app-loader [bigLoader]="true"></app-loader>
+  }
+  @if (!(recipes$ | async)?.length) {
+    <app-page-error message="You have not created any recipes yet"></app-page-error>
+  } @else {
+    <div class="list-container flex flex-center">
+      <app-sorting-buttons (sortChange)="onSortChange($event)" />
+      @for (recipe of recipes$ | async; track recipe._id) {
+        <app-private-recipe
+          [recipe]="recipe"
+          [isUsersRecipes]="true"
+          class="render-recipes sorting-item"
+          (del)="deleteUserRecipe($event)"
+          (editing)="editingStateSettings($event)"
+          animate.enter="scale-in-tl"
+          animate.leave="scale-out-tl"
+        ></app-private-recipe>
+      }
+    </div>
+  }
+</div>

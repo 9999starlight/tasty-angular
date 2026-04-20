@@ -9,6 +9,7 @@ export const RecipesActions = createActionGroup({
     'Load Recipes': props<{ options?: any }>(),
     'Load Recipes Success': props<{ recipes: Recipe[]; count: number }>(),
     'Load Recipes Failure': props<{ error: string }>(),
+    'Clear Recipes List': emptyProps(),
 
     'Load Single Recipe': props<{ id: string }>(),
     'Load Single Recipe Success': props<{ recipe: SingleRecipe }>(),

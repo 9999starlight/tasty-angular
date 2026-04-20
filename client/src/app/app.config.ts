@@ -13,6 +13,8 @@ import { userFeature } from './features/user/store/user.reducer';
 import { UserEffects } from './features/user/store/user.effects';
 import { recipesFeature } from './features/recipes/store/recipes.reducer';
 import { RecipesEffects } from './features/recipes/store/recipes.effects';
+import { adminFeature } from './features/admin/store/admin.reducer';
+import { AdminEffects } from './features/admin/store/admin.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 //import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -20,6 +22,7 @@ const featureStateProviders = [
   provideState(authFeature),
   provideState(userFeature),
   provideState(recipesFeature),
+  provideState(adminFeature),
 ];
 
 export const appConfig: ApplicationConfig = {
@@ -29,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore(),
     ...featureStateProviders,
-    provideEffects([AuthEffects, UserEffects, RecipesEffects]),
+    provideEffects([AuthEffects, UserEffects, RecipesEffects, AdminEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

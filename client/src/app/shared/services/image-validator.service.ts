@@ -6,8 +6,10 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 })
 export class ImageValidatorService {
   typeValidation(file: File): boolean {
-    const ext = file.type.split('/');
-    if (!ext[1].match(/jpg|jpeg|png|gif$/i)) {
+    const typePart = file.type?.split('/')[1] ?? '';
+    const namePart = file.name?.split('.').pop() ?? '';
+    const imageType = (typePart || namePart).toLowerCase();
+    if (!imageType.match(/jpg|jpeg|png|gif$/i)) {
       //this.valMessage = 'Unsupported file type!'
       return false;
     } else if (file.size > 1024 * 1024 * 2) {

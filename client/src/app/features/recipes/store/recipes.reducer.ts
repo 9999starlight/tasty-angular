@@ -48,6 +48,15 @@ export const recipesFeature = createFeature({
       error,
     })),
 
+    on(RecipesActions.clearRecipesList, (state) =>
+      recipesAdapter.setAll([], {
+        ...state,
+        loading: false,
+        totalCount: 0,
+        error: null,
+      }),
+    ),
+
     on(RecipesActions.loadSingleRecipe, (state) => ({
       ...state,
       selectedRecipe: null,
