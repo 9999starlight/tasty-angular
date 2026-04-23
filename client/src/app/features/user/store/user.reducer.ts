@@ -64,11 +64,18 @@ export const userFeature = createFeature({
 		on(UserActions.updateFavoritesSuccess,
 			UserActions.deleteFromFavoritesSuccess,
 			UserActions.updateUserImageSuccess,
-			UserActions.deleteRecipeSuccess,
 			(state, { message, updatedUser }) => ({
 			...state,
 			loading: false,
 			user: updatedUser,
+			successMessage: message,
+			error: null,
+		})),
+
+		on(UserActions.deleteRecipeSuccess, (state, { message, updatedUser, skipUserUpdate }) => ({
+			...state,
+			loading: false,
+			user: skipUserUpdate ? state.user : updatedUser,
 			successMessage: message,
 			error: null,
 		})),

@@ -18,3 +18,4 @@ export const DISH_TYPE_OPTIONS = [
     'Snack',
   ];
 export const DIFFICULTY_OPTIONS = ['Easy', 'Medium', 'Hard'];
+export const COMMENTS_OPTIONS = ['Author', 'Comment ID', 'Recipe ID'];

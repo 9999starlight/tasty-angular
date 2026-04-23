@@ -1,1 +1,96 @@
-<p>overview works!</p>
+<div class="overview">
+  @if (!((adminLoading$ | async) || (recipesLoading$ | async))) {
+    <h1 class="mgb1 slim">Overview</h1>
+    <div class="counts flex">
+      <header class="flex flex-center"><h3>Counts</h3></header>
+      <div class="counts-inner flex center">
+        <div class="flex flex-center">
+          <h4>Users</h4>
+          <p>{{ usersCount$ | async }}</p>
+        </div>
+        <div class="flex flex-center">
+          <h4>Recipes</h4>
+          <p>{{ recipeCount$ | async }}</p>
+        </div>
+        <div class="flex flex-center">
+          <h4>Comments</h4>
+          <p>{{ commentsCount$ | async }}</p>
+        </div>
+      </div>
+    </div>
+    <section class="center grid">
+      <div class="latest-recipes">
+        <header class="flex flex-center">
+          <h3>Latest recipes</h3>
+        </header>
+        <div class="inner scrolling">
+          @for (recipe of latestRecipes$ | async; track recipe._id) {
+            <a
+              [routerLink]="['/recipe', recipe._id]"
+              class="recipe grid link"
+              >
+              <figure>
+                @if (recipe.image === undefined) {
+                  <img
+                    src="../../../../../assets/images/default_recipe.jpg"
+                    [alt]="recipe.mealName"
+                    class="img-fit"
+                    loading="lazy"
+                    />
+                }
+                @if (recipe.image) {
+                  <img
+                    [src]="recipe.image"
+                    [alt]="recipe.mealName"
+                    class="img-fit"
+                    loading="lazy"
+                    />
+                }
+              </figure>
+              <h5 class="center">{{ recipe.mealName | titlecase }}</h5>
+              <p class="light-italic created">
+                {{ recipe.createdAt | date }}
+              </p>
+              <p class="author">{{ recipe.author.username }}</p>
+            </a>
+          }
+        </div>
+      </div>
+      <div class="latest-comments">
+        <header class="flex flex-center">
+          <h3>Latest comments</h3>
+        </header>
+        <div class="inner scrolling">
+          @for (comment of latestComments$ | async; track comment._id) {
+            <div class="comment">
+              <h5>{{ comment.author.username }}</h5>
+              <p class="light-italic created">
+                {{ comment.createdAt | date }}
+              </p>
+              <p>{{ comment.commentBody }}</p>
+              <small class="light-italic"
+                >Recipe id: {{ comment.commentedRecipeId }}</small
+                >
+              </div>
+            }
+          </div>
+        </div>
+        @if ((mostCommentedRecipes$ | async)?.length) {
+          <app-statistic-box
+            title="Most commented recipes"
+            [dataArray]="(mostCommentedRecipes$ | async) ?? []"
+          ></app-statistic-box>
+        }
+        @if ((mostActiveUsers$ | async)?.length) {
+          <app-statistic-box
+            title="Most active Users"
+            [dataArray]="(mostActiveUsers$ | async) ?? []"
+          ></app-statistic-box>
+        }
+      </section>
+    }
+    @if ((adminLoading$ | async) || (recipesLoading$ | async)) {
+      <app-loader [bigLoader]="true"></app-loader>
+    }
+  </div>
+

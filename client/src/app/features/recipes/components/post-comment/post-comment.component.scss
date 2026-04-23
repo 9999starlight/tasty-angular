@@ -5,7 +5,7 @@
 
 .add-comment {
   @include alignment($direction: column, $align: center);
-  @include box-size($max-width: 280px);
+
   margin: auto;
   form {
     @include box-size($width: 100%);

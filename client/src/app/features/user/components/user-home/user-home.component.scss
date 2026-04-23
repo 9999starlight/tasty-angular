@@ -65,6 +65,8 @@ form {
       @include fonts($color: $light, $weight: 600);
       @include box-size($width: 180px);
       border-radius: 0;
+      background-color: $orange;
+      border-radius: 5px;
     }
     .small {
       text-align: center;

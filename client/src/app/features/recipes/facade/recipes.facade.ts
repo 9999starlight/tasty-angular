@@ -6,6 +6,8 @@ import { RecipesActions } from '../store/recipes.actions';
 import {
   selectHighestRatedRecipes,
   selectLatestRecipes,
+  selectMostCommentedRecipes,
+  selectMostCommentedRecipeStats,
   selectRecommendedRecipes,
   selectRecipesError,
   selectRecipesLoading,
@@ -30,8 +32,21 @@ export class RecipesFacade {
   totalCount$ = this.#store.select(selectTotalCount);
   vm$ = this.#store.select(selectRecipesVm);
   highestRatedRecipes$ = this.#store.select(selectHighestRatedRecipes);
-  latestRecipes$ = this.#store.select(selectLatestRecipes);
+  latestRecipes$ = this.#store.select(selectLatestRecipes());
+  mostCommentedRecipes$ = this.#store.select(selectMostCommentedRecipes());
   recommendedRecipes$ = this.#store.select(selectRecommendedRecipes);
+
+  latestRecipesByLimit$(limit: number) {
+    return this.#store.select(selectLatestRecipes(limit));
+  }
+
+  mostCommentedRecipesByLimit$(limit: number) {
+    return this.#store.select(selectMostCommentedRecipes(limit));
+  }
+
+  mostCommentedRecipesStatsByLimit$(limit: number) {
+    return this.#store.select(selectMostCommentedRecipeStats(limit));
+  }
 
   // Actions
   loadRecipes$(options?: SearchParams) {

@@ -58,7 +58,7 @@
       left: 0;
       height: 1.6rem;
       width: 1.6rem;
-      background-color:color.adjust($graphite, $lightness: 40%);
+      background-color: $lightgray;
       border-radius: 5px;
 
       &:after {
@@ -92,11 +92,13 @@
 
   select {
     @include box-size($height: 2rem, $width: 100%);
-    background: $darkSteel;
+    //background: $darkSteel;
+    background-color: $light;
     border-radius: 6px;
     padding-left: 0.5rem;
     cursor: pointer;
-    color: $light;
+    color: $graphite;
+    border: 1px solid $lightgray;
   }
 
   select option {
@@ -115,6 +117,7 @@
   background-color: $light;
   @include fonts($color: color.adjust($golden, $lightness: -20%), $size: 0.8rem);
   border: 1px solid color.adjust($golden, $lightness: -20%);
+  border-radius: 5px;
 
   text-align: center;
   cursor: pointer;
@@ -137,6 +140,7 @@
   background-color: color.adjust($graphite, $lightness: 30%);
   @include fonts($color: $light, $size: 0.8rem);
   box-shadow: $shadowSmall;
+  border-radius: 5px;
 }
 
 // info for upload field

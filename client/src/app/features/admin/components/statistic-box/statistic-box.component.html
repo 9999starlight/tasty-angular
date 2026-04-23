@@ -1,1 +1,14 @@
-<p>statistic-box works!</p>
+<div
+  [class]="
+    autoHeight ? 'height-auto statistic-box-wrapper' : 'statistic-box-wrapper'
+  "
+  >
+  <h3>{{ title }}</h3>
+  <div class="bars-wrapper">
+    @for (singleData of addPercentages; track singleData) {
+      <app-statistic-bars
+        [singleData]="singleData"
+      ></app-statistic-bars>
+    }
+  </div>
+</div>

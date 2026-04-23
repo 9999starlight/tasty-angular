@@ -21,8 +21,8 @@ export const UserActions = createActionGroup({
 		'Delete From Favorites Success': props<{ message: string; updatedUser: UpdatedUser; refetchFavoritesRecipes?: boolean }>(),
 		'Delete From Favorites Failure': props<{ error: string }>(),
 
-		'Delete Recipe': props<{ recipeId: string; }>(),
-		'Delete Recipe Success': props<{ message: string; updatedUser: UpdatedUser }>(),
+		'Delete Recipe': props<{ recipeId: string; skipUserUpdate?: boolean; refetchMode?: 'author' | 'all' }>(),
+		'Delete Recipe Success': props<{ message: string; updatedUser: UpdatedUser; skipUserUpdate?: boolean; refetchMode?: 'author' | 'all' }>(),
 		'Delete Recipe Failure': props<{ error: string }>(),
 
 		'Clear Error': props<{ error: string | null }>(),

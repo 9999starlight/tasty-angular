@@ -86,7 +86,7 @@ export class UserRecipesComponent {
 
   deleteUserRecipe(id: string) {
     if (confirm('Are you sure you want to delete this recipe?')) {
-      this.userFacade.deleteRecipe$(id);
+      this.userFacade.deleteRecipe$(id, { refetchMode: 'author' });
     }
   }
 }

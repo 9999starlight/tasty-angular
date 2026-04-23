@@ -50,10 +50,27 @@ export const selectHighestRatedRecipes = createSelector(
   (recipes) => sortRatingDescending(recipes).slice(0, 5),
 );
 
-export const selectLatestRecipes = createSelector(
-  selectRecipesAsList,
-  (recipes) => sortDateDescending(recipes),
-);
+export const selectLatestRecipes = (limit?: number) =>
+  createSelector(selectRecipesAsList, (recipes) => {
+    const latestRecipes = sortDateDescending(recipes);
+    return typeof limit === 'number' ? latestRecipes.slice(0, limit) : latestRecipes;
+  });
+
+export const selectMostCommentedRecipes = (limit?: number) =>
+  createSelector(selectRecipesAsList, (recipes) => {
+    const mostCommentedRecipes = [...recipes].sort((a, b) => b.comments.length - a.comments.length);
+    return typeof limit === 'number'
+      ? mostCommentedRecipes.slice(0, limit)
+      : mostCommentedRecipes;
+  });
+
+export const selectMostCommentedRecipeStats = (limit?: number) =>
+  createSelector(selectMostCommentedRecipes(limit), (recipes) =>
+    recipes.map((recipe) => ({
+      name: recipe.mealName,
+      value: recipe.comments.length,
+    })),
+  );
 
 export const selectRecommendedRecipes = createSelector(
   selectRecipesAsList,

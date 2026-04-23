@@ -1,23 +1,34 @@
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { RecipeComment } from '../../recipes/models/comment.model';
 import { UpdatedUser } from '../../user/models/userTypes';
 import { AdminActions } from './admin.actions';
 
+export const adminUsersAdapter = createEntityAdapter<UpdatedUser>({
+  selectId: (user) => user.userId,
+});
+
+export const adminCommentsAdapter = createEntityAdapter<RecipeComment>({
+  selectId: (comment) => comment._id,
+});
+
 export interface AdminState {
-  users: UpdatedUser[];
+  users: EntityState<UpdatedUser>;
   usersCount: number;
-  selectedUser: UpdatedUser | null;
-  comments: RecipeComment[];
+  selectedUserId: string | null;
+  comments: EntityState<RecipeComment>;
+  commentsCount: number;
   loading: boolean;
   error: string | null;
   successMessage: string;
 }
 
 export const initialState: AdminState = {
-  users: [],
+  users: adminUsersAdapter.getInitialState(),
   usersCount: 0,
-  selectedUser: null,
-  comments: [],
+  selectedUserId: null,
+  comments: adminCommentsAdapter.getInitialState(),
+  commentsCount: 0,
   loading: false,
   error: null,
   successMessage: '',
@@ -27,6 +38,13 @@ export const adminFeature = createFeature({
   name: 'admin',
   reducer: createReducer(
     initialState,
+
+    on(AdminActions.setSelectedUserID, (state, { id }) => ({
+      ...state,
+      selectedUserId: id,
+      loading: false,
+      error: null,
+    })),
 
     on(
       AdminActions.loadUsers,
@@ -44,7 +62,7 @@ export const adminFeature = createFeature({
 
     on(AdminActions.loadUsersSuccess, (state, { users, count }) => ({
       ...state,
-      users,
+      users: adminUsersAdapter.setAll(users, state.users),
       usersCount: count,
       loading: false,
       error: null,
@@ -52,20 +70,24 @@ export const adminFeature = createFeature({
 
     on(AdminActions.loadUserSuccess, (state, { user }) => ({
       ...state,
-      selectedUser: user,
+      users: adminUsersAdapter.upsertOne(user, state.users),
+      selectedUserId: user.userId,
       loading: false,
       error: null,
     })),
 
-    on(AdminActions.loadCommentsSuccess, (state, { comments }) => ({
+    on(AdminActions.loadCommentsSuccess, (state, { comments, count }) => ({
       ...state,
-      comments,
+      comments: adminCommentsAdapter.setAll(comments, state.comments),
+      commentsCount: count,
       loading: false,
       error: null,
     })),
 
-    on(AdminActions.patchUserSuccess, (state, { message }) => ({
+    on(AdminActions.patchUserSuccess, (state, { message, user }) => ({
       ...state,
+      users: adminUsersAdapter.upsertOne(user, state.users),
+      selectedUserId: state.selectedUserId === user.userId ? user.userId : state.selectedUserId,
       loading: false,
       successMessage: message,
       error: null,
@@ -73,7 +95,8 @@ export const adminFeature = createFeature({
 
     on(AdminActions.deleteCommentSuccess, (state, { message, id }) => ({
       ...state,
-      comments: state.comments.filter((comment) => comment._id !== id),
+      comments: adminCommentsAdapter.removeOne(id, state.comments),
+      commentsCount: Math.max(0, state.commentsCount - 1),
       loading: false,
       successMessage: message,
       error: null,

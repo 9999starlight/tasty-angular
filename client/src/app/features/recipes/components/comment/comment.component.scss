@@ -3,9 +3,15 @@
 @use "abstracts/mixins" as *;
 @use "abstracts/functions" as *;
 
+:host {
+  display: block;
+  width: 100%;
+}
+
 .single-comment-wrapper {
   @include alignment($direction: column);
-  @include box-size($width: 280px);
+  @include box-size($width: 100%);
+  margin: 0.8rem auto;
   border: 2px solid $lightgray;
   padding: 0.8rem;
   .comment-author {

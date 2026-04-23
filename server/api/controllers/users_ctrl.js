@@ -179,7 +179,7 @@ exports.getAllUsers = async (req, res, next) => {
       })
     }
     //const docsCount = await query.countDocuments()
-    res.status(200).json({ response, usersCount: docs.length })
+    res.status(200).json({ response, count: docs.length })
   } catch (error) {
     console.log(error.message)
     res.status(500).json({
@@ -437,8 +437,21 @@ exports.changeAdminStatus = async (req, res, next) => {
       },
       { new: true }
     )
-    res.status(200).json({
+/*    res.status(200).json({
       message: `User admin status is changed to ${result.isAdmin}`
+    })*/
+    res.status(200).json({
+      message: `User admin status is changed to ${result.isAdmin}`,
+      updatedUser: {
+        username: result.username,
+        userId: result._id,
+        isAdmin: result.isAdmin,
+        isDisabled: result.isDisabled,
+        createdAt: result.createdAt,
+        createdRecipes: result.createdRecipes,
+        favorites: result.favorites,
+        user_image: returnUserImage(result)
+      }
     })
   } catch (error) {
     console.log(error.message)
@@ -468,8 +481,21 @@ exports.changeDisableStatus = async (req, res, next) => {
       },
       { new: true }
     )
-    res.status(200).json({
+    /*res.status(200).json({
       message: `User status is changed to isDisabled: ${result.isDisabled}`
+    })*/
+   res.status(200).json({
+      message: `User status is changed to isDisabled: ${result.isDisabled}`,
+      updatedUser: {
+        username: result.username,
+        userId: result._id,
+        isAdmin: result.isAdmin,
+        isDisabled: result.isDisabled,
+        createdAt: result.createdAt,
+        createdRecipes: result.createdRecipes,
+        favorites: result.favorites,
+        user_image: returnUserImage(result)
+      }
     })
   } catch (error) {
     console.log(error.message)

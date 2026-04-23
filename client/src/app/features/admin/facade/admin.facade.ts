@@ -3,8 +3,11 @@ import { Store } from '@ngrx/store';
 import { AdminActions } from '../store/admin.actions';
 import {
   selectAdminComments,
+  selectAdminCommentsCount,
   selectAdminError,
+  selectAdminLatestComments,
   selectAdminLoading,
+  selectAdminMostActiveUsers,
   selectAdminSelectedUser,
   selectAdminSuccessMessage,
   selectAdminUsers,
@@ -17,9 +20,12 @@ export class AdminFacade {
   #store = inject(Store);
 
   users$ = this.#store.select(selectAdminUsers);
+  mostActiveUsers$ = this.#store.select(selectAdminMostActiveUsers);
   usersCount$ = this.#store.select(selectAdminUsersCount);
   selectedUser$ = this.#store.select(selectAdminSelectedUser);
   comments$ = this.#store.select(selectAdminComments);
+	commentsCount$ = this.#store.select(selectAdminCommentsCount);
+	latestComments$ = this.#store.select(selectAdminLatestComments);
   loading$ = this.#store.select(selectAdminLoading);
   error$ = this.#store.select(selectAdminError);
   successMessage$ = this.#store.select(selectAdminSuccessMessage);
@@ -35,6 +41,10 @@ export class AdminFacade {
 
   loadComments$() {
     this.#store.dispatch(AdminActions.loadComments());
+  }
+
+  setSelectedUserID$(id: string | null) {
+    this.#store.dispatch(AdminActions.setSelectedUserID({ id }));
   }
 
   patchUser$(userId: string, change: string, payload: object) {

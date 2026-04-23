@@ -106,10 +106,15 @@ export class UserEffects {
   deleteRecipe$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.deleteRecipe),
-      exhaustMap(({ recipeId }) =>
+      exhaustMap(({ recipeId, skipUserUpdate, refetchMode }) =>
         this.userService.deleteRecipe(recipeId).pipe(
           map(({ message, userUpdate }) =>
-            UserActions.deleteRecipeSuccess({ message, updatedUser: userUpdate }),
+            UserActions.deleteRecipeSuccess({
+              message,
+              updatedUser: userUpdate,
+              skipUserUpdate,
+              refetchMode,
+            }),
           ),
           catchError((err) =>
             of(
@@ -126,10 +131,17 @@ export class UserEffects {
   loadUserRecipesAfterDeleteSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.deleteRecipeSuccess),
-      filter(({ updatedUser }) => !!updatedUser?.userId),
-      map(({ updatedUser }) =>
-        RecipesActions.loadRecipes({ options: { author: updatedUser.userId } }),
+      filter(
+        ({ refetchMode, updatedUser }) =>
+          refetchMode === 'all' || (refetchMode === 'author' && !!updatedUser?.userId),
       ),
+      map(({ refetchMode, updatedUser }) => {
+        if (refetchMode === 'all') {
+          return RecipesActions.loadRecipes({});
+        }
+
+        return RecipesActions.loadRecipes({ options: { author: updatedUser.userId } });
+      }),
     ),
   );
 

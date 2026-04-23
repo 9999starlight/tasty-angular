@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-statistic-bars',
@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
   templateUrl: './statistic-bars.component.html',
   styleUrl: './statistic-bars.component.scss',
 })
-export class StatisticBarsComponent {}
+export class StatisticBarsComponent {
+  @Input() singleData!: {
+    name: string;
+    value: number;
+    percentage: number;
+  };
+}

@@ -1,4 +1,4 @@
-import { faHeartBroken, faSearch, faChevronDown, faChevronUp, faUser, faBook, faEdit, faHeart, faUserShield, faSignOutAlt, faSignInAlt, faInfoCircle, faLock, faArrowDown, faArrowUp, faChevronCircleLeft, faChevronCircleRight, faStar, faPlus, faClock, faUsers, faWeight, faCheck, faTimes, faTrashAlt, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faHeartBroken, faSearch, faChevronDown, faChevronUp, faUser, faBook, faEdit, faHeart, faUserShield, faSignOutAlt, faSignInAlt, faInfoCircle, faLock, faArrowDown, faArrowUp, faChevronCircleLeft, faChevronCircleRight, faStar, faPlus, faClock, faUsers, faWeight, faCheck, faTimes, faTrashAlt, faMinus, faChartBar, faComments, faUserSlash } from '@fortawesome/free-solid-svg-icons';
 
 export const Icons = {
 	faSearch,
@@ -12,6 +12,7 @@ export const Icons = {
 	faEdit,
 	faHeart,
 	faUserShield,
+	faUserSlash,
 	faHeartBroken,
 	faSignOutAlt,
 	faSignInAlt,
@@ -27,4 +28,6 @@ export const Icons = {
 	faWeight,
 	faTrashAlt,
 	faMinus,
+	faChartBar,
+	faComments,
 };

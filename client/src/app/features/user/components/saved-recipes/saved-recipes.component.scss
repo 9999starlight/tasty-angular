@@ -33,7 +33,7 @@
     background-attachment: fixed;*/
 
     h1 {
-      @include fonts($size: 2.2rem, $color: $light);
+      @include fonts($size: 2.2rem);
     }
 
     .list-container {

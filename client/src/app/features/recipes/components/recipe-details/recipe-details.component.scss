@@ -3,11 +3,16 @@
 @use "abstracts/mixins" as *;
 @use "abstracts/functions" as *;
 
+.single-result-container {
+  padding: 0;
+}
+
 .single-result-wrapper {
   @include alignment($display: flex, $justify: center, $align: center);
   flex-direction: column;
   @include box-size($width: 100%);
   background-color: $light;
+  padding: 1rem;
   section,
   figure,
   h1 {
@@ -198,10 +203,14 @@
   }
 }
 @media (min-width: 576px) {
+
   .single-result-wrapper {
     @include box-size($width: 550px);
     figure {
       @include box-size($width: 500px);
+    }
+    .under-image {
+       padding: 0.9rem;
     }
   }
 }
@@ -216,9 +225,6 @@
   }
 }
 @media (min-width: 992px) {
-  /*.single-result-container {
-    background-image: $zinc;
-  }*/
   .single-result-wrapper {
     @include box-size($width: 900px, $max-width: initial);
     @include alignment($display: grid);
@@ -247,6 +253,7 @@
       .user-info-rating {
         @include box-size($width: 65%);
       }
+      padding: 1rem 0;
     }
     .additional-info {
       grid-area: additionalInfo;

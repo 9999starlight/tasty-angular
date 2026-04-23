@@ -1,1 +1,10 @@
-<p>statistic-bars works!</p>
+@if (singleData.value) {
+  <div class="progress">
+    <span>{{ singleData.name }}</span>
+    <div class="bar-wrapper">
+      <div class="bar-progress flex" [style]="{ width: singleData.percentage }">
+        <span>{{ singleData.value }}</span>
+      </div>
+    </div>
+  </div>
+}

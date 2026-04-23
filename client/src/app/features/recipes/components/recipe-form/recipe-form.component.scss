@@ -164,7 +164,7 @@ form {
   }
 
   .submit-btn {
-    background: $orangeGradient;
+    background-color: $orange;
     @include fonts($color: $light, $weight: 600, $size: 1.1rem);
     padding: 0.6rem 0.4rem;
     width: 200px;

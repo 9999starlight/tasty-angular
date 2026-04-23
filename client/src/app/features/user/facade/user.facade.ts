@@ -35,8 +35,11 @@ export class UserFacade {
     this.#store.dispatch(UserActions.deleteFromFavorites({ recipeId, userId, refetchFavoritesRecipes }));
   }
 
-  deleteRecipe$(recipeId: string) {
-    this.#store.dispatch(UserActions.deleteRecipe({ recipeId }));
+  deleteRecipe$(
+    recipeId: string,
+    options: { skipUserUpdate?: boolean; refetchMode?: 'author' | 'all' } = {},
+  ) {
+    this.#store.dispatch(UserActions.deleteRecipe({ recipeId, ...options }));
   }
 
   clearError$(error: string | null = null) {

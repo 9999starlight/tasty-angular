@@ -28,7 +28,7 @@ export class HomePageComponent implements OnInit {
   readonly recipesPageSize = 6;
   displayedRecipes = 6;
   readonly highestRatedRecipes$: Observable<Recipe[]> = this.recipesFacade.highestRatedRecipes$;
-  readonly latestRecipes$: Observable<Recipe[]> = this.recipesFacade.latestRecipes$;
+  readonly latestRecipes$: Observable<Recipe[]> = this.recipesFacade.latestRecipesByLimit$(5);
   readonly recommendedRecipes$: Observable<Recipe[]> = this.recipesFacade.recommendedRecipes$;
   readonly error$: Observable<string | null> = this.recipesFacade.error$;
   readonly isLoading$: Observable<boolean> = this.recipesFacade.loading$;

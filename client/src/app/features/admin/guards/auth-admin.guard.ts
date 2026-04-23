@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { map, take } from 'rxjs';
+import { combineLatest, filter, map, take } from 'rxjs';
 import { UserFacade } from '../../user/facade/user.facade';
 
 export const authAdminGuard: CanActivateFn = (route, state) => {
@@ -9,8 +9,9 @@ export const authAdminGuard: CanActivateFn = (route, state) => {
 
   userFacade.initFromStorage$();
 
-  return userFacade.currentUser$.pipe(
+  return combineLatest([userFacade.currentUser$, userFacade.loading$]).pipe(
+    filter(([, loading]) => !loading),
     take(1),
-    map((user) => (user?.isAdmin ? true : router.createUrlTree(['/'])))
+    map(([user]) => (user?.isAdmin ? true : router.createUrlTree(['/'])))
   );
 };

@@ -58,6 +58,7 @@
 @media (min-width: 350px) {
   .recipe-link {
     @include box-size($width: 310px);
+    margin-top: 1rem;
   }
 }
 @media (min-width: 576px) {

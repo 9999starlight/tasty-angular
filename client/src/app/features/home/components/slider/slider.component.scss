@@ -2,6 +2,10 @@
 @use "abstracts/variables" as *;
 @use "abstracts/mixins" as *;
 @use "abstracts/functions" as *;
+:host {
+  display: block;
+  @include box-size($width: 100%);
+}
 .slider-wrapper {
   @include box-size($width: 100%);
   @include alignment($direction: column, $text-align: center);
@@ -105,6 +109,7 @@
 }
 
 @media (min-width: 1200px) {
+  :host,
   .slider-wrapper {
     @include box-size($width: 1100px);
   }

@@ -22,10 +22,10 @@ export class RecipesEffects {
       ofType(RecipesActions.loadRecipes),
       switchMap(({ options }) =>
         this.recipesService.getRecipes(options).pipe(
-          map((res: RecipesResponse) =>
+          map((res: RecipesResponse) => 
             RecipesActions.loadRecipesSuccess({
               recipes: res.response.recipes,
-              count: res.response.count,
+              count: res.count,
             }),
           ),
           catchError((err) =>

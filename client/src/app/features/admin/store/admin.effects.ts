@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { AdminService } from '../services/admin.service';
 import { AdminActions } from './admin.actions';
+import { RecipeCommentsResponse } from '../../recipes/models/recipes.model';
 
 @Injectable()
 export class AdminEffects {
@@ -17,7 +18,7 @@ export class AdminEffects {
           map((res) =>
             AdminActions.loadUsersSuccess({
               users: res.response.users,
-              count: res.response.count,
+              count: res.count,
             }),
           ),
           catchError((err) =>
@@ -55,7 +56,11 @@ export class AdminEffects {
       ofType(AdminActions.loadComments),
       exhaustMap(() =>
         this.adminService.getComments().pipe(
-          map((res) => AdminActions.loadCommentsSuccess({ comments: res.response.comments })),
+          map((res) => AdminActions.loadCommentsSuccess({
+              comments: res.response.comments,
+              count: res.count,
+            })
+          ),
           catchError((err) =>
             of(
               AdminActions.loadCommentsFailure({
@@ -73,7 +78,12 @@ export class AdminEffects {
       ofType(AdminActions.patchUser),
       exhaustMap(({ userId, change, payload }) =>
         this.adminService.patchUser(userId, change, payload).pipe(
-          map(({ message }) => AdminActions.patchUserSuccess({ message })),
+          map(({ message, updatedUser }) =>
+            AdminActions.patchUserSuccess({
+              message,
+              user: updatedUser,
+            }),
+          ),
           catchError((err) =>
             of(
               AdminActions.patchUserFailure({
@@ -109,17 +119,6 @@ export class AdminEffects {
     ),
   );
 
-  reloadUsersAfterPatch$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AdminActions.patchUserSuccess),
-      map(() => AdminActions.loadUsers()),
-    ),
-  );
+  
 
-  reloadCommentsAfterDelete$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AdminActions.deleteCommentSuccess),
-      map(() => AdminActions.loadComments()),
-    ),
-  );
 }

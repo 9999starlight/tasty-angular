@@ -1,13 +1,13 @@
-@use "sass:color";
-@use "abstracts/variables" as *;
-@use "abstracts/mixins" as *;
-@use "abstracts/functions" as *;
+@use 'sass:color';
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+@use 'abstracts/functions' as *;
 
 .user-recipe {
   padding: 0.6rem;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr 0.5fr 0.5fr 1fr;
-  grid-template-areas: "image mealName mealName" "image details details" "rating rating rating" "date date date" "editDelete editDelete editDelete";
+  grid-template-areas: 'image mealName mealName' 'image details details' 'rating rating rating' 'date date date' 'editDelete editDelete editDelete';
   border: 1px solid lightgray;
   border-radius: 10px;
   background-color: $light;
@@ -56,7 +56,10 @@
       }
       .edit {
         @include fonts($color: rgb(136, 187, 54));
-        filter: drop-shadow(2px 1px #393b39);
+      }
+      .edit:hover,
+      .delete:hover {
+        filter: drop-shadow(1px 0.5px #393b39a9);
       }
       .delete {
         @include fonts($color: rgba(220, 20, 60, 0.808));
@@ -72,7 +75,7 @@
 @media (min-width: 400px) {
   .user-recipe {
     grid-template-rows: 1fr 1fr 0.5fr 1fr;
-    grid-template-areas: "image mealName mealName" "image details details" "date date rating" "editDelete editDelete editDelete";
+    grid-template-areas: 'image mealName mealName' 'image details details' 'date date rating' 'editDelete editDelete editDelete';
     text-align: left;
   }
 }
@@ -81,7 +84,7 @@
     @include box-size($width: 100%);
     grid-template-columns: auto 1.7fr 1fr 0.5fr;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: "image mealName rating editDelete" "image details date editDelete";
+    grid-template-areas: 'image mealName rating editDelete' 'image details date editDelete';
     @include alignment($align: center);
     figure {
       justify-self: center;
